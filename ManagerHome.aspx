@@ -29,4 +29,25 @@
     Still need to make sure all of this is coded.<br />
     Tasks also include approving large deposits and disputes that need to be resolved. 
 
+    <br />
+    <br />
+     <div id ="Div1">
+        View eBills<br />
+        <br />
+    </div>
+    <div id="content">
+    <b><asp:Label ID="Label1" runat="server" Text="Tasks"></asp:Label></b>
+
+    </div>
+    <div id ="center">
+        <asp:Label ID="comment" runat="server" Text="I dont think view all tasks is needed"></asp:Label>
+        <asp:Button ID="btnViewAll" runat="server" Text="View All Tasks" />
+        &nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btnFilter" runat="server" Text="Resolve Disputes" PostBackUrl="~/ManagerResolveDisputes.aspx"/>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:Button ID="btnActive" runat="server" Text="Approve Deposits" PostBackUrl="~/ManagerApproveDeposits.aspx" />
+&nbsp;&nbsp;&nbsp;&nbsp;
+        <br />
+        <asp:Label ID="lblMessage" runat="server" Text="[]"></asp:Label>
+        <br />
 </asp:Content>
