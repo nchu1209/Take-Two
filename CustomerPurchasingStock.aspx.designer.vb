@@ -41,24 +41,6 @@ Partial Public Class CustomerPurchasingStock
     Protected WithEvents SqlDataSource1 As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
-    '''TransferPanel control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents TransferPanel As Global.System.Web.UI.WebControls.Panel
-
-    '''<summary>
-    '''Label1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''Label2 control.
     '''</summary>
     '''<remarks>
@@ -66,15 +48,6 @@ Partial Public Class CustomerPurchasingStock
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''Label7 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Label4 control.
@@ -86,15 +59,6 @@ Partial Public Class CustomerPurchasingStock
     Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''txtAmountTransfer control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtAmountTransfer As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
     '''ddlAccounts control.
     '''</summary>
     '''<remarks>
@@ -102,24 +66,6 @@ Partial Public Class CustomerPurchasingStock
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ddlAccounts As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''txtTransferDate control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtTransferDate As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''RequiredFieldValidator5 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator5 As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
     '''TransferCalendar control.
@@ -131,13 +77,13 @@ Partial Public Class CustomerPurchasingStock
     Protected WithEvents TransferCalendar As Global.System.Web.UI.WebControls.Calendar
 
     '''<summary>
-    '''btnTransfer control.
+    '''btnPurchaseStocks control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnTransfer As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnPurchaseStocks As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''lblErrorTransfer control.
@@ -156,15 +102,6 @@ Partial Public Class CustomerPurchasingStock
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ValidationSummary3 As Global.System.Web.UI.WebControls.ValidationSummary
-
-    '''<summary>
-    '''btnPurchaseStocks control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnPurchaseStocks As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''pnlNotApproved control.

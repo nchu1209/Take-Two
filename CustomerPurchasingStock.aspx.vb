@@ -34,7 +34,9 @@
 
         'End If
 
-        TransferPanel.Visible = True
+        pnlPurchaseStocks.Visible = False
+        pnlNotApproved.Visible = True
+
 
         'this is basically same as in the perform transactions but it takes only checking savings and stock
         If IsPostBack = False Then
