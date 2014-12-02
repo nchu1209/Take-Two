@@ -1,0 +1,275 @@
+﻿body {
+    position: relative;
+}
+
+#title {
+    text-align: center;
+    color: #000000;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+#title80 {
+    width: 69%;
+    float: left;
+    text-align: center;
+    color: #000000;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#title100 {
+    width: 99%;
+   float: left;
+    text-align: center;
+    color: #000000;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#icon {
+    width: 19%;
+}
+
+#leftcolumncolor {
+    width: 20%;
+    background-color: #77BBFF;
+}
+
+
+#subtitle {
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+}
+
+#lefthalf {
+    float: left;
+    width:49%;
+}
+
+#lefttopcorner {
+    float: left;
+    width:20%;
+}
+
+#rightcornertitle {
+    float: left;
+    width:79%;
+}
+
+#rightcornercontent {
+    float: left;
+    width:79%;
+    border-style: double;
+}
+
+#righthalf {
+    float: left;
+    width: 49%;
+    text-align: center;
+}
+
+#a {
+    /*border-style: double;*/
+    float: left;
+    width: 24%;
+    text-align: center;
+}
+
+#b {
+    /*border-style: double;*/
+    float: left;
+    width: 24.5%;
+    text-align: center;
+}
+
+#c {
+     /*border-style: dashed;*/
+    float: left;
+    width: 24.5%;
+    text-align: center;
+}
+
+#d {
+     /*border-style: dashed;*/
+    float: left;
+    width: 24%;
+    text-align: center;
+}
+
+#a1 {
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+#b1 {
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+#c1 {
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+#d1 {
+    float: left;
+    width: 20%;
+    text-align: center;
+}
+#e1 {
+    float: left;
+    width: 19.5%;
+    text-align: center;
+}
+#center {
+    width: 99%;
+    text-align: center;
+
+}
+
+#content {
+     width: 99%;
+   text-align:center;
+   font-weight:400;
+   font-size:small;
+}
+
+#label {
+    float: left;
+    width: 39%;
+    text-align: right;
+    line-height: 26px;
+    position: relative;
+}
+
+#label2 {
+    float: left;
+    width: 50%;
+    text-align: right;
+    line-height: 26px;
+    position: relative;
+}
+
+
+#div {    
+    height: 349px;
+}
+
+#textbox {
+    float: left;
+    width: 49%;
+    text-align: left;
+     position: relative;
+}
+
+#textbox2 {
+    float: left;
+    width: 39%;
+    text-align: left;
+     position: relative;
+}
+
+#footer {
+    text-align: center;
+    clear: both;
+}
+
+#employeeloginright {
+     width: 70%;
+   text-align:center;
+   font-weight:400;
+   font-size:small;
+}
+
+#masterright {
+    width: 98%;
+    text-align:right;
+}
+
+#createbankaccountfiller {
+    width: 6%;
+    float: left;
+
+}
+
+#createbankaccountfiller2 {
+    width: 4%;
+    float: left;
+
+}
+
+#accountsubtitle {
+    text-align: center;
+    font-size: small;
+    font-weight: bold;
+    float: left;
+    width: 60%;
+}
+
+#accountsubtitleleft {
+    text-align: center;
+    font-size: medium;
+    float:left;
+    font-weight: bold;
+    width: 20%;
+
+}
+
+#SearchForCustomer {
+    text-align: center;
+    font-size: medium;
+    float:left;
+    font-weight: bold;
+    width: 99%;
+
+}
+
+#gridviewleft {
+    text-align: center;
+    float: left;
+    width: 70%;
+}
+
+#gridviewright {
+    text-align: left;
+    float: left;
+    width: 29%;
+}
+
+#radiobuttonfix {
+     text-align: left;
+     float: right;
+    width: 75%;
+}
+
+#radiobuttonfix2 {
+     text-align: left;
+     float: right;
+    width: 60%;
+}
+#content2 {
+     width: 99%;
+   text-align:center;
+   font-weight:400;
+   font-size:medium;
+}
+
+
+#contentBIG {
+     width: 99%;
+   text-align:center;
+   font-weight:400;
+   font-size:large;
+}
+
+#gridviewcenter {
+
+    text-align: center;
+    font-size: medium;
+    float:left;
+    font-weight: bold;
+    width: 10%;
+
+}

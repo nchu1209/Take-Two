@@ -1,0 +1,88 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="EmployeeMaster.master.vb" Inherits="KProject.EmployeeMaster" %>
+
+<!DOCTYPE html>
+<link href="bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style type="text/css"></style>
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header navbar-default">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src ="Petunia2.jpg" /></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-default collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="navbar-default nav navbar-nav">
+          <%-- things that need to go on employee navbar  --%>
+        <li><a href="/EmployeeHome.aspx">Employee Home</a></li>
+
+          <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modify Employee Account<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/EmployeeModifyAddress.aspx">Change Address</a></li>
+            <li><a href="/EmployeeModifyPhone.aspx">Change Phone Number</a></li>
+            <li><a href="/EmployeeModifyPassword.aspx">Change Password</a></li>
+            <%--<li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>--%>
+          </ul>
+        </li>
+           <li><a href="/EmployeeManageCustomers.aspx">Manage Customers</a></li>
+          <li><a href="/EmployeeTransactionSearch.aspx">Transaction Search</a></li>
+
+
+
+      <%--</ul>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/EmployeeManageCustomers.aspx">Manage Customers</a></li>
+          <li><a href="/EmployeeTransactionSearch.aspx">Transaction Search</a></li>
+
+      </ul>--%>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<form id="form1" runat="server">
+    <div id="masterright">
+    <link href="ContentStyle.css" rel="stylesheet" type="text/css" />
+    Hello  <asp:Label ID="lblName" runat="server" Text="[]" Font-Bold="True"></asp:Label>! Not <asp:label ID="lblName2" runat="server" text="[]"></asp:label>?
+    <asp:linkbutton ID="lnkLogout" runat="server">Logout</asp:linkbutton>
+    <br>
+    Today's date is: <asp:label ID ="lblDate" runat="server" text="[]"></asp:label>
+    </div>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head id="Head1" runat="server">
+    <%-- Add Petunia as icon if time permits --%>
+    <title>Longhorn Bank</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    <div id ="footer">
+        <br />
+        <br />
+        Website Created by One or None, Ltd.
+        <br /> Group 3: Leah Carroll, Nicole Chu, Amy Enrione, Catherine King
+    </div>
+
+    </form>
+</body>
+</html>
