@@ -124,6 +124,27 @@ Public Class ClassDBDisputeManager
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
     End Sub
+
+    Public Sub ModifyDisputeAmount(strUpdatedAmount As String, strTransactionID As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblTransactions SET TransactionAmount= '" & strUpdatedAmount & _
+            "'where TransactionNumber = " & strTransactionID
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub ModifyStatusResolved(strDisputeID As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblDispute SET Status= 'Resolved'" & _
+            " where DisputeID = " & strDisputeID
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
     Public Sub GetAllUnresolvedDispute()
         RunProcedureNoParam("usp_dispute_get_unresolved")
     End Sub
@@ -135,6 +156,13 @@ Public Class ClassDBDisputeManager
     Public Sub GetAllResolvedDispute()
         RunProcedureNoParam("usp_dispute_get_resolved")
     End Sub
+
+    Public Sub GetByDisputeID(strDisputeID As String)
+        RunProcedureOneParameter("usp_dispute_get_by_disputeID", "@disputeID", strDisputeID)
+    End Sub
+
+
+
 
 End Class
 

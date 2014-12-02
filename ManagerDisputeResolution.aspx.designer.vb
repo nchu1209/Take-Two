@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class DisputeResolution
+Partial Public Class ManagerDisputeResolution
 
     '''<summary>
     '''Label3 control.
@@ -50,6 +50,24 @@ Partial Public Class DisputeResolution
     Protected WithEvents Label7 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''Label1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''Label2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtDisputeNumber control.
     '''</summary>
     '''<remarks>
@@ -57,15 +75,6 @@ Partial Public Class DisputeResolution
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtDisputeNumber As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''RequiredFieldValidator1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator1 As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
     '''<summary>
     '''txtComments control.
@@ -95,31 +104,49 @@ Partial Public Class DisputeResolution
     Protected WithEvents txtClaim As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''RequiredFieldValidator2 control.
+    '''txtAdjusted control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents RequiredFieldValidator2 As Global.System.Web.UI.WebControls.RequiredFieldValidator
+    Protected WithEvents txtAdjusted As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''btnModifyAddress control.
+    '''txtComment control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnModifyAddress As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtComment As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''ValidationSummary1 control.
+    '''ddlAction control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ValidationSummary1 As Global.System.Web.UI.WebControls.ValidationSummary
+    Protected WithEvents ddlAction As Global.System.Web.UI.WebControls.DropDownList
+
+    '''<summary>
+    '''btnSubmit control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSubmit As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnHome control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnHome As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''lblError control.

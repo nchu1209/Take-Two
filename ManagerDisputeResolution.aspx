@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/EmployeeMaster.Master" CodeBehind="ManagerDisputeResolution.aspx.vb" Inherits="KProject.DisputeResolution" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/EmployeeMaster.Master" CodeBehind="ManagerDisputeResolution.aspx.vb" Inherits="KProject.ManagerDisputeResolution" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -24,24 +24,42 @@
                     <asp:Label ID="Label5" runat="server" Text="Actual Amount:" Height="26px"></asp:Label>
                      <br />
                     <asp:Label ID="Label7" runat="server" Text="Customer Claim Amount:" Height="26px"></asp:Label>
+                                         <br />
+                    <asp:Label ID="Label1" runat="server" Text="Adjusted Amount:" Height="26px"></asp:Label>
+                                                             <br />
+                    <asp:Label ID="Label2" runat="server" Text="Comment:" Height="26px"></asp:Label>
+
                     </div>
 
                 <div id ="textbox">
                 <asp:TextBox ID="txtDisputeNumber" runat="server" Width="168px" Height="26px" ReadOnly="True"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtAddress" ErrorMessage="You must enter an address.">*</asp:RequiredFieldValidator>
                 <br />
                <asp:TextBox ID="txtComments" runat="server" ReadOnly="True" Height="26px"></asp:TextBox>
                 <br />
                 <asp:TextBox ID="txtActual" runat="server" ReadOnly="True" Height="26px"></asp:TextBox>
                 <br />
                 <asp:TextBox ID="txtClaim" runat="server" Width="89px" Height="26px" ReadOnly="True"></asp:TextBox>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtZipcode" Enabled="False" ErrorMessage="You must have a zip code.">*</asp:RequiredFieldValidator>
                 <br />
+                <asp:TextBox ID="txtAdjusted" runat="server" Width="89px" Height="26px" ReadOnly="True"></asp:TextBox>
                 <br />
-                <asp:Button ID="btnModifyAddress" runat="server" Text="Modify Address" />
+
+                <asp:TextBox ID="txtComment" runat="server" Width="89px" Height="26px" ReadOnly="True"></asp:TextBox>
+                    <br />
+                    <br />
+                    <asp:DropDownList ID="ddlAction" runat="server" AutoPostBack="True">
+                        <asp:ListItem>Select Action</asp:ListItem>
+                        <asp:ListItem>Accept</asp:ListItem>
+                        <asp:ListItem>Reject</asp:ListItem>
+                        <asp:ListItem>Adjust</asp:ListItem>
+                    </asp:DropDownList>
+                    <br />
+
+                <br />
+                <asp:Button ID="btnSubmit" runat="server" Text="Submit" />
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="btnHome" runat="server" PostBackUrl="~/ManagerResolveDisputes.aspx" Text="Back to Disputes" />
                   <br />
                  <br />
-                <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
                 <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
                 </div>
                   
