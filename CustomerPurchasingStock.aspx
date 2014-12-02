@@ -102,6 +102,7 @@
                  <br />
                  <asp:Button ID="btnPurchaseStocks" runat="server" Text="Submit Purchase Order" />
                  <br />
+                 <br />
                  <asp:Label ID="lblErrorTransfer" runat="server"></asp:Label>
                  <br />
                  <asp:ValidationSummary ID="ValidationSummary3" runat="server" />
