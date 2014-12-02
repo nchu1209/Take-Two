@@ -37,13 +37,15 @@
         End If
 
 
-        'DBAccounts.CheckManagerApproved()
+
 
         lblError.Text = "YA"
 
         Session("CustomerFirstName") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName")
         Session("CustomerNumber") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("CustomerNumber")
-        'Session("CustomerManagerApprovedStockAccount") = DBAccounts.mDatasetAccounts.Tables("tblAccounts").Rows(0).Item("ManagerApprovedStockAccount")
+
+        DBAccounts.GetApprovedStatus(Session("CustomerNumber"))
+        Session("CustomerManagerApprovedStockAccount") = DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("CustomerID")
         Response.Redirect("CustomerHome.aspx")
 
     End Sub

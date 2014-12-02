@@ -268,6 +268,10 @@ Public Class ClassDBCustomer
 
     End Sub
 
+    Public Sub GetNumberFNameLNameAllCustomers()
+        RunProcedureNoParam("usp_customers_get_number_fname_lname_for_all_customers")
+    End Sub
+
     Public Sub GetByRecordID(ByVal strRecordID As String)
         'Purpose: get customer by recordID
         'Arguments: 1 string

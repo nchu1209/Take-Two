@@ -1,6 +1,4 @@
-﻿
-
-Option Strict On
+﻿Option Strict On
 
 Imports System.Data
 Imports System.Data.SqlClient
@@ -422,6 +420,10 @@ Public Class ClassDBAccounts
         RunProcedureOneParameter("usp_innerjoin_customer_city_by_zip", "@CustomerID", strCustomerID)
     End Sub
 
+    Public Sub GetApprovedStatus(ByVal strCustomerID As String)
+        RunProcedureOneParameter("usp_account_get_by_customer_id_and_stock", "@CustomerID", strCustomerID)
+    End Sub
+
     Public Sub CustomerNumber()
         RunProcedureCustomerNumber("usp_customer_number")
     End Sub
@@ -501,6 +503,19 @@ Public Class ClassDBAccounts
     Public Sub GetIRATotalDepositByAccountNumber(strAccountNumber As String)
         RunProcedureOneParameterBeatMorgan("usp_accounts_get_IRA_totaldeposit_by_account_number", "@AccountNumber", strAccountNumber)
     End Sub
+
+    Public Sub GetAccountByCustomerNumberForEmployeeTransactionSearch(strCustomerNumber As String)
+        RunProcedureOneParameter("usp_accounts_get_account_by_customer_number_for_employee_transaction_search", "@CustomerNumber", strCustomerNumber)
+    End Sub
+
+
+    Public Sub GetAccountByCustomerNumberTransferPurchaseStocks(strCustomerNumber As String)
+        RunProcedureOneParameterTransfer("usp_accounts_get_account_by_customer_number_for_ddl_purchase", "@CustomerNumber", strCustomerNumber)
+    End Sub
+
+
+
+
     Public Sub AddAccountChecking(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer)
         'Purpose: adds a customer to database
         'Arguments: 11 strings
@@ -617,7 +632,6 @@ Public Class ClassDBAccounts
         UpdateDB(mstrQuery)
     End Sub
 
-    Public Sub GetAccountByCustomerNumberTransferPurchaseStocks(strCustomerNumber As String)
-        RunProcedureOneParameterTransfer("usp_accounts_get_account_by_customer_number_for_ddl_purchase", "@CustomerNumber", strCustomerNumber)
-    End Sub
+
+
 End Class

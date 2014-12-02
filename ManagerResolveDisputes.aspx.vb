@@ -25,6 +25,7 @@ Public Class ManagerResolveDisputes
     End Sub
 
     Protected Sub GridView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles GridView1.SelectedIndexChanged
-        Response.Redirect("ManagerEditBills.aspx")
+        Session("DisputeID") = GridView1.SelectedRow.Cells(1).Text
+        Response.Redirect("ManagerDisputeResolution.aspx")
     End Sub
 End Class
