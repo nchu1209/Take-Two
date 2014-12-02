@@ -1,26 +1,25 @@
-﻿Public Class CustomerTransactionSearch
+﻿Public Class EmployeeTransactionSearch2
     Inherits System.Web.UI.Page
+    Dim DBCustomer As New ClassDBCustomer
     Dim DBTransactions As New ClassDBTransactions
     Dim DBAccount As New ClassDBAccounts
     Dim DBDate As New ClassDBDate
     Dim Val As New ClassValidate
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
-            DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
-            lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
+            DBTransactions.GetAllTransactions(Session("AccountNumberTransactions").ToString)
             Search()
+            lblAccountNumber.Text = (Session("AccountNumberTransactions").ToString)
         End If
-        DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
+        DBTransactions.GetAllTransactions(Session("AccountNumberTransactions").ToString)
     End Sub
 
     Public Sub Search()
-        DBTransactions.DoSort()
-
         'bind the gridview to the dataview
         gvTransactionSearch.DataSource = DBTransactions.MyView
         gvTransactionSearch.DataBind()
+
+        DBTransactions.DoSort()
 
         'error message & table disappears if there are no matching records
         If DBTransactions.MyView.Count = 0 Then
@@ -92,7 +91,7 @@
         strDateCode30 = "Date >= #" & datSystemDate.AddDays(-30) & "#"
         strDateCode60 = "Date >= #" & datSystemDate.AddDays(-60) & "#"
         strDateCodeAll = "Date <> '" & datBlank & "'"
-        
+
         Dim strIn1 As String
         Dim strIn2 As String
         Dim strIn3 As String
@@ -257,6 +256,6 @@
 
     Protected Sub gvTransactionSearch_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvTransactionSearch.SelectedIndexChanged
         Session("TransactionID") = gvTransactionSearch.SelectedRow.Cells(1).Text
-        Response.Redirect("CustomerTransactionDetail.aspx")
+        Response.Redirect("EmployeeTransactionDetail.aspx")
     End Sub
 End Class

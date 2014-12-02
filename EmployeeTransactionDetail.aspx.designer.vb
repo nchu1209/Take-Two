@@ -11,113 +11,113 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerPurchasingStock
+Partial Public Class EmployeeTransactionDetail
 
     '''<summary>
-    '''pnlPurchaseStocks control.
+    '''lblCustomerID control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlPurchaseStocks As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents lblCustomerID As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''gvPurchaseStocks control.
+    '''Label1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents gvPurchaseStocks As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''SqlDataSource1 control.
+    '''Label10 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents SqlDataSource1 As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents Label10 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Label2 control.
+    '''Label11 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents Label11 As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''Label4 control.
+    '''lblDescription control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDescription As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''ddlAccounts control.
+    '''lblTransactionType control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ddlAccounts As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents lblTransactionType As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''RequiredFieldValidator1 control.
+    '''lblAmount control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents RequiredFieldValidator1 As Global.System.Web.UI.WebControls.RequiredFieldValidator
+    Protected WithEvents lblAmount As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''TransferCalendar control.
+    '''lblTransactionNumber control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents TransferCalendar As Global.System.Web.UI.WebControls.Calendar
+    Protected WithEvents lblTransactionNumber As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''btnPurchaseStocks control.
+    '''lblTransactionDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnPurchaseStocks As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblTransactionDate As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''lblErrorTransfer control.
+    '''lblDisputeStatus control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblErrorTransfer As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblDisputeStatus As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''ValidationSummary3 control.
+    '''lblEmployeeComments control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ValidationSummary3 As Global.System.Web.UI.WebControls.ValidationSummary
+    Protected WithEvents lblEmployeeComments As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''pnlNotApproved control.
+    '''gvSimilar control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlNotApproved As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents gvSimilar As Global.System.Web.UI.WebControls.GridView
 End Class
