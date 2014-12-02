@@ -4,23 +4,27 @@ Public Class ManagerResolveDisputes
 
     Inherits System.Web.UI.Page
 
-    Dim DBDispute As New ClassDBDispute
+    Dim DBDispute As New ClassDBDisputeManager
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            DBDispute.GetAllUnresolvedDisputes()
+            Session("Status") = "Null"
         End If
     End Sub
 
     Protected Sub btnViewAll_Click(sender As Object, e As EventArgs) Handles btnViewAll.Click
-        DBDispute.GetAllDisputes()
+        Session("Status") = "Null"
     End Sub
 
-    Protected Sub btnFilter_Click(sender As Object, e As EventArgs) Handles btnFilter.Click
-        DBDispute.GetAllUnresolvedDisputes()
+    Protected Sub btnUnresolved_Click(sender As Object, e As EventArgs) Handles btnUnresolved.Click
+        Session("Status") = "Resolved"
     End Sub
 
-    Protected Sub btnActive_Click(sender As Object, e As EventArgs) Handles btnActive.Click
+    Protected Sub btnResolved_Click(sender As Object, e As EventArgs) Handles btnResolved.Click
+        Session("Status") = "Submitted"
+    End Sub
 
+    Protected Sub GridView1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles GridView1.SelectedIndexChanged
+        Response.Redirect("ManagerEditBills.aspx")
     End Sub
 End Class

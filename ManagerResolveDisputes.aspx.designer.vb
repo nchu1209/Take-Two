@@ -23,22 +23,22 @@ Partial Public Class ManagerResolveDisputes
     Protected WithEvents btnViewAll As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''btnFilter control.
+    '''btnUnresolved control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnFilter As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnUnresolved As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''btnActive control.
+    '''btnResolved control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnActive As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnResolved As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''GridView1 control.
