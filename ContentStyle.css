@@ -5,13 +5,13 @@
 #title {
     text-align: center;
     color: #000000;
-    font-size: xx-large;
+    font-size: x-large;
     font-weight: bold;
 }
 
 #title80 {
     width: 69%;
-    float: left;
+   float: left;
     text-align: center;
     color: #000000;
     font-size: x-large;
@@ -61,7 +61,6 @@
 #rightcornercontent {
     float: left;
     width:79%;
-    border-style: double;
 }
 
 #righthalf {
@@ -71,30 +70,26 @@
 }
 
 #a {
-    /*border-style: double;*/
     float: left;
-    width: 24%;
+    width: 25%;
     text-align: center;
 }
 
 #b {
-    /*border-style: double;*/
     float: left;
-    width: 24.5%;
+    width: 25%;
     text-align: center;
 }
 
 #c {
-     /*border-style: dashed;*/
     float: left;
-    width: 24.5%;
+    width: 25%;
     text-align: center;
 }
 
 #d {
-     /*border-style: dashed;*/
     float: left;
-    width: 24%;
+    width: 24.5%;
     text-align: center;
 }
 
@@ -151,6 +146,13 @@
     line-height: 26px;
     position: relative;
 }
+#label3 {
+    float: left;
+    width: 49%;
+    text-align: left;
+    line-height: 26px;
+    position: relative;
+}
 
 
 #div {    
@@ -171,9 +173,17 @@
      position: relative;
 }
 
-#footer {
+#footer{
     text-align: center;
     clear: both;
+     position: relative;
+    float: left;
+    width: 100%;
+    padding: 5px;
+    bottom: 0%;
+    vertical-align: bottom;
+
+
 }
 
 #employeeloginright {
@@ -262,14 +272,4 @@
    text-align:center;
    font-weight:400;
    font-size:large;
-}
-
-#gridviewcenter {
-
-    text-align: center;
-    font-size: medium;
-    float:left;
-    font-weight: bold;
-    width: 10%;
-
 }

@@ -136,6 +136,31 @@ Public Class ClassDBTransactions
         End Try
     End Sub
 
+    Public Sub RunProcedureAnyParam(ByVal strUSPName As String, ByVal strDatasetName As DataSet, ByVal strViewName As DataView, ByVal strTableName As String, ByVal aryParamNames As ArrayList, ByVal aryParamValues As ArrayList)
+        Dim objConnection As New SqlConnection(mstrConnection)
+        Dim mdbDataAdapter As New SqlDataAdapter(strUSPName, objConnection)
+        Try
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(CStr(aryParamNames(index)), CStr(aryParamValues(index))))
+                index = index + 1
+            Next
+            strDatasetName.Clear()
+            mdbDataAdapter.Fill(strDatasetName, strTableName)
+            strViewName.Table = strDatasetName.Tables(strTableName)
+        Catch ex As Exception
+            Dim strError As String = ""
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                strError = strError & "ParamName: " & CStr(aryParamNames(index))
+                strError = strError & "ParamValue: " & CStr(aryParamValues(index))
+                index += 1
+            Next
+            Throw New Exception(strError & " error message is " & ex.Message)
+        End Try
+    End Sub
+
     Public Sub SelectQuery(ByVal strQuery As String)
         'Purpose: run any select query and fill dataset
         'Arguments: 1 string that contains query
@@ -215,5 +240,15 @@ Public Class ClassDBTransactions
 
     Public Sub Go(strIn1 As String, strIn2 As String, strIn3 As String, strIn4 As String, strIn5 As String)
         MyView.RowFilter = strIn1 & strIn2 & strIn3 & strIn4 & strIn5
+    End Sub
+
+    Public Sub GetFiveSimilarByAccount(strAccountNumber As String, strTransactionType As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@AccountNumber")
+        aryNames.Add("@TransactionType")
+        aryValues.Add(strAccountNumber)
+        aryValues.Add(strTransactionType)
+        RunProcedureAnyParam("usp_transactions_get_five_similar_by_account", TransactionsDataset2, mMyView2, "tblTransactions", aryNames, aryValues)
     End Sub
 End Class

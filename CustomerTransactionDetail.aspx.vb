@@ -18,9 +18,19 @@ Public Class CustomerTransactionDetail
             lblTransactionDate.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Date").ToString
             lblTransactionNumber.Text = Session("TransactionID").ToString
 
+            DBDispute.GetDisputeByTransactionNumber(Session("TransactionID").ToString)
+            If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
+                lblEmployeeComments.Text = ""
+                lblDisputeStatus.Text = "You have not submitted a dispute for this transaction"
+            Else
+                lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
+                lblDisputeStatus.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("Status").ToString
+                btnCreateDispute.Enabled = False
+                lblAlreadySubmitted.Text = "You have already submitted a dispute for this transaction, and cannot submit another dispute"
+            End If
+
             'bind the gridview to the dataview
-            DBTransactions.TransactionsByAccount(Session("AccountNumber").ToString)
-            DBTransactions.GetFiveSimilar(lblTransactionType.Text)
+            DBTransactions.GetFiveSimilarByAccount(Session("AccountNumber").ToString, lblTransactionType.Text)
             gvSimilar.DataSource = DBTransactions.MyView2
             gvSimilar.DataBind()
 
@@ -58,7 +68,7 @@ Public Class CustomerTransactionDetail
             Exit Sub
         End If
 
-        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", 0, "NA")
+        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", Nothing, Nothing, CInt(Session("TransactionID")))
         lblError.Text = "Dispute Submitted"
         Response.AddHeader("Refresh", "2; URL= CustomerTransactionDetail.aspx")
     End Sub
