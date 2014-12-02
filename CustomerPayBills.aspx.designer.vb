@@ -102,4 +102,31 @@ Partial Public Class CustomerPayBills
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblMessageSuccess As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''radAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents radAmount As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''txtCustomAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtCustomAmount As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnTest control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnTest As Global.System.Web.UI.WebControls.Button
 End Class

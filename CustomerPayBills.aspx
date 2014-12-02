@@ -96,11 +96,11 @@
         <br />
         </div>
         <div id ="gridviewright">
+            <div id ="subtitle">Pay Bills Now<br />
+            </div>
             <asp:Button ID="btnPay" runat="server" Text="Pay" />
         <br />
             <br />
-            <br />
-        <br />
             <asp:Label ID="lblMessageTotal" runat="server" Text="[]"></asp:Label>
             <br />
         <asp:Label ID="lblMessageFee" runat="server" Text="[]"></asp:Label>
@@ -113,7 +113,24 @@
         <br />
             <asp:Label ID="lblMessageSuccess" runat="server" Text="[]"></asp:Label>
         <br />
-        </div>
+        <br />
+            <div id ="subtitle">Set Up Minimum Payments<br />
+            </div>
+            <br />
+            Select Amount or Enter Custom Amount: <asp:RadioButtonList ID="radAmount" runat="server">
+                <asp:ListItem Value="20.00">$20.00</asp:ListItem>
+                <asp:ListItem Value="30.00">$30.00</asp:ListItem>
+                <asp:ListItem Value="40.00">$40.00</asp:ListItem>
+                <asp:ListItem Value="50.00">$50.00</asp:ListItem>
+                <asp:ListItem Value="Custom">Custom Amount (Enter Below)</asp:ListItem>
+            </asp:RadioButtonList>
+            <br />
+            Custom Amount:
+            <asp:TextBox ID="txtCustomAmount" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="btnTest" runat="server" Text="Test" />
+            <br />
     </div>
 
 </asp:Content>

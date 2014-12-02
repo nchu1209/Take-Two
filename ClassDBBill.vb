@@ -5,6 +5,7 @@ Imports System.Data.SqlClient
 
 Public Class ClassDBBill
     Dim mDatasetBill As New DataSet
+    Dim mDatasetBill2 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
@@ -20,6 +21,13 @@ Public Class ClassDBBill
     Public ReadOnly Property MyView() As DataView
         Get
             Return mMyView
+        End Get
+    End Property
+
+    Public ReadOnly Property BillDataset2() As DataSet
+        Get
+            'Return dataset to user
+            Return mDatasetBill2
         End Get
     End Property
 
@@ -83,6 +91,29 @@ Public Class ClassDBBill
             mdbDataAdapter.Fill(mDatasetBill, "tblBill")
             'copy dataset to dataview
             mMyView.Table = mDatasetBill.Tables("tblBill")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub RunProcedureSort(ByVal strProcedureName As String, ByVal strParameterName As String, ByVal strParameterValue As String)
+        'Purpose: run any stored procedure with one parameter and fill dataset
+
+        'Creates instances of the connection and command object
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim mdbDataAdapter As New SqlDataAdapter(strProcedureName, objConnection)
+        Try
+            'sets command type to "stored procedure"
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            'add parameter to SPROC
+            mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(strParameterName, strParameterValue))
+            'clear dataset
+            mDatasetBill2.Clear()
+            'open connection and fill dataset
+            mdbDataAdapter.Fill(mDatasetBill2, "tblBill")
+            'copy dataset to dataview
+            mMyView.Table = mDatasetBill2.Tables("tblBill")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
         End Try
@@ -174,6 +205,10 @@ Public Class ClassDBBill
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
 
+    End Sub
+
+    Public Sub SortBills(strCustomerNumber As String)
+        RunProcedureSort("usp_bill_sort_minimum_payment", "@CustomerNumber", strCustomerNumber)
     End Sub
 
 End Class

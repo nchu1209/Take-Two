@@ -232,4 +232,13 @@
         End If
     End Sub
 
+    Protected Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
+        Dim intTest As Integer
+        intTest = DateDiff(DateInterval.Month, #12/1/2014#, #3/29/2015#)
+
+        txtCustomAmount.Text = intTest.ToString
+
+        'plan: figure out # months between selected date and current date + 1, if < 1 don't do anything
+        'take total months * minimum payment, then run the loop to distribute payment among bills
+    End Sub
 End Class

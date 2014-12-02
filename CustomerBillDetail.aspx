@@ -8,6 +8,10 @@
         <br />
         <br />
     </div>
+    <div id ="subtitle">
+        <asp:LinkButton ID="lnkBack" runat="server" PostBackUrl="~/CustomerPayBills.aspx">Click to Return to Pay Bills</asp:LinkButton>
+        <br />
+    </div>
     <div id ="lefthalf">
        <div id ="subtitle">eBill Details</div>
        <div id ="label2">

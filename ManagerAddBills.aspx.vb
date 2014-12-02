@@ -83,7 +83,7 @@ Public Class ManagerAddBills
 
         lblMessage2.Text = "eBill successfully added."
 
-        Response.AddHeader("Refresh", "2; URL=ManagerAddBill.aspx")
+        Response.AddHeader("Refresh", "2; URL=ManagerAddBills.aspx")
     End Sub
 
     Private Sub GetBillID()

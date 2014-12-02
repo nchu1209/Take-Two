@@ -95,13 +95,15 @@
         mdecPayment = CDec(txtAmount.Text)
         mdecAmountRemaining = CDec(dbbill.BillDataset.Tables("tblBill").Rows(0).Item("AmountRemaining"))
 
-        If mdecPayment > mdecAmountRemaining Then
-            lblMessage.Text = "The payment amount you have entered exceeds the outstanding balance."
-            Exit Sub
+        If txtType.Text = "Utilities" Or txtType.Text = "Other" Then
+            If mdecPayment > mdecAmountRemaining Then
+                lblMessage.Text = "The payment amount you have entered exceeds the outstanding balance."
+                Exit Sub
+            End If
         End If
 
         'validate date field
-        If dbdate.CheckSelectedDate(calDate.SelectedDate) = -1 Then
+        If dbDate.CheckSelectedDate(calDate.SelectedDate) = -1 Then
             lblMessage.Text = "Please do not enter a date prior to today's date."
             Exit Sub
         End If
@@ -152,8 +154,14 @@
             'update the bills table
             Dim decAmountPaid
             decAmountPaid = CDec(dbbill.BillDataset.Tables("tblBill").Rows(0).Item("AmountPaid")) + CDec(txtAmount.Text)
+
             Dim decAmountRemaining As Decimal
-            decAmountRemaining = CDec(txtBillAmount.Text) - decAmountPaid
+            If decAmountPaid > CDec(txtBillAmount.Text) Then
+                decAmountRemaining = 0
+            Else
+                decAmountRemaining = CDec(txtBillAmount.Text) - decAmountPaid
+            End If
+
             Dim strStatus As String
             If decAmountRemaining = 0 Then
                 strStatus = "Paid"
