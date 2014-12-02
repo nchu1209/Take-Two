@@ -131,4 +131,9 @@ Public Class ClassDBDispute
     Public Sub GetDisputeByTransactionNumber(strTransactionNumber As String)
         RunProcedureOneParameter("usp_disputes_get_by_transaction_number", "@TransactionNumber", strTransactionNumber)
     End Sub
+
+    Public Sub GetDisputeByAccountNumber(strAccountNumber As String)
+        RunProcedureOneParameter("usp_dispute_get_by_account_number", "@AccountNumber", strAccountNumber)
+    End Sub
+
 End Class

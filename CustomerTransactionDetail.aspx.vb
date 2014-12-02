@@ -20,7 +20,7 @@ Public Class CustomerTransactionDetail
 
             DBDispute.GetDisputeByTransactionNumber(Session("TransactionID").ToString)
             If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
-                lblEmployeeComments.Text = ""
+                lblEmployeeComments.Text = "N/A"
                 lblDisputeStatus.Text = "You have not submitted a dispute for this transaction"
             Else
                 lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
@@ -68,7 +68,7 @@ Public Class CustomerTransactionDetail
             Exit Sub
         End If
 
-        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", Nothing, Nothing, CInt(Session("TransactionID")))
+        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", Nothing, "", CInt(Session("TransactionID")))
         lblError.Text = "Dispute Submitted"
         Response.AddHeader("Refresh", "2; URL= CustomerTransactionDetail.aspx")
     End Sub

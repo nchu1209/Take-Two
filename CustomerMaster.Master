@@ -51,13 +51,7 @@
             <li><a href="/CustomerAddPayee.aspx">Add Payee</a></li>
           </ul>
         </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Customer Support<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Submit Transaction Dispute</a></li>
-            <li><a href="#">View Disputes</a></li>
-          </ul>
-        </li>
+        <li class="active"><a href="/CustomerViewDisputes.aspx">View Disputes</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           <li><a href="#">View Cart</a></li>
