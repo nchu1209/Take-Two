@@ -8,6 +8,7 @@
     Dim Valid As New ClassStockValidation
 
     '    need to bring in the date and if there is enough to make the transaction
+    '   There must be a validation for dates
     '    'need to connect price to the db
     'withdrawl ffromand also the transaction history
     'ETC
@@ -46,7 +47,7 @@
         End If
 
 
-        'this is basically same as in the perform transactions but it takes only checking savings and stock
+        'filling the ddl
         If IsPostBack = False Then
             DBAccounts.GetAccountByCustomerNumberTransferPurchaseStocks(Session("CustomerNumber").ToString)
             ddlAccounts.DataSource = DBAccounts.AccountsDataset5
@@ -89,7 +90,8 @@
 
                 Else
                     decTotal = CDec(strPrice) * CDec(t.Text) + (CDec(strFee))
-                    'ADD TO THE DB
+                    'ADD TO THE DB Should probably happen in this if
+                    'out put the quantity and price purchased
                     If t.Text = 1 Then
 
                         strDescriptiveMessage = strDescriptiveMessage.ToString + t.Text + " share of " + strTick + " for the price of :$" + CStr(decTotal) + "<br/>"

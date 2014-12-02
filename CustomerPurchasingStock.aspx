@@ -94,6 +94,8 @@
                  <asp:DropDownList ID="ddlAccounts" runat="server">
              </asp:DropDownList>
               
+                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlAccounts" ErrorMessage="ERROR: You must select an account from which to purchase the stocks">*</asp:RequiredFieldValidator>
+              
                  <br />
                  <br />
              

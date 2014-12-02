@@ -68,6 +68,15 @@ Partial Public Class CustomerPurchasingStock
     Protected WithEvents ddlAccounts As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
+    '''RequiredFieldValidator1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents RequiredFieldValidator1 As Global.System.Web.UI.WebControls.RequiredFieldValidator
+
+    '''<summary>
     '''TransferCalendar control.
     '''</summary>
     '''<remarks>
