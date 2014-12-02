@@ -71,7 +71,7 @@
                 'edit db
                 DBStocks.ModifyStockPrice(y.Text, strTick)
                 'add to descriptive string
-                strDescriptiveMessage = strDescriptiveMessage.ToString + strTick & " price was changed to $" & y.Text & "</br>"
+                strDescriptiveMessage = strDescriptiveMessage.ToString + strTick & " price was changed to $" & y.Text & "<br/>"
             End If
         Next
 

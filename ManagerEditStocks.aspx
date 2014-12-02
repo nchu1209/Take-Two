@@ -69,11 +69,6 @@
             <br/>
             <div id="content">
     <asp:Label ID="lblDescriptiveMessage" runat="server" Text=""></asp:Label>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
                 </div>
         </asp:Panel>
 
