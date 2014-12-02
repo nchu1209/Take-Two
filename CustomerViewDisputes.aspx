@@ -4,11 +4,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <link href="ContentStyle.css" rel="stylesheet" type="text/css" />
     <div id ="title">
+        <br />
         View All Disputes<br />
         <br />
     </div>
     <div id ="subtitle">
-
+        Create new disputes on the bottom of transaction detail pages
     </div>
     <div id ="footer">
         <asp:GridView ID="gvDisputes" runat="server"></asp:GridView>

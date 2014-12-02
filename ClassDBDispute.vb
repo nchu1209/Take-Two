@@ -109,8 +109,8 @@ Public Class ClassDBDispute
         End Try
 
     End Sub
-    Public Sub AddDispute(intDisputeID As Integer, intCustomerNumber As Integer, strCustomerComment As String, decCorrectAmount As Decimal, strDelete As String, strStatus As String, intEmpID As Integer, strManagerComment As String)
-        mstrQuery = "INSERT INTO tblDispute (DisputeID, CustomerID, CustomerComment, CorrectAmount, DeleteTransaction, Status, EmployeeID, ManagerComment) VALUES (" & _
+    Public Sub AddDispute(intDisputeID As Integer, intCustomerNumber As Integer, strCustomerComment As String, decCorrectAmount As Decimal, strDelete As String, strStatus As String, intEmpID As Integer, strManagerComment As String, intTransactionNumber As Integer)
+        mstrQuery = "INSERT INTO tblDispute (DisputeID, CustomerID, CustomerComment, CorrectAmount, DeleteTransaction, Status, EmployeeID, ManagerComment, TransactionNumber) VALUES (" & _
             "'" & intDisputeID & "', " & _
             "'" & intCustomerNumber & "', " & _
             "'" & strCustomerComment & "', " & _
@@ -118,7 +118,8 @@ Public Class ClassDBDispute
             "'" & strDelete & "', " & _
             "'" & strStatus & "', " & _
             "'" & intEmpID & "', " & _
-            "'" & strManagerComment & "')"
+            "'" & strManagerComment & "', " & _
+            "'" & intTransactionNumber & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)

@@ -19,8 +19,7 @@ Public Class CustomerTransactionDetail
             lblTransactionNumber.Text = Session("TransactionID").ToString
 
             'bind the gridview to the dataview
-            DBTransactions.TransactionsByAccount(Session("AccountNumber").ToString)
-            DBTransactions.GetFiveSimilar(lblTransactionType.Text)
+            DBTransactions.GetFiveSimilarByAccount(Session("AccountNumber").ToString, lblTransactionType.Text)
             gvSimilar.DataSource = DBTransactions.MyView2
             gvSimilar.DataBind()
 
@@ -58,7 +57,7 @@ Public Class CustomerTransactionDetail
             Exit Sub
         End If
 
-        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", 0, "NA")
+        DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", Nothing, Nothing, CInt(Session("TransactionID")))
         lblError.Text = "Dispute Submitted"
         Response.AddHeader("Refresh", "2; URL= CustomerTransactionDetail.aspx")
     End Sub

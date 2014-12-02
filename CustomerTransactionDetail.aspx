@@ -35,15 +35,21 @@
             <br />
             <asp:Label ID="lblEmployeeComments" runat="server"></asp:Label>
             <br />
+            <br />
+            <br />
+            <br />
         </div>
       </div>
     <div id="center">
-        <div id="subtitle">Similar Transactions</div>
+        <div id="subtitle">
+            <br />
+            Similar Transactions</div>
         <asp:GridView ID="gvSimilar" runat="server"></asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
     </div>
      <div id ="center">
-       <div id ="subtitle">Create Dispute</div>
+       <div id ="subtitle">
+           <br />
+           Create Dispute</div>
        <div id ="footer">
            Would you like to dispute the selected transaction? 
            <asp:Button ID="btnCreateDispute" runat="server" Text="Create Dispute" CausesValidation="False" />
