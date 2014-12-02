@@ -77,6 +77,15 @@ Partial Public Class CustomerPayBills
     Protected WithEvents lblMessageFee As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''lblMessageFee2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMessageFee2 As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''btnConfirm control.
     '''</summary>
     '''<remarks>

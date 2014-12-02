@@ -17,10 +17,11 @@
         <br />
         <br />
         <br />
+        </div>
         <div id ="gridviewleft">
         <asp:GridView ID="gvMyPayees" runat="server" AutoGenerateColumns="False" DataKeyNames="PayeeID" DataSourceID="SqlDataSource1">
             <Columns>
-                <asp:TemplateField HeaderText="PayeeID" SortExpression="PayeeID" Visible="false">
+                <asp:TemplateField HeaderText="PayeeID" SortExpression="PayeeID">
                     <EditItemTemplate>
                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("PayeeID") %>'></asp:Label>
                     </EditItemTemplate>
@@ -104,6 +105,8 @@
             <asp:Label ID="lblMessageTotal" runat="server" Text="[]"></asp:Label>
             <br />
         <asp:Label ID="lblMessageFee" runat="server" Text="[]"></asp:Label>
+            <br />
+            <asp:Label ID="lblMessageFee2" runat="server" Text="[]"></asp:Label>
         <br />
         <br />
             <asp:Button ID="btnConfirm" runat="server" Text="Confirm" />

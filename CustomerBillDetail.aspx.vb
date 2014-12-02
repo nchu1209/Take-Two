@@ -103,6 +103,10 @@
         End If
 
         'validate date field
+        If calDate.SelectedDate = Nothing Then
+            lblMessage.Text = "Please enter a date for your payment."
+            Exit Sub
+        End If
         If dbDate.CheckSelectedDate(calDate.SelectedDate) = -1 Then
             lblMessage.Text = "Please do not enter a date prior to today's date."
             Exit Sub

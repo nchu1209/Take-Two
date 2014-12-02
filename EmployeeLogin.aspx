@@ -65,7 +65,7 @@
             <br />
             <br />
             <div id="contentBIG">
-            We are sorry, you no longer work for Longhorn Bank.  You're access has been denied.
+                We are sorry--you no longer work for Longhorn Bank. Your access has been denied.
             </div>
  
     </asp:Panel>

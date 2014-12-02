@@ -16,6 +16,7 @@
 
     Const OVERDRAFT_MAXIMUM As Decimal = 50D
     Const OVERDRAFT_FEE As Decimal = 30D
+    Const LATE_FEE As Decimal = 5D
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("CustomerFirstName") Is Nothing Then
@@ -34,7 +35,10 @@
             btnConfirm.Visible = False
             btnAbort.Visible = False
 
-            dbbill.GetCustomerBills(Session("CustomerNumber"))
+            dbdate.GetDate()
+            Dim datToday As Date
+            datToday = dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date")
+            dbbill.GetCustomerBills(Session("CustomerNumber"), datToday)
             If dbbill.BillDataset.Tables("tblBill").Rows.Count <> 0 Then
                 For i = 0 To gvMyPayees.Rows.Count - 1
                     For k = 0 To dbbill.BillDataset.Tables("tblBill").Rows.Count - 1
@@ -73,6 +77,7 @@
         lblMessageTotal.Text = ""
         lblMessageFee.Text = ""
         lblMessageSuccess.Text = ""
+        lblmessagefee2.text = ""
 
     End Sub
 
@@ -95,7 +100,22 @@
                     lblMessageTotal.Text = "Please enter valid payment amounts."
                     Exit Sub
                 End If
+
+                Dim decPayment As Decimal = CDec(t.Text)
+                Dim r As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblOutstandingBalance"), Label)
+                Dim decAmountRemaining As Decimal
+                If r.Text <> "" Then
+                    decAmountRemaining = CDec(r.Text)
+                End If
+
+                If gvMyPayees.Rows(i).Cells(2).Text = "Utilities" Or gvMyPayees.Rows(i).Cells(2).Text = "Other" Then
+                    If decPayment > decAmountRemaining Then
+                        lblMessageTotal.Text = "For Utilities and Other eBills, payment amount may not exceed the outstanding balance."
+                        Exit Sub
+                    End If
+                End If
             End If
+
         Next
 
         'validate date fields
@@ -146,6 +166,21 @@
             lblMessageFee.Text = "Note: Your payment total for today (excluding scheduled future payments) is " & mdecTotalToday.ToString("c2") & ", which exceeds your selected account's balance. You will be charged an overdraft fee of $30.00 in addition to your specified payment(s)."
         End If
 
+        'late fee notice
+        For i = 0 To gvMyPayees.Rows.Count - 1
+            Dim t As TextBox = DirectCast(gvMyPayees.Rows(i).Cells(4).FindControl("txtAmount"), TextBox)
+            Dim c As Calendar = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("calDate"), Calendar)
+            Dim d As Label = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("lblDueDate"), Label)
+            Dim r As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblOutstandingBalance"), Label)
+            Dim k As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblBillAmount"), Label)
+            If t.Text <> "" And d.Text <> "" Then
+                If c.SelectedDate > CDate(d.Text) And r.Text = k.Text Then
+                    lblMessageFee2.Text = "Note: You will be charged a late fee of $5.00 for every bill paid after its due date."
+                    Exit Sub
+                End If
+            End If
+        Next
+
     End Sub
 
     Private Sub GetTransactionNumber()
@@ -166,26 +201,95 @@
             Dim t As TextBox = DirectCast(gvMyPayees.Rows(i).Cells(4).FindControl("txtAmount"), TextBox)
             Dim c As Calendar = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("calDate"), Calendar)
             Dim n As HyperLink = DirectCast(gvMyPayees.Rows(i).Cells(2).FindControl("lnkName"), HyperLink)
+            Dim k As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblBillAmount"), Label)
+            Dim j As Label = DirectCast(gvMyPayees.Rows(i).Cells(1).FindControl("lblPayeeID"), Label)
+            Dim d As Label = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("lblDueDate"), Label)
 
+            'PAYMENTS TODAY
             If dbdate.CheckSelectedDate(c.SelectedDate) = 0 And t.Text <> "" Then
-                'today
-                mdecBalance = mdecBalance - CDec(t.Text)
-                dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+                'non eBill
+                If k.Text = "" Then
+                    mdecBalance = mdecBalance - CDec(t.Text)
+                    dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
 
-                Dim strPaymentMessage As String
-                strPaymentMessage = "Sent payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
-                GetTransactionNumber()
-                'update the transactions table
-                dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, "NULL", "False")
+                    Dim strPaymentMessage As String
+                    strPaymentMessage = "Sent payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
+                    GetTransactionNumber()
+                    'update the transactions table
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, "NULL", "False")
+                End If
+
+                'eBill Payments
+                If k.Text <> "" Then
+                    mdecBalance = mdecBalance - CDec(t.Text)
+                    dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+
+                    Dim datToday As Date
+                    dbdate.GetDate()
+                    datToday = CDate(dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date"))
+
+                    dbbill.GetBillByPayeeID(Session("CustomerNumber"), datToday, j.Text)
+                    Dim intBillID As Integer
+                    intBillID = CInt(dbbill.BillDataset2.Tables("tblBill").Rows(0).Item("BillID"))
+
+                    Dim strPaymentMessage As String
+                    strPaymentMessage = "Sent eBill payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
+                    GetTransactionNumber()
+                    'update the transactions table
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID.ToString, "False")
+                    'update bills table
+                    
+                    Dim decAmountPaid As Decimal
+                    decAmountPaid = CDec(dbbill.BillDataset2.Tables("tblBill").Rows(0).Item("AmountPaid")) + CDec(t.Text)
+                    Dim datBillDate As Date
+                    datBillDate = CDate(dbbill.BillDataset2.Tables("tblBill").Rows(0).Item("BillDate"))
+
+                    Dim decAmountRemaining As Decimal
+                    If decAmountPaid > CDec(k.Text) Then
+                        decAmountRemaining = 0
+                    Else
+                        decAmountRemaining = CDec(k.Text) - decAmountPaid
+                    End If
+
+                    Dim strStatus As String
+                    If decAmountRemaining = 0 Then
+                        strStatus = "Paid"
+                    Else
+                        strStatus = "Partially Paid"
+                    End If
+                    dbbill.ModifyBill(CDec(k.Text).ToString("n2"), datBillDate.ToString, d.Text, decAmountPaid.ToString, decAmountRemaining.ToString, strStatus, "TRUE", intBillID.ToString)
+                End If
+
             End If
 
+            'SCHEDULE FUTURE PAYMENTS
             If dbdate.CheckSelectedDate(c.SelectedDate) = 1 And t.Text <> "" Then
-                'schedule payments
-                Dim strPendingMessage As String
-                strPendingMessage = "Send payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
-                GetTransactionNumber()
-                'update pending transactions table
-                dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, "NULL", "False")
+                'non eBill
+                If k.Text = "" Then
+                    Dim strPendingMessage As String
+                    strPendingMessage = "Send payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
+                    GetTransactionNumber()
+                    'update pending transactions table
+                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, "NULL", "False")
+                End If
+
+                'eBills
+                If k.Text <> "" Then
+
+                    Dim datToday As Date
+                    dbdate.GetDate()
+                    datToday = CDate(dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date"))
+
+                    dbbill.GetBillByPayeeID(Session("CustomerNumber"), datToday, j.Text)
+                    Dim intBillID As Integer
+                    intBillID = CInt(dbbill.BillDataset2.Tables("tblBill").Rows(0).Item("BillID"))
+
+                    GetTransactionNumber()
+                    Dim strPendingMessage = "Send payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
+                    'update pending transactions table
+                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, intBillID.ToString, "False")
+                End If
+
             End If
         Next
 
@@ -205,9 +309,31 @@
             dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, "NULL", "False")
         End If
 
+        'late fee if necessary
+        For i = 0 To gvMyPayees.Rows.Count - 1
+            Dim t As TextBox = DirectCast(gvMyPayees.Rows(i).Cells(4).FindControl("txtAmount"), TextBox)
+            Dim c As Calendar = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("calDate"), Calendar)
+            Dim d As Label = DirectCast(gvMyPayees.Rows(i).Cells(5).FindControl("lblDueDate"), Label)
+            Dim r As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblOutstandingBalance"), Label)
+            Dim k As Label = DirectCast(gvMyPayees.Rows(i).Cells(3).FindControl("lblBillAmount"), Label)
+            If t.Text <> "" And d.Text <> "" And dbdate.CheckSelectedDate(c.SelectedDate) = 0 Then
+                If c.SelectedDate > CDate(d.Text) And CDec(r.Text) = CDec(k.Text) Then
+                    mdecBalance = mdecBalance - LATE_FEE
+                    dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+
+                    Dim strFeeMessage As String = "Late fee of " & LATE_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
+                    GetTransactionNumber()
+                    'update the transactions table
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, "NULL", "False")
+                End If
+            End If
+        Next
+
         lblMessageSuccess.Text = "Payments successfully sent and/or scheduled."
         btnConfirm.Visible = False
         btnAbort.Visible = False
+
+        Response.AddHeader("Refresh", "2; URL= CustomerPayBills.aspx")
 
     End Sub
 
@@ -226,7 +352,11 @@
             Dim row As GridViewRow = gvMyPayees.Rows(intRow)
 
             '' Add code here to add the item to the shopping cart.
-            dbbill.GetCustomerBills(Session("CustomerNumber"))
+            dbdate.GetDate()
+            Dim datToday As Date
+            datToday = dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date")
+            dbbill.GetCustomerBills(Session("CustomerNumber"), datToday)
+
             Response.Redirect("CustomerBillDetail.aspx?ID=" & dbbill.BillDataset.Tables("tblBill").Rows(intRow).Item("BillID"))
 
         End If

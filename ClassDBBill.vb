@@ -11,6 +11,7 @@ Public Class ClassDBBill
     Dim mdbConn As New SqlConnection
     Dim mstrConnection As String = "workstation id=COMPUTER;packet size =4096;data source=MISSQL.mccombs.utexas.edu;integrated security=False; initial catalog=mis333k_msbck614; user id=msbck614; password=AmyEnrione1"
     Dim mMyView As New DataView
+    Dim mMyView2 As New DataView
 
     Public ReadOnly Property BillDataset() As DataSet
         Get
@@ -30,6 +31,12 @@ Public Class ClassDBBill
             Return mDatasetBill2
         End Get
     End Property
+    Public ReadOnly Property MyView2() As DataView
+        Get
+            Return mMyView2
+        End Get
+    End Property
+
 
     Public Sub UpdateDB(ByVal mstrQuery As String)
         'Purpose: run given query to update database
@@ -119,6 +126,31 @@ Public Class ClassDBBill
         End Try
     End Sub
 
+    Public Sub RunProcedureAnyParam(ByVal strUSPName As String, ByVal strDatasetName As DataSet, ByVal strViewName As DataView, ByVal strTableName As String, ByVal aryParamNames As ArrayList, ByVal aryParamValues As ArrayList)
+        Dim objConnection As New SqlConnection(mstrConnection)
+        Dim mdbDataAdapter As New SqlDataAdapter(strUSPName, objConnection)
+        Try
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(CStr(aryParamNames(index)), CStr(aryParamValues(index))))
+                index = index + 1
+            Next
+            strDatasetName.Clear()
+            mdbDataAdapter.Fill(strDatasetName, strTableName)
+            strViewName.Table = strDatasetName.Tables(strTableName)
+        Catch ex As Exception
+            Dim strError As String = ""
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                strError = strError & "ParamName: " & CStr(aryParamNames(index))
+                strError = strError & "ParamValue: " & CStr(aryParamValues(index))
+                index += 1
+            Next
+            Throw New Exception(strError & " error message is " & ex.Message)
+        End Try
+    End Sub
+
     Public Sub SelectQuery(ByVal strQuery As String)
         'Purpose: run any select query and fill dataset
         'Arguments: 1 string that contains query
@@ -171,10 +203,6 @@ Public Class ClassDBBill
         RunProcedureNoParam("usp_bill_get_all")
     End Sub
 
-    Public Sub GetCustomerBills(strCustomerNumber As String)
-        RunProcedureOneParameter("usp_bill_get_by_customernumber", "@customernumber", strCustomerNumber)
-    End Sub
-
     Public Sub GetBillDetails(strBillID As String)
         RunProcedureOneParameter("usp_bill_get_by_billID", "@billID", strBillID)
     End Sub
@@ -209,6 +237,28 @@ Public Class ClassDBBill
 
     Public Sub SortBills(strCustomerNumber As String)
         RunProcedureSort("usp_bill_sort_minimum_payment", "@CustomerNumber", strCustomerNumber)
+    End Sub
+
+    Public Sub GetCustomerBills(strCustomerNumber As String, datSystemDate As Date)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@customernumber")
+        aryNames.Add("@systemdate")
+        aryValues.Add(strCustomerNumber)
+        aryValues.Add(datSystemDate)
+        RunProcedureAnyParam("usp_bill_get_by_customernumber", BillDataset, mMyView, "tblBill", aryNames, aryValues)
+    End Sub
+
+    Public Sub GetBillByPayeeID(strCustomerNumber As String, datSystemDate As Date, strPayeeID As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@customernumber")
+        aryNames.Add("@systemdate")
+        aryNames.Add("@payeeID")
+        aryValues.Add(strCustomerNumber)
+        aryValues.Add(datSystemDate)
+        aryValues.Add(strPayeeID)
+        RunProcedureAnyParam("usp_bill_get_billID_by_payeeID", BillDataset2, mMyView2, "tblBill", aryNames, aryValues)
     End Sub
 
 End Class
