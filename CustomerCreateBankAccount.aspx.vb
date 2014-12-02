@@ -5,6 +5,8 @@
     Dim Valid As New ClassValidate
     Dim DBCustomer As New ClassDBCustomer
     Dim DBDate As New ClassDBDate
+    Dim DBTransactions As New ClassDBTransactions
+    Dim DBAccounts As New ClassDBAccounts
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         txtAccountName.Visible = True
@@ -93,6 +95,15 @@
         End If
     End Sub
 
+    Public Sub GetTransactionNumber()
+        DBTransactions.GetMaxTransactionNumber()
+        If DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber") Is DBNull.Value Then
+            Session("TransactionNumber") = 1
+        Else
+            Session("TransactionNumber") = CInt(DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
+        End If
+    End Sub
+
     Protected Sub btnSaveProfile_Click(sender As Object, e As EventArgs) Handles btnApply.Click
         If Not IsValid Then
             Exit Sub
@@ -151,7 +162,17 @@
         If Session("AccountType") = "Stock" Then
             DB.AddAccountStock(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), Session("ManagerApprovedStock").ToString)
         End If
+        DBDate.GetDate()
+        Dim strDate As String = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
+        Dim strDescription As String = "Deposited " & txtInitialDeposit.Text & " to account " & txtAccountNumber.Text & " on " & strDate & " while opening the account"
 
+        If Session("AccountType") = "IRA" Then
+            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), "", "True")
+            DBAccounts.UpdateIRATotalDeposit(CInt(txtAccountNumber.Text), CDec(txtInitialDeposit.Text))
+        Else
+            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), "", "False")
+        End If
+        
         'clear form once application is submitted and show message to customer. or redirect after lag????
         lblError.Text = "Application Submitted"
         Response.AddHeader("Refresh", "2; URL= CustomerHome.aspx")
