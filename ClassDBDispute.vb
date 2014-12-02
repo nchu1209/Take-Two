@@ -127,4 +127,8 @@ Public Class ClassDBDispute
     Public Sub GetMaxDisputeNumber()
         RunProcedureNoParam("usp_dispute_get_max_dispute_number")
     End Sub
+
+    Public Sub GetDisputeByTransactionNumber(strTransactionNumber As String)
+        RunProcedureOneParameter("usp_disputes_get_by_transaction_number", "@TransactionNumber", strTransactionNumber)
+    End Sub
 End Class

@@ -19,10 +19,12 @@
            <br />
            Date:
            <br />
+           Dispute Status:
+           <br />
            Employee Comments: <br />
            
         </div>
-        <div id ="textbox">
+        <div id ="label3">
             <asp:Label ID="lblDescription" runat="server"></asp:Label>
             <br />
              <asp:Label ID="lblTransactionType" runat="server"></asp:Label>
@@ -32,6 +34,8 @@
             <asp:Label ID="lblTransactionNumber" runat="server"></asp:Label>
             <br />
             <asp:Label ID="lblTransactionDate" runat="server"></asp:Label>
+            <br />
+            <asp:Label ID="lblDisputeStatus" runat="server"></asp:Label>
             <br />
             <asp:Label ID="lblEmployeeComments" runat="server"></asp:Label>
             <br />
@@ -53,6 +57,8 @@
        <div id ="footer">
            Would you like to dispute the selected transaction? 
            <asp:Button ID="btnCreateDispute" runat="server" Text="Create Dispute" CausesValidation="False" />
+           <br />
+           <asp:Label ID="lblAlreadySubmitted" runat="server"></asp:Label>
        </div>
        <asp:Panel ID="Panel1" runat="server">
        <div id ="label2">

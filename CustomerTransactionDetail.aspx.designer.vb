@@ -95,6 +95,15 @@ Partial Public Class CustomerTransactionDetail
     Protected WithEvents lblTransactionDate As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''lblDisputeStatus control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblDisputeStatus As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''lblEmployeeComments control.
     '''</summary>
     '''<remarks>
@@ -120,6 +129,15 @@ Partial Public Class CustomerTransactionDetail
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnCreateDispute As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lblAlreadySubmitted control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblAlreadySubmitted As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''Panel1 control.

@@ -18,6 +18,17 @@ Public Class CustomerTransactionDetail
             lblTransactionDate.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Date").ToString
             lblTransactionNumber.Text = Session("TransactionID").ToString
 
+            DBDispute.GetDisputeByTransactionNumber(Session("TransactionID").ToString)
+            If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
+                lblEmployeeComments.Text = ""
+                lblDisputeStatus.Text = "You have not submitted a dispute for this transaction"
+            Else
+                lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
+                lblDisputeStatus.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("Status").ToString
+                btnCreateDispute.Enabled = False
+                lblAlreadySubmitted.Text = "You have already submitted a dispute for this transaction, and cannot submit another dispute"
+            End If
+
             'bind the gridview to the dataview
             DBTransactions.GetFiveSimilarByAccount(Session("AccountNumber").ToString, lblTransactionType.Text)
             gvSimilar.DataSource = DBTransactions.MyView2
