@@ -193,8 +193,24 @@ Public Class ClassDBTransactions
         MyView.Sort = "[Transaction Number], [Transaction Type], Description, Amount, Date"
     End Sub
 
+    Public Sub DoDateSort()
+        MyView.Sort = "Date, [Transaction Number]"
+    End Sub
+
     Public Sub GetAllTransactions(strAccountNumber As String)
         RunProcedureOneParameter("usp_transactions_get_all", "@AccountNumber", strAccountNumber)
+    End Sub
+
+    Public Sub GetDetails(strTransactionNumber As String)
+        RunProcedureOneParameter("usp_transactions_get_details_by_transaction_number", "@transactionnumber", strTransactionNumber)
+    End Sub
+
+    Public Sub TransactionsByAccount(strAccountNumber As String)
+        RunProcedureOneParameter2("usp_transactions_get_by_account_number", "@accountnumber", strAccountNumber)
+    End Sub
+    'right now this is pulling from tbltransactions as a whole. want to limit the data set to just this account.
+    Public Sub GetFiveSimilar(strTransactionType As String)
+        RunProcedureOneParameter2("usp_transactions_get_five_similar", "@transactiontype", strTransactionType)
     End Sub
 
     Public Sub Go(strIn1 As String, strIn2 As String, strIn3 As String, strIn4 As String, strIn5 As String)

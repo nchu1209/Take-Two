@@ -11,5 +11,14 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerTransactionDetail
+Partial Public Class CustomerViewDisputes
+
+    '''<summary>
+    '''gvDisputes control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gvDisputes As Global.System.Web.UI.WebControls.GridView
 End Class

@@ -258,6 +258,6 @@
 
     Protected Sub gvTransactionSearch_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvTransactionSearch.SelectedIndexChanged
         Session("TransactionID") = gvTransactionSearch.SelectedRow.Cells(1).Text
-        Response.Redirect("CustomerAccountDetails.aspx")
+        Response.Redirect("CustomerTransactionDetail.aspx")
     End Sub
 End Class

@@ -49,7 +49,7 @@
 
     Public Sub GetTransactionNumber()
         DBTransactions.GetMaxTransactionNumber()
-        If DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows.Count = 0 Then
+        If DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber") Is DBNull.Value Then
             Session("TransactionNumber") = 1
         Else
             Session("TransactionNumber") = CInt(DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
@@ -127,13 +127,13 @@
 
         DBAccounts.GetAccountTypeByAccountNumber(ddlDeposit.SelectedValue.ToString)
         Dim strIRA As String
-        If DBAccounts.AccountsDataset3.Tables("tblAccounts").Rows(0).Item("AccountType") = "IRA" Then
+        If DBAccounts.AccountsDataset9.Tables("tblAccounts").Rows(0).Item("AccountType") = "IRA" Then
             strIRA = "True"
         Else
             strIRA = "False"
         End If
 
-        If DBAccounts.AccountsDataset3.Tables("tblAccounts").Rows(0).Item("AccountType") = "IRA" Then
+        If DBAccounts.AccountsDataset9.Tables("tblAccounts").Rows(0).Item("AccountType") = "IRA" Then
             Dim decIRATotal As Decimal
             DBAccounts.GetIRATotalDepositByAccountNumber(ddlDeposit.SelectedValue.ToString)
             decIRATotal = CDec(DBAccounts.AccountsDataset8.Tables("tblAccounts").Rows(0).Item("IRATotalDeposit"))

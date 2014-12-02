@@ -17,7 +17,9 @@
            <br />
            <asp:Label ID="Label11" runat="server" Text="Transaction Number:"></asp:Label>
            <br />
-           Employee Comments<br />
+           Date:
+           <br />
+           Employee Comments: <br />
            
         </div>
         <div id ="textbox">
@@ -29,6 +31,8 @@
             <br />
             <asp:Label ID="lblTransactionNumber" runat="server"></asp:Label>
             <br />
+            <asp:Label ID="lblTransactionDate" runat="server"></asp:Label>
+            <br />
             <asp:Label ID="lblEmployeeComments" runat="server"></asp:Label>
             <br />
         </div>
@@ -36,28 +40,41 @@
     <div id="center">
         <div id="subtitle">Similar Transactions</div>
         <asp:GridView ID="gvSimilar" runat="server"></asp:GridView>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
     </div>
      <div id ="center">
        <div id ="subtitle">Create Dispute</div>
+       <div id ="footer">
+           Would you like to dispute the selected transaction? 
+           <asp:Button ID="btnCreateDispute" runat="server" Text="Create Dispute" CausesValidation="False" />
+       </div>
+       <asp:Panel ID="Panel1" runat="server">
        <div id ="label2">
-           <asp:Label ID="Label3" runat="server" Text="Description:"></asp:Label>
+           Comments:
            <br />
-           <asp:Label ID="Label4" runat="server" Text="Transaction Type:"></asp:Label>
+           Correct Transaction Amount:
            <br />
-           <asp:Label ID="Label5" runat="server" Text="Amount:"></asp:Label>
-           <br />
-           <asp:Label ID="Label6" runat="server" Text="Transaction Number:"></asp:Label>
+           Apply to Delete Transaction?
            <br />
            
         </div>
         <div id ="textbox">
-            <asp:TextBox ID="TextBox1" runat="server" ReadOnly="True"></asp:TextBox>
+            <asp:TextBox ID="txtDisputeComments" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ClientIDMode="Static" ControlToValidate="txtDisputeComments" ErrorMessage="ERROR: Comments required">*</asp:RequiredFieldValidator>
             <br />
-             <asp:TextBox ID="TextBox2" runat="server" ReadOnly="True"></asp:TextBox>
+             <asp:TextBox ID="txtDisputeAmount" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ClientIDMode="Static" ControlToValidate="txtDisputeAmount" ErrorMessage="ERROR: Corrected Amount required">*</asp:RequiredFieldValidator>
             <br />
-             <asp:TextBox ID="TextBox3" runat="server" ReadOnly="True"></asp:TextBox>
+             <asp:CheckBoxList ID="cblDeleteTransaction" runat="server">
+                 <asp:ListItem>Yes</asp:ListItem>
+                 <asp:ListItem>No</asp:ListItem>
+            </asp:CheckBoxList>
             <br />
-            <asp:TextBox ID="TextBox4" runat="server" ReadOnly="True"></asp:TextBox>
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit Dispute" />
+            <br />
+            <asp:Label ID="lblError" runat="server"></asp:Label>
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
         </div>
+        </asp:Panel>
       </div>
 </asp:Content>
