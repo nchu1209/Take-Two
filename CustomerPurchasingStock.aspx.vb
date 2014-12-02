@@ -61,27 +61,35 @@
 
 
     Protected Sub btnPurchaseStocks_Click(sender As Object, e As EventArgs) Handles btnPurchaseStocks.Click
+        Dim strDescriptiveMessage As String
+        strDescriptiveMessage = ""
+
         'Start of loop to validate and add to db
         For i = 0 To gvPurchaseStocks.Rows.Count - 1
 
             'find the quantity
-            Dim t As TextBox = DirectCast(gvPurchaseStocks.Rows(i).Cells(6).FindControl("txtQuantity"), TextBox)
+            Dim t As TextBox = DirectCast(gvPurchaseStocks.Rows(i).Cells(5).FindControl("txtQuantity"), TextBox)
 
             'Making sure the number is valid
             If t.Text <> "" Then
                 If Not (Valid.CheckDigits(t.Text)) Then
                     lblErrorTransfer.Text = "ERROR: You did not enter a whole interger value when trying to purchase one or more stocks."
                     Exit Sub
+
+                Else
+                   
+                    'ADD TO THE DB
+                    If t.Text >= 1 Then
+
+                        strDescriptiveMessage = strDescriptiveMessage.ToString + t.Text & "<br/>"
+                        lblErrorTransfer.Text = strDescriptiveMessage
+                    End If
                 End If
 
-            End If
-
-
-
-            'ADD TO THE DB
-            If t.Text >= 1 Then
 
             End If
+
+
         Next
 
 
