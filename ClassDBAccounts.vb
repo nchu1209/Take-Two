@@ -516,36 +516,14 @@ Public Class ClassDBAccounts
 
 
 
-    Public Sub AddAccountChecking(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer)
+    Public Sub AddAccountChecking(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer, decAvailableBalance As Decimal)
         'Purpose: adds a customer to database
         'Arguments: 11 strings
         'Returns: nothing
         'Author: Nicole Chu (nc7997)
         'Date: 9/24/2014
 
-        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance) VALUES (" & _
-            "'" & intCustomerID & "', " & _
-            "'" & intAccountNumber & "', " & _
-            "'" & strAccountName & "', " & _
-            "'" & strAccountType & "', " & _
-            "'" & strActive & "', " & _
-            "'" & strManagerApprovedDeposit & "', " & _
-            "'" & intInitial & "', " & _
-            "'" & intBalance & "')"
-
-        'use UpdateDB sub to update database
-        UpdateDB(mstrQuery)
-
-    End Sub
-
-    Public Sub AddAccountIRA(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer, ByVal intIRATotal As Integer)
-        'Purpose: adds a customer to database
-        'Arguments: 11 strings
-        'Returns: nothing
-        'Author: Nicole Chu (nc7997)
-        'Date: 9/24/2014
-
-        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance, IRATotalDeposit) VALUES (" & _
+        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance, AvailableBalance) VALUES (" & _
             "'" & intCustomerID & "', " & _
             "'" & intAccountNumber & "', " & _
             "'" & strAccountName & "', " & _
@@ -554,14 +532,38 @@ Public Class ClassDBAccounts
             "'" & strManagerApprovedDeposit & "', " & _
             "'" & intInitial & "', " & _
             "'" & intBalance & "', " & _
-            "'" & intIRATotal & "')"
+            "'" & decAvailableBalance & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
 
     End Sub
 
-    Public Sub AddAccountStock(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer, ByVal strManagerApprovedStockAccount As String)
+    Public Sub AddAccountIRA(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer, ByVal intIRATotal As Integer, decAvailableBalance As Decimal)
+        'Purpose: adds a customer to database
+        'Arguments: 11 strings
+        'Returns: nothing
+        'Author: Nicole Chu (nc7997)
+        'Date: 9/24/2014
+
+        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance, IRATotalDeposit, AvailableBalance) VALUES (" & _
+            "'" & intCustomerID & "', " & _
+            "'" & intAccountNumber & "', " & _
+            "'" & strAccountName & "', " & _
+            "'" & strAccountType & "', " & _
+            "'" & strActive & "', " & _
+            "'" & strManagerApprovedDeposit & "', " & _
+            "'" & intInitial & "', " & _
+            "'" & intBalance & "', " & _
+            "'" & intIRATotal & "', " & _
+            "'" & decAvailableBalance & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub AddAccountStock(intCustomerID As Integer, ByVal intAccountNumber As Integer, ByVal strAccountName As String, ByVal strAccountType As String, ByVal strActive As String, ByVal strManagerApprovedDeposit As String, ByVal intInitial As Integer, ByVal intBalance As Integer, ByVal strManagerApprovedStockAccount As String, decAvailableBalance As Decimal)
         'Purpose: adds a customer to database
         'Arguments: 11 strings
         'Returns: nothing
@@ -577,7 +579,8 @@ Public Class ClassDBAccounts
             "'" & strManagerApprovedDeposit & "', " & _
             "'" & intInitial & "', " & _
             "'" & intBalance & "', " & _
-            "'" & strManagerApprovedStockAccount & "')"
+            "'" & strManagerApprovedStockAccount & "', " & _
+            "'" & decAvailableBalance & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
