@@ -13,6 +13,7 @@
     Dim mdecTotalPending As Decimal
     Dim mdecTotalWithdrawal As Decimal
     Dim mdecBalance As Decimal
+    Dim mdecAvailableBalance As Decimal
 
     Const OVERDRAFT_MAXIMUM As Decimal = 50D
     Const OVERDRAFT_FEE As Decimal = 30D
@@ -97,9 +98,10 @@
         'validate selected account balance >= 0
         dbact.GetBalanceByAccountNumber(ddlAccount.SelectedValue.ToString)
         mdecBalance = CDec(dbact.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance"))
+        mdecAvailableBalance = CDec(dbact.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
 
-        If mdecBalance < 0 Then
-            lblMessageTotal.Text = "Please select a checking or savings account with a positive balance."
+        If mdecAvailableBalance < 0 Then
+            lblMessageTotal.Text = "Please select a checking or savings account with a positive available balance."
             Exit Sub
         End If
 
@@ -206,6 +208,7 @@
     Protected Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
         dbact.GetBalanceByAccountNumber(ddlAccount.SelectedValue.ToString)
         mdecBalance = CDec(dbact.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance"))
+        mdecAvailableBalance = CDec(dbact.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
 
         'pay bills - now and pending
         For i = 0 To gvMyPayees.Rows.Count - 1
@@ -222,18 +225,22 @@
                 If k.Text = "" Then
                     mdecBalance = mdecBalance - CDec(t.Text)
                     dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+                    mdecAvailableBalance = mdecAvailableBalance - CDec(t.Text)
+                    dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
 
                     Dim strPaymentMessage As String
                     strPaymentMessage = "Sent payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, "NULL", "False")
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, "NULL", "False", mdecAvailableBalance)
                 End If
 
                 'eBill Payments
                 If k.Text <> "" Then
                     mdecBalance = mdecBalance - CDec(t.Text)
                     dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+                    mdecAvailableBalance = mdecAvailableBalance - CDec(t.Text)
+                    dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
 
                     Dim datToday As Date
                     dbdate.GetDate()
@@ -247,7 +254,8 @@
                     strPaymentMessage = "Sent eBill payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID.ToString, "False")
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID.ToString, "False", mdecAvailableBalance)
+
                     'update bills table
                     
                     Dim decAmountPaid As Decimal
@@ -277,15 +285,21 @@
             If dbdate.CheckSelectedDate(c.SelectedDate) = 1 And t.Text <> "" Then
                 'non eBill
                 If k.Text = "" Then
+                    mdecAvailableBalance = mdecAvailableBalance - CDec(t.Text)
+                    dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
+
                     Dim strPendingMessage As String
                     strPendingMessage = "Send payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update pending transactions table
-                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, "NULL", "False")
+                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, "NULL", "False", mdecAvailableBalance)
                 End If
 
                 'eBills
                 If k.Text <> "" Then
+
+                    mdecAvailableBalance = mdecAvailableBalance - CDec(t.Text)
+                    dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
 
                     Dim datToday As Date
                     dbdate.GetDate()
@@ -298,7 +312,7 @@
                     GetTransactionNumber()
                     Dim strPendingMessage = "Send payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     'update pending transactions table
-                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, intBillID.ToString, "False")
+                    dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPendingMessage, intBillID.ToString, "False", mdecAvailableBalance)
                 End If
 
             End If
@@ -312,12 +326,14 @@
 
             mdecBalance = mdecBalance - OVERDRAFT_FEE
             dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+            mdecAvailableBalance = mdecAvailableBalance - OVERDRAFT_FEE
+            dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
 
             Dim strFeeMessage As String
             strFeeMessage = "Overdraft fee of " & OVERDRAFT_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & datDate.ToString
             GetTransactionNumber()
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, "NULL", "False")
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, "NULL", "False", mdecAvailableBalance)
         End If
 
         'late fee if necessary
@@ -331,11 +347,13 @@
                 If c.SelectedDate > CDate(d.Text) And CDec(r.Text) = CDec(k.Text) Then
                     mdecBalance = mdecBalance - LATE_FEE
                     dbact.UpdateBalance(CInt(ddlAccount.SelectedValue), mdecBalance)
+                    mdecAvailableBalance = mdecAvailableBalance - LATE_FEE
+                    dbact.UpdateAvailableBalance(CInt(ddlAccount.SelectedValue), mdecAvailableBalance)
 
                     Dim strFeeMessage As String = "Late fee of " & LATE_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, "NULL", "False")
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, "NULL", "False", mdecAvailableBalance)
                 End If
             End If
         Next
