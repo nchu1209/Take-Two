@@ -37,6 +37,7 @@
                 <asp:ListItem>Transfer</asp:ListItem>
                 <asp:ListItem>Payment</asp:ListItem>
                 <asp:ListItem>Fee</asp:ListItem>
+                <asp:ListItem>eBill Payment</asp:ListItem>
             </asp:DropDownList>
             <br />
         </div>
