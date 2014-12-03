@@ -135,10 +135,19 @@ Public Class ClassDBDisputeManager
 
     End Sub
 
-    Public Sub ModifyStatusResolved(strDisputeID As String)
+    Public Sub ModifyStatusResolved(strStatus As String, strDisputeID As String)
         'the strquery that will be modified
-        mstrQuery = "UPDATE tblDispute SET Status= 'Resolved'" & _
-            " where DisputeID = " & strDisputeID
+        mstrQuery = "UPDATE tblDispute SET Status= '" & strStatus & _
+            "' where DisputeID = " & strDisputeID
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+    Public Sub ModifyManagerComment(strComment As String, strDisputeID As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblDispute SET ManagerComment= '" & strComment & _
+            "' where DisputeID = " & strDisputeID
 
         'updates the db
         UpdateDB(mstrQuery)

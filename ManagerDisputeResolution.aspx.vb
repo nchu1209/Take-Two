@@ -63,20 +63,15 @@ Public Class ManagerDisputeResolution
 
         If ddlAction.SelectedIndex = 1 Then
             DBDisputes.ModifyDisputeAmount(txtClaim.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
-            DBDisputes.ModifyStatusResolved(txtDisputeNumber.Text)
+            DBDisputes.ModifyStatusResolved("Accepted", txtDisputeNumber.Text)
             lblError.Text = "The transaction amount has been updated."
-            Response.AddHeader("Refresh", "2; URL=ManagerReviewDispute.aspx")
-
-            Exit Sub
-
+            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
         End If
 
         If ddlAction.SelectedIndex = 2 Then
-            DBDisputes.ModifyStatusResolved(txtDisputeNumber.Text)
+            DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
             lblError.Text = "The request has been rejected."
-            Response.AddHeader("Refresh", "2; URL=ManagerReviewDispute.aspx")
-
-            Exit Sub
+            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
         End If
 
         If ddlAction.SelectedIndex = 3 Then
@@ -85,11 +80,13 @@ Public Class ManagerDisputeResolution
                 Exit Sub
             End If
             DBDisputes.ModifyDisputeAmount(txtAdjusted.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
-            DBDisputes.ModifyStatusResolved(txtDisputeNumber.Text)
+            DBDisputes.ModifyStatusResolved("Adjusted", txtDisputeNumber.Text)
             lblError.Text = "The transaction amount has been updated."
-            Response.AddHeader("Refresh", "2; URL=ManagerReviewDispute.aspx")
+            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
+        End If
 
-            Exit Sub
+        If txtComment.Text <> "" Then
+            DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
         End If
     End Sub
 End Class
