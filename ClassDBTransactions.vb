@@ -193,7 +193,7 @@ Public Class ClassDBTransactions
         RunProcedureNoParam("usp_transactions_get_max_transaction_number")
     End Sub
 
-    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, strBillID As String, strIRA As String, decAvailableBalance As Decimal)
+    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal)
 
         mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance) VALUES (" & _
             "'" & intTransactionNumber & "', " & _
@@ -203,7 +203,7 @@ Public Class ClassDBTransactions
             "'" & decTransactionAmount & "', " & _
             "'" & strDescription & "', " & _
             "'" & decAccountBalance & "', " & _
-            "'" & strBillID & "', " & _
+            "'" & intBillID & "', " & _
             "'" & strIRA & "', " & _
             "'" & decAvailableBalance & "')"
 

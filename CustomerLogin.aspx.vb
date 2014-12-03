@@ -44,8 +44,8 @@
         Session("CustomerFirstName") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName")
         Session("CustomerNumber") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("CustomerNumber")
 
-        DBAccounts.GetApprovedStatus(Session("CustomerNumber"))
-        Session("CustomerManagerApprovedStockAccount") = DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("CustomerID")
+        'DBAccounts.GetApprovedStatus(Session("CustomerNumber"))
+        'Session("CustomerManagerApprovedStockAccount") = DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("CustomerID")
         Response.Redirect("CustomerHome.aspx")
 
     End Sub

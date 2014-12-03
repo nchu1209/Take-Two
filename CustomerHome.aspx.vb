@@ -65,10 +65,5 @@ Public Class CustomerHome
 
     End Sub
 
-    Protected Sub gvAccounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvAccounts.SelectedIndexChanged
-        Session("AccountNumber") = gvAccounts.SelectedRow.Cells(0).Text
 
-        'call the next webpage
-        ' Response.Redirect("ManageCustomers.aspx")
-    End Sub
 End Class

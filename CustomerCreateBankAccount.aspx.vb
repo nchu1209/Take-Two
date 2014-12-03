@@ -24,13 +24,13 @@
 
         'find the maximum existing account number in the database, and add one to create the new account's number
         DB.GetMaxAccountNumber()
-        If DB.AccountsDataset.Tables("tblAccounts").Rows.Count = 0 Then
-            Session("AccountNumber") = 999999999
+        If DB.AccountsDataset.Tables("tblAccounts").Rows(0).Item("MaxAccountNumber") Is DBNull.Value Then
+            Session("AccountNumber") = 1000000000
         Else
-            Session("AccountNumber") = DB.AccountsDataset.Tables("tblAccounts").Rows(0).Item("MaxAccountNumber")
+            Session("AccountNumber") = DB.AccountsDataset.Tables("tblAccounts").Rows(0).Item("MaxAccountNumber") + 1
         End If
 
-        txtAccountNumber.Text = (CInt(Session("AccountNumber")) + 1).ToString
+        txtAccountNumber.Text = Session("AccountNumber").ToString
 
         'set the name of the bank account; use defaults for checking and savings; user may change if desired
         'set account type

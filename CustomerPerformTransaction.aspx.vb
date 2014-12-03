@@ -166,9 +166,9 @@
             decAvailableBalance += CDec(txtDepositAmount.Text)
             DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, "NULL", strIRA, decAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance)
         Else
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, "NULL", strIRA)
+            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA)
         End If
 
         lblErrorDeposit.Text = "Deposit Confirmed"
@@ -210,9 +210,9 @@
             DBAccounts.UpdateBalance(CInt(ddlWithdrawal.SelectedValue), decBalance)
             DBAccounts.UpdateAvailableBalance(CInt(ddlWithdrawal.SelectedValue), decAvailableBalance)
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, decBalance, "NULL", "NA", decAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, decBalance, Nothing, "", decAvailableBalance)
         Else
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, "NULL", "NA")
+            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, Nothing, "")
             DBAccounts.UpdateAvailableBalance(CInt(ddlWithdrawal.SelectedValue), decAvailableBalance)
         End If
 
@@ -353,24 +353,24 @@
             DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance)
 
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferFromBalance, "NULL", strIRAFrom, decTransferFromAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferFromBalance, Nothing, strIRAFrom, decTransferFromAvailableBalance)
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferToBalance, "NULL", strIRATo, decTransferToAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferToBalance, Nothing, strIRATo, decTransferToAvailableBalance)
             'update the transactions table with fees if making an unqualified distribution from an IRA account
 
 
             If Session("UnqualifiedDistributionFee") = "Add Fee" Or Session("UnqualifiedDistributionFee") = "Include Fee" Then
-                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", decIRAFeeBalance, "", "", Nothing)
+                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", decIRAFeeBalance, Nothing, "", Nothing)
                 DBAccounts.UpdateBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromBalance - 30)
                 DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance - 30)
                 Session("UnqualifiedDistributionFee") = Nothing
             End If
         Else
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer From", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, "", strIRAFrom)
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer To", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, "", strIRATo)
+            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer From", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, Nothing, strIRAFrom)
+            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer To", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, Nothing, strIRATo)
             DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance)
             If Session("UnqualifiedDistributionFee") = "Add Fee" Or Session("UnqualifiedDistributionFee") = "Include Fee" Then
-                DBPending.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", "", "")
+                DBPending.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", Nothing, "")
                 DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance - 30)
                 Session("UnqualifiedDistributionFee") = Nothing
             End If

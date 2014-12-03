@@ -31,20 +31,26 @@
         <asp:GridView ID="gvAccounts" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" AllowPaging="True" AllowSorting="True" CellPadding="4" ForeColor="#333333" GridLines="None" HorizontalAlign="Center">
             <AlternatingRowStyle BackColor="White" />
             <Columns>
-                <asp:BoundField DataField="Account Number" HeaderText="Account Number" ReadOnly="True" SortExpression="Account Number">
-                <HeaderStyle Width="150px" HorizontalAlign="Left" />
-                <ItemStyle HorizontalAlign="Center" />
-                </asp:BoundField>
-                <asp:HyperLinkField HeaderText="Account Name" SortExpression="AccountName" DataNavigateUrlFields="AccountNumber" DataNavigateUrlFormatString="CustomerTransactionSearch.aspx" DataTextField="AccountName">
-                    <%--<EditItemTemplate>--%>
-                  <%--      <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("AccountName") %>'></asp:TextBox>
+                <asp:TemplateField HeaderText="Account Number" SortExpression="Account Number">
+                    <EditItemTemplate>
+                        <asp:Label ID="lblAccountNumber" runat="server" Text='<%# Eval("[Account Number]") %>'></asp:Label>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        <asp:Label ID="Label1" runat="server" Text='<%# Bind("AccountName") %>'></asp:Label>
-                    </ItemTemplate>--%>
+                        <asp:Label ID="lblAccountNumber" runat="server" Text='<%# Bind("[Account Number]") %>'></asp:Label>
+                    </ItemTemplate>
+                    <HeaderStyle HorizontalAlign="Left" Width="150px" />
+                    <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Account Name" SortExpression="AccountName">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="lnkName" runat="server" Text='<%# Bind("PayeeName") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:hyperlink ID="lnkName" runat="server" NavigateUrl='<%# "CustomerTransactionSearch.aspx?ID=" & Eval("AccountNumber")%>' Text='<%# Bind("AccountName")%>'></asp:hyperlink>
+                    </ItemTemplate>
                     <HeaderStyle HorizontalAlign="Center" Width="150px" />
                     <ItemStyle HorizontalAlign="Center" />
-                </asp:HyperLinkField>
+                </asp:TemplateField>
                 <asp:BoundField DataField="AccountType" HeaderText="Account Type" SortExpression="AccountType" >
                 <HeaderStyle Width="150px" HorizontalAlign="Center" />
                 <ItemStyle HorizontalAlign="Center" />

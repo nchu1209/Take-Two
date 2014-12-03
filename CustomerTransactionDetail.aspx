@@ -40,6 +40,7 @@
             <asp:Label ID="lblEmployeeComments" runat="server"></asp:Label>
             <br />
             <br />
+            <asp:Button ID="btnReturn" runat="server" Text="Return to Transaction Search" />
             <br />
             <br />
         </div>
