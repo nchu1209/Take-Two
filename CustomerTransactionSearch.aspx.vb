@@ -61,8 +61,8 @@
         Dim strDescriptionPartialCode2 As String
         Dim strDescriptionKeywordCode1 As String
         Dim strDescriptionKeywordCode2 As String
-        strDescriptionPartialCode1 = "Description like '%"
-        strDescriptionPartialCode2 = "'"
+        strDescriptionPartialCode1 = "Description like '"
+        strDescriptionPartialCode2 = "%'"
         strDescriptionKeywordCode1 = "Description like '%"
         strDescriptionKeywordCode2 = "%'"
 
