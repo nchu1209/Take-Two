@@ -13,6 +13,7 @@
     Dim mdecBillAmount As Decimal
     Dim mdecPayment As Decimal
     Dim mdecAmountRemaining As Decimal
+    Dim mdecAvailableBalance As Decimal
 
     Const OVERDRAFT_MAXIMUM As Decimal = 50D
     Const OVERDRAFT_FEE As Decimal = 30D
