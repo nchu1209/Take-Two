@@ -119,6 +119,8 @@
         <br />
             <div id ="subtitle">Set Up Minimum Payments<br />
             </div>
+            <asp:Panel ID="pnlSetup" runat="server">
+            Once you set up minimum payments, we will automatically allocate your chosen amount to pay your bills each month, starting with the date you select.<br />
             <br />
             Select Amount or Enter Custom Amount: <asp:RadioButtonList ID="radAmount" runat="server">
                 <asp:ListItem Value="20.00">$20.00</asp:ListItem>
@@ -132,7 +134,22 @@
             <asp:TextBox ID="txtCustomAmount" runat="server"></asp:TextBox>
             <br />
             <br />
+                Start Payments on:<br />
+                <asp:Calendar ID="calMinimum" runat="server"></asp:Calendar>
+                <br />
             <asp:Button ID="btnTest" runat="server" Text="Test" />
+                <br />
+                <br />
+                <asp:Button ID="btnSetup" runat="server" Text="Set Up Payments" />
+                <br />
+                <br />
+                <asp:Label ID="lblMinimumMessage" runat="server" Text="[]"></asp:Label>
+                <br />
+            <br />
+            </asp:Panel>
+            <asp:Panel ID="pnlViewPayment" runat="server">
+                <br />Thank you for enrolling in our minimum payments program. We will allocate <asp:Label ID="lblMinimumPayment" runat="server" Text="#"></asp:Label> to your eBills every month.
+            </asp:Panel>
             <br />
     </div>
 

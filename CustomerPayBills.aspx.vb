@@ -72,6 +72,17 @@
             mdecTotalToday = 0
             mdecTotalPending = 0
 
+            dbbill.GetMinimumPayment(Session("CustomerNumber"))
+            If dbbill.BillDataset3.Tables("tblBill").Rows.Count <> 0 Then
+                pnlSetup.Visible = False
+                pnlViewPayment.Visible = True
+                Dim decMinimumAmount As Decimal = dbbill.BillDataset3.Tables("tblBill").Rows(0).Item("MinimumAmount")
+                lblMinimumPayment.Text = decMinimumAmount.ToString("c2")
+            Else
+                pnlSetup.Visible = True
+                pnlViewPayment.Visible = False
+            End If
+
         End If
 
         lblMessageTotal.Text = ""
@@ -370,5 +381,46 @@
 
         'plan: figure out # months between selected date and current date + 1, if < 1 don't do anything
         'take total months * minimum payment, then run the loop to distribute payment among bills
+    End Sub
+
+    Protected Sub btnSetup_Click(sender As Object, e As EventArgs) Handles btnSetup.Click
+        'validations
+        If radAmount.SelectedIndex = Nothing Then
+            lblMinimumMessage.Text = "Please select a preset amount or 'Custom Amount.'"
+            Exit Sub
+        End If
+
+        If radAmount.SelectedValue = "Custom" And txtCustomAmount.Text = "" Then
+            lblMinimumMessage.Text = "Please enter a custom amount in the textbox provided."
+            Exit Sub
+        End If
+
+        If txtCustomAmount.Text <> "" Then
+            If valid.CheckDecimal(txtCustomAmount.Text) = -1 Or valid.CheckDecimal(txtCustomAmount.Text) = 0 Then
+                lblMinimumMessage.Text = "Please enter a valid custom amount."
+                Exit Sub
+            End If
+        End If
+
+        If calMinimum.SelectedDate = Nothing Then
+            lblMinimumMessage.Text = "Please select a date to begin your monthly payments."
+            Exit Sub
+        End If
+
+        If dbdate.CheckSelectedDate(calMinimum.SelectedDate) = -1 Then
+            lblMinimumMessage.Text = "Please do not select a date prior to today."
+            Exit Sub
+        End If
+
+        'add to table
+        Dim decAmount As Decimal
+        If radAmount.SelectedValue <> "Custom" Then
+            decAmount = CDec(radAmount.SelectedValue)
+        Else
+            decAmount = CDec(txtCustomAmount.Text)
+        End If
+        dbbill.SetUpMinimumPayment(Session("CustomerNumber"), decAmount, calMinimum.SelectedDate)
+
+        lblMinimumMessage.Text = "You have successfully set up minimum payments."
     End Sub
 End Class

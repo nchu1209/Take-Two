@@ -11,185 +11,185 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerPayBills
+Partial Public Class ManagerTransactionSearch2
 
     '''<summary>
-    '''Label4 control.
+    '''TransactionSearch control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Label4 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents TransactionSearch As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''ddlAccount control.
+    '''lblTest control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ddlAccount As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents lblTest As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''gvMyPayees control.
+    '''lblAccountNumber control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents gvMyPayees As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents lblAccountNumber As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''SqlDataSource1 control.
+    '''txtDescriptionSearch control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents SqlDataSource1 As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents txtDescriptionSearch As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''btnPay control.
+    '''rblDescription control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnPay As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents rblDescription As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''lblMessageTotal control.
+    '''ddlSearchByTransactionType control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMessageTotal As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents ddlSearchByTransactionType As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''lblMessageFee control.
+    '''rblPrice control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMessageFee As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents rblPrice As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''lblMessageFee2 control.
+    '''txtSearchByOtherPriceMin control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMessageFee2 As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents txtSearchByOtherPriceMin As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''btnConfirm control.
+    '''txtSearchByOtherPriceMax control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnConfirm As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtSearchByOtherPriceMax As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''btnAbort control.
+    '''txtSearchByTransactionNumber control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnAbort As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents txtSearchByTransactionNumber As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''lblMessageSuccess control.
+    '''rblDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMessageSuccess As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents rblDate As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''pnlSetup control.
+    '''txtCustomDateMin control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlSetup As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents txtCustomDateMin As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''radAmount control.
+    '''txtCustomDateMax control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents radAmount As Global.System.Web.UI.WebControls.RadioButtonList
+    Protected WithEvents txtCustomDateMax As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''txtCustomAmount control.
+    '''cblParameters control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCustomAmount As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents cblParameters As Global.System.Web.UI.WebControls.CheckBoxList
 
     '''<summary>
-    '''calMinimum control.
+    '''RadioButtonList1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents calMinimum As Global.System.Web.UI.WebControls.Calendar
+    Protected WithEvents RadioButtonList1 As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''btnTest control.
+    '''btnSearch control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnTest As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnSearch As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''btnSetup control.
+    '''btnClear control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnSetup As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnClear As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''lblMinimumMessage control.
+    '''lblNumberOfTransactions control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMinimumMessage As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents lblNumberOfTransactions As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''pnlViewPayment control.
+    '''lblError control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents pnlViewPayment As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents lblError As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''lblMinimumPayment control.
+    '''gvTransactionSearch control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMinimumPayment As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents gvTransactionSearch As Global.System.Web.UI.WebControls.GridView
 End Class
