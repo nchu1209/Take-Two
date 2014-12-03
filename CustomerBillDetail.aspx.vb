@@ -188,7 +188,7 @@
             strPendingMessage = "Sent eBill payment of " & txtAmount.Text & " to " & txtPayeeName.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & calDate.SelectedDate.ToString
             GetTransactionNumber()
             'update pending transactions table
-            dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPendingMessage, lblBillID.Text, "False", mdecAvailableBalance)
+            dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPendingMessage, lblBillID.Text, "False")
         End If
 
         'overdraft fee if necessary

@@ -31,6 +31,7 @@
         Dim strDescription As String
         Dim decAccountBalance As Decimal
         Dim strIRA As String
+        Dim decAvailableBalance As Decimal
 
         dbpending.GetAllPendingTransactions()
         For i = 0 To dbpending.PendingDataset2.Tables("tblPending").Rows.Count - 1
@@ -48,18 +49,22 @@
 
                 If strTransactionType = "Deposit" Then
                     decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance")) + decTransactionAmount
+                    decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + decTransactionAmount
                 End If
 
                 If strTransactionType = "Withdrawal" Or strTransactionType = "Payment" Then
                     decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance")) - decTransactionAmount
+                    decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
                 End If
 
                 If strTransactionType = "Transfer To" Then
                     decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance")) + decTransactionAmount
+                    decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + decTransactionAmount
                 End If
 
                 If strTransactionType = "Transfer From" Then
                     decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance")) - decTransactionAmount
+                    decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
                 End If
 
                 If strIRA = "True" And (strTransactionType = "Deposit" Or strTransactionType = "Transfer To") Then
@@ -78,9 +83,10 @@
                 End If
 
                 'add transaction
-                'update balance
-                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionType, strDate, decTransactionAmount, strDescription, decAccountBalance, "NULL", strIRA)
+                'update balance and available balance
+                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionType, strDate, decTransactionAmount, strDescription, decAccountBalance, "NULL", strIRA, decAvailableBalance)
                 dbaccounts.UpdateBalance(intAccountNumber, decAccountBalance)
+                dbaccounts.UpdateAvailableBalance(intAccountNumber, decAvailableBalance)
 
                 'delete row from tblPending
                 dbpending.DeleteTransaction(intTransactionNumber)
