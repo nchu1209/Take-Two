@@ -57,9 +57,18 @@ Public Class CustomerTransactionDetail
             lblError.Text = "Please enter a positive, numeric correct amount"
             Exit Sub
         End If
+
+        If CDec(txtDisputeAmount.Text) = CDec(lblAmount.Text) Then
+            lblError.Text = "Please enter a different amount to dispute"
+            Exit Sub
+        End If
+
         'validate delete or not
         Dim strDelete As String
-        If cblDeleteTransaction.Items(0).Selected = True Then
+        If cblDeleteTransaction.Items(0).Selected = True And cblDeleteTransaction.Items(1).Selected = True Then
+            lblError.Text = "Please select only one option to delete or not delete"
+            Exit Sub
+        ElseIf cblDeleteTransaction.Items(0).Selected = True Then
             strDelete = "Yes"
         ElseIf cblDeleteTransaction.Items(1).Selected = True Then
             strDelete = "No"
@@ -71,5 +80,9 @@ Public Class CustomerTransactionDetail
         DBDispute.AddDispute(CInt(Session("DisputeNumber")), CInt(Session("CustomerNumber")), txtDisputeComments.Text, CDec(txtDisputeAmount.Text), strDelete, "Submitted", Nothing, "", CInt(Session("TransactionID")))
         lblError.Text = "Dispute Submitted"
         Response.AddHeader("Refresh", "2; URL= CustomerTransactionDetail.aspx")
+    End Sub
+
+    Protected Sub btnReturn_Click(sender As Object, e As EventArgs) Handles btnReturn.Click
+        Response.Redirect("CustomerTransactionSearch.aspx")
     End Sub
 End Class
