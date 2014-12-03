@@ -589,6 +589,11 @@ Public Class ClassDBAccounts
         UpdateDB(mstrQuery)
     End Sub
 
+    Public Sub UpdateAvailableBalance(intAccountNumber As Integer, ByVal decAvailableBalance As Decimal)
+        mstrQuery = "UPDATE tblAccounts SET AvailableBalance='" & decAvailableBalance & "' WHERE AccountNumber='" & intAccountNumber & "'"
+        UpdateDB(mstrQuery)
+    End Sub
+
     Public Sub UpdateIRATotalDeposit(intAccountNumber As Integer, ByVal decIRATotalDeposit As Decimal)
         mstrQuery = "UPDATE tblAccounts SET IRATotalDeposit='" & decIRATotalDeposit & "' WHERE AccountNumber='" & intAccountNumber & "'"
         UpdateDB(mstrQuery)
