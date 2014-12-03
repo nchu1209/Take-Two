@@ -5,6 +5,7 @@
     Dim dbpending As New ClassDBPending
     Dim dbtransaction As New ClassDBTransactions
     Dim dbaccounts As New ClassDBAccounts
+    Dim dbbill As New ClassDBBill
     Dim mstrDate As String
 
 
@@ -33,6 +34,7 @@
         Dim strIRA As String
         Dim decAvailableBalance As Decimal
 
+        'PENDING TRANSACTIONS
         dbpending.GetAllPendingTransactions()
         For i = 0 To dbpending.PendingDataset2.Tables("tblPending").Rows.Count - 1
             If dbpending.PendingDataset2.Tables("tblPending").Rows(i).Item("Date") <= db.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date") Then
@@ -93,6 +95,13 @@
             End If
 
         Next
+
+        'MINIMUM PAYMENTS
+
+
+
+        'BUY/SELL STOCKS
+
         'lblError.Text = "Date successfully changed"
         Response.AddHeader("Refresh", "2; URL= ManagerHome.aspx")
     End Sub

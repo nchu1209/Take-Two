@@ -294,4 +294,8 @@ Public Class ClassDBBill
         RunProcedureAnyParam("usp_bill_get_minimumpayment_by_customernumber", BillDataset3, mmyview3, "tblBill", aryNames, aryValues)
     End Sub
 
+    Public Sub GetAllMinimumPayments()
+        RunProcedureNoParam("usp_minimumpayments_get_all")
+    End Sub
+
 End Class
