@@ -6,12 +6,14 @@ Imports System.Data.SqlClient
 Public Class ClassDBBill
     Dim mDatasetBill As New DataSet
     Dim mDatasetBill2 As New DataSet
+    Dim mDatasetBill3 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
     Dim mstrConnection As String = "workstation id=COMPUTER;packet size =4096;data source=MISSQL.mccombs.utexas.edu;integrated security=False; initial catalog=mis333k_msbck614; user id=msbck614; password=AmyEnrione1"
     Dim mMyView As New DataView
     Dim mMyView2 As New DataView
+    Dim mmyview3 As New DataView
 
     Public ReadOnly Property BillDataset() As DataSet
         Get
@@ -37,6 +39,17 @@ Public Class ClassDBBill
         End Get
     End Property
 
+    Public ReadOnly Property BillDataset3() As DataSet
+        Get
+            'Return dataset to user
+            Return mDatasetBill3
+        End Get
+    End Property
+    Public ReadOnly Property MyView3() As DataView
+        Get
+            Return mMyView3
+        End Get
+    End Property
 
     Public Sub UpdateDB(ByVal mstrQuery As String)
         'Purpose: run given query to update database
@@ -259,6 +272,26 @@ Public Class ClassDBBill
         aryValues.Add(datSystemDate)
         aryValues.Add(strPayeeID)
         RunProcedureAnyParam("usp_bill_get_billID_by_payeeID", BillDataset2, mMyView2, "tblBill", aryNames, aryValues)
+    End Sub
+
+    Public Sub SetUpMinimumPayment(strCustomerNumber As String, decMinimumAmount As Decimal, datSignUpDate As Date)
+
+        mstrQuery = "INSERT INTO tblMinimumPayments (CustomerNumber, MinimumAmount, SignUpDate) VALUES (" & _
+            "'" & strCustomerNumber & "', " & _
+            "'" & decMinimumAmount & "', " & _
+            "'" & datSignUpDate & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub GetMinimumPayment(strCustomerNumber As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@customernumber")
+        aryValues.Add(strCustomerNumber)
+        RunProcedureAnyParam("usp_bill_get_minimumpayment_by_customernumber", BillDataset3, mmyview3, "tblBill", aryNames, aryValues)
     End Sub
 
 End Class

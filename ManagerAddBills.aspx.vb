@@ -43,6 +43,10 @@ Public Class ManagerAddBills
     Protected Sub ddlPayee_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlPayee.SelectedIndexChanged
         dbpayee.GetPayeeCustomers(ddlPayee.SelectedValue.ToString)
         FillCustomers()
+
+        pnlAddBill.Visible = False
+        lblMessage1.Text = ""
+        lblMessage2.Text = ""
     End Sub
 
     Protected Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
@@ -52,6 +56,15 @@ Public Class ManagerAddBills
         End If
 
         'CHECK IF CUSTOMER ALREADY HAS A BILL FOR THIS PAYEE!!
+        Dim datToday As Date
+        dbdate.GetDate()
+        datToday = CDate(dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date"))
+        dbbill.GetBillByPayeeID(ddlCustomer.SelectedValue.ToString, datToday, ddlPayee.SelectedValue.ToString)
+
+        If dbbill.BillDataset2.Tables("tblBill").Rows.Count <> 0 Then
+            lblMessage1.Text = "This customer already has an outstanding eBill for this payee."
+            Exit Sub
+        End If
 
         pnlAddBill.Visible = True
     End Sub
@@ -93,5 +106,11 @@ Public Class ManagerAddBills
         Else
             Session("BillID") = CInt(dbbill.BillDataset.Tables("tblBill").Rows(0).Item("MaxBillID")) + 1
         End If
+    End Sub
+
+    Protected Sub ddlCustomer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlCustomer.SelectedIndexChanged
+        pnlAddBill.Visible = False
+        lblMessage1.Text = ""
+        lblMessage2.Text = ""
     End Sub
 End Class

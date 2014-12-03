@@ -113,6 +113,15 @@ Partial Public Class CustomerPayBills
     Protected WithEvents lblMessageSuccess As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''pnlSetup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlSetup As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
     '''radAmount control.
     '''</summary>
     '''<remarks>
@@ -131,6 +140,15 @@ Partial Public Class CustomerPayBills
     Protected WithEvents txtCustomAmount As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''calMinimum control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents calMinimum As Global.System.Web.UI.WebControls.Calendar
+
+    '''<summary>
     '''btnTest control.
     '''</summary>
     '''<remarks>
@@ -138,4 +156,40 @@ Partial Public Class CustomerPayBills
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnTest As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnSetup control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSetup As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lblMinimumMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMinimumMessage As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''pnlViewPayment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlViewPayment As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''lblMinimumPayment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMinimumPayment As Global.System.Web.UI.WebControls.Label
 End Class
