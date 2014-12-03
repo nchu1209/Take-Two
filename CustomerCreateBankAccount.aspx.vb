@@ -152,15 +152,15 @@
         'automatically active or should we wait for the manager approved deposit? 
         'is the manager approved deposit false until the manager approves it? if the deposit is under 5k, should it automatically be true?
         If Session("AccountType") = "Checking" Or Session("AccountType") = "Savings" Then
-            DB.AddAccountChecking(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
+            DB.AddAccountChecking(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
         End If
 
         If Session("AccountType") = "IRA" Then
-            DB.AddAccountIRA(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
+            DB.AddAccountIRA(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
         End If
 
         If Session("AccountType") = "Stock" Then
-            DB.AddAccountStock(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), Session("ManagerApprovedStock").ToString)
+            DB.AddAccountStock(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), Session("ManagerApprovedStock").ToString, CInt(txtInitialDeposit.Text))
         End If
         DBDate.GetDate()
         Dim strDate As String = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
