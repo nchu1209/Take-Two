@@ -43,7 +43,7 @@
                 <asp:TextBox ID="txtAdjusted" runat="server" Width="89px" Height="26px" ReadOnly="True"></asp:TextBox>
                 <br />
 
-                <asp:TextBox ID="txtComment" runat="server" Width="89px" Height="26px" ReadOnly="True"></asp:TextBox>
+                <asp:TextBox ID="txtComment" runat="server" Width="89px" Height="26px"></asp:TextBox>
                     <br />
                     <br />
                     <asp:DropDownList ID="ddlAction" runat="server" AutoPostBack="True">
