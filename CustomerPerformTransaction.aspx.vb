@@ -122,8 +122,10 @@
         'if they have, suggest the maximum contribution
         'update IRATotalDeposit
         Dim decBalance As Decimal
+        Dim decAvailableBalance As Decimal
         DBAccounts.GetBalanceByAccountNumber(ddlDeposit.SelectedValue.ToString)
         decBalance = CDec(DBAccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance"))
+        decAvailableBalance = CDec(DBAccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
 
         DBAccounts.GetAccountTypeByAccountNumber(ddlDeposit.SelectedValue.ToString)
         Dim strIRA As String
@@ -160,8 +162,11 @@
         If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
             'update the balance
             DBAccounts.UpdateBalance(CInt(ddlDeposit.SelectedValue), decBalance)
+            'update the available balance
+            decAvailableBalance += CDec(txtDepositAmount.Text)
+            DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, "NULL", strIRA)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, "NULL", strIRA, decAvailableBalance)
         Else
             DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, "NULL", strIRA)
         End If
