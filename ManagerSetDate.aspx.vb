@@ -97,12 +97,49 @@
         Next
 
         'MINIMUM PAYMENTS
+        dbbill.GetAllMinimumPayments()
+        For i = 0 To dbbill.BillDataset.Tables("tblBill").Rows.Count - 1
+            db.GetDate()
+            Dim datToday As Date = CDate(db.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date"))
 
+            Dim intCustomerNumber As Integer = CInt(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("CustomerNumber"))
+            Dim decMonthlyPayment As Decimal = CDec(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("MinimumAmount"))
+            Dim datSignUpDate As Date = CDate(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("SignUpDate"))
+            Dim intAccountNumber As Integer = CInt(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("AccountNumber"))
+
+            Dim intMonths As Integer = DateDiff(DateInterval.Month, datSignUpDate, datToday) + 1
+            Dim decTotalPayment As Decimal = intMonths * decMonthlyPayment
+
+            'get sorted bills
+            dbbill.SortBills(intCustomerNumber.ToString)
+            For j = 0 To dbbill.BillDataset2.Tables("tblBill").Rows.Count - 1
+                Dim decBillAmount As Decimal = CDec(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("BillAmount"))
+
+                If decBillAmount <= decTotalPayment Then
+                    'add transaction
+                    GetTransactionNumber()
+                    'Dim strDescription As String = ""
+                    'dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumber, "eBill Payment", datToday.ToString,decBillAmount,
+                    'update bills table
+                    'decrease total payment amount
+                End If
+
+            Next
+        Next
 
 
         'BUY/SELL STOCKS
 
         'lblError.Text = "Date successfully changed"
         Response.AddHeader("Refresh", "2; URL= ManagerHome.aspx")
+    End Sub
+
+    Public Sub GetTransactionNumber()
+        dbtransaction.GetMaxTransactionNumber()
+        If dbtransaction.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber") Is DBNull.Value Then
+            Session("TransactionNumber") = 1
+        Else
+            Session("TransactionNumber") = CInt(dbtransaction.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
+        End If
     End Sub
 End Class

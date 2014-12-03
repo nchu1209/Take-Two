@@ -120,9 +120,9 @@
             <div id ="subtitle">Set Up Minimum Payments<br />
             </div>
             <asp:Panel ID="pnlSetup" runat="server">
-            Once you set up minimum payments, we will automatically allocate your chosen amount to pay your bills each month, starting with the date you select.<br />
-            <br />
-            Select Amount or Enter Custom Amount: <asp:RadioButtonList ID="radAmount" runat="server">
+                Once you set up minimum payments, we will automatically allocate your chosen amount to pay your bills each month, starting with the date you select. Funds will be drawn from the account selected above.<br />
+                <br />
+                Select Amount or Enter Custom Amount: <asp:RadioButtonList ID="radAmount" runat="server">
                 <asp:ListItem Value="20.00">$20.00</asp:ListItem>
                 <asp:ListItem Value="30.00">$30.00</asp:ListItem>
                 <asp:ListItem Value="40.00">$40.00</asp:ListItem>

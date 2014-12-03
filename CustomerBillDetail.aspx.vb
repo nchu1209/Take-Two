@@ -159,7 +159,7 @@
             strPaymentMessage = "Sent eBill payment of " & txtAmount.Text & " to " & txtPayeeName.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & calDate.SelectedDate.ToString
             GetTransactionNumber()
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPaymentMessage, mdecBalance, lblBillID.Text, "False", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPaymentMessage, mdecBalance, CInt(lblBillID.Text), "", mdecAvailableBalance)
             'update the bills table
             Dim decAmountPaid
             decAmountPaid = CDec(dbbill.BillDataset.Tables("tblBill").Rows(0).Item("AmountPaid")) + CDec(txtAmount.Text)
@@ -188,7 +188,7 @@
             strPendingMessage = "Sent eBill payment of " & txtAmount.Text & " to " & txtPayeeName.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & calDate.SelectedDate.ToString
             GetTransactionNumber()
             'update pending transactions table
-            dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPendingMessage, lblBillID.Text, "False")
+            dbpending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPendingMessage, CInt(lblBillID.Text), "")
         End If
 
         'overdraft fee if necessary
@@ -208,7 +208,7 @@
             GetTransactionNumber()
 
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, "NULL", "False", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
         End If
 
         'late fee if necessary
@@ -227,7 +227,7 @@
             GetTransactionNumber()
 
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, LATE_FEE, strFeeMessage, mdecBalance, "NULL", "False", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
         End If
 
         lblMessage.Text = "Payments successfully sent and/or scheduled."

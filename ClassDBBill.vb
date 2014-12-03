@@ -274,12 +274,13 @@ Public Class ClassDBBill
         RunProcedureAnyParam("usp_bill_get_billID_by_payeeID", BillDataset2, mMyView2, "tblBill", aryNames, aryValues)
     End Sub
 
-    Public Sub SetUpMinimumPayment(strCustomerNumber As String, decMinimumAmount As Decimal, datSignUpDate As Date)
+    Public Sub SetUpMinimumPayment(strCustomerNumber As String, decMinimumAmount As Decimal, datSignUpDate As Date, strAccountNumber As String)
 
-        mstrQuery = "INSERT INTO tblMinimumPayments (CustomerNumber, MinimumAmount, SignUpDate) VALUES (" & _
+        mstrQuery = "INSERT INTO tblMinimumPayments (CustomerNumber, MinimumAmount, SignUpDate, AccountNumber) VALUES (" & _
             "'" & strCustomerNumber & "', " & _
             "'" & decMinimumAmount & "', " & _
-            "'" & datSignUpDate & "')"
+            "'" & datSignUpDate & "', " & _
+            "'" & strAccountNumber & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
