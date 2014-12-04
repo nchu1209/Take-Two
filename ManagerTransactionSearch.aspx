@@ -28,10 +28,10 @@
     </asp:Panel>
     
     <asp:Panel ID="PanelAccounts" runat="server" Visible ="true">
-    <div id="Div1">
+    <div id="subtitle">
         Select an account for this customer to view transactions for
     </div>
-    <div id="Div2">
+    <div id="footer">
         <asp:GridView ID="gvAccounts" runat="server">
             <Columns>
                 <asp:CommandField ShowSelectButton="True" />
