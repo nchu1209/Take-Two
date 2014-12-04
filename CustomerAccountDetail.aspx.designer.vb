@@ -11,59 +11,41 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class ManagerResolveDisputes
+Partial Public Class CustomerAccountDetail
 
     '''<summary>
-    '''btnViewAll control.
+    '''lblAccountName control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnViewAll As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblAccountName As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''btnUnresolved control.
+    '''btnTransactionSearch control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnUnresolved As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnTransactionSearch As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''btnResolved control.
+    '''gvTransactionsAwaitingManagerApproval control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnResolved As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents gvTransactionsAwaitingManagerApproval As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''lblError control.
+    '''gvViewAllTransactions control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblError As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''GridView1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents GridView1 As Global.System.Web.UI.WebControls.GridView
-
-    '''<summary>
-    '''SqlDataSource2 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents SqlDataSource2 As Global.System.Web.UI.WebControls.SqlDataSource
+    Protected WithEvents gvViewAllTransactions As Global.System.Web.UI.WebControls.GridView
 End Class

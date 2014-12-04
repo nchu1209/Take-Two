@@ -89,7 +89,10 @@
         lblMessageTotal.Text = ""
         lblMessageFee.Text = ""
         lblMessageSuccess.Text = ""
-        lblmessagefee2.text = ""
+        lblMessageFee2.Text = ""
+        lblMinimumMessage.Text = ""
+        lblMessageUpdate.Text = ""
+        lblOptOutMessage.Text = ""
 
     End Sub
 
@@ -232,7 +235,7 @@
                     strPaymentMessage = "Sent payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Payment")
                 End If
 
                 'eBill Payments
@@ -254,7 +257,7 @@
                     strPaymentMessage = "Sent eBill payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID, "", mdecAvailableBalance, "eBill Payment")
 
                     'update bills table
                     
@@ -333,7 +336,7 @@
             strFeeMessage = "Overdraft fee of " & OVERDRAFT_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & datDate.ToString
             GetTransactionNumber()
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
         End If
 
         'late fee if necessary
@@ -353,7 +356,7 @@
                     Dim strFeeMessage As String = "Late fee of " & LATE_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
                 End If
             End If
         Next
@@ -391,16 +394,6 @@
         End If
     End Sub
 
-    Protected Sub btnTest_Click(sender As Object, e As EventArgs) Handles btnTest.Click
-        Dim intTest As Integer
-        intTest = DateDiff(DateInterval.Month, #12/1/2014#, #3/29/2015#)
-
-        txtCustomAmount.Text = intTest.ToString
-
-        'plan: figure out # months between selected date and current date + 1, if < 1 don't do anything
-        'take total months * minimum payment, then run the loop to distribute payment among bills
-    End Sub
-
     Protected Sub btnSetup_Click(sender As Object, e As EventArgs) Handles btnSetup.Click
         'validations
         If radAmount.SelectedValue = "" Then
@@ -420,15 +413,7 @@
             End If
         End If
 
-        If calMinimum.SelectedDate = Nothing Then
-            lblMinimumMessage.Text = "Please select a date to begin your monthly payments."
-            Exit Sub
-        End If
-
-        If dbdate.CheckSelectedDate(calMinimum.SelectedDate) <> 1 Then
-            lblMinimumMessage.Text = "Minimum payment setup requires 24 hours. Please choose a date beginning tomorrow."
-            Exit Sub
-        End If
+        dbdate.GetDate()
 
         'add to table
         Dim decAmount As Decimal
@@ -437,10 +422,50 @@
         Else
             decAmount = CDec(txtCustomAmount.Text)
         End If
-        dbbill.SetUpMinimumPayment(Session("CustomerNumber"), decAmount, calMinimum.SelectedDate, ddlAccount.SelectedValue)
+        dbbill.SetUpMinimumPayment(Session("CustomerNumber"), decAmount, CDate(dbdate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date")), ddlAccount.SelectedValue)
 
         lblMinimumMessage.Text = "You have successfully set up minimum payments."
 
         Response.AddHeader("Refresh", "2; URL= CustomerPayBills.aspx")
+    End Sub
+
+    Protected Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        'validations
+        If radUpdateAmount.SelectedValue = "" Then
+            lblMessageUpdate.Text = "Please select a preset amount or 'Custom Amount.'"
+            Exit Sub
+        End If
+
+        If radUpdateAmount.SelectedValue = "Custom" And txtUpdateCustomAmount.Text = "" Then
+            lblMessageUpdate.Text = "Please enter a custom amount in the textbox provided."
+            Exit Sub
+        End If
+
+        If txtUpdateCustomAmount.Text <> "" Then
+            If valid.CheckDecimal(txtUpdateCustomAmount.Text) = -1 Or valid.CheckDecimal(txtUpdateCustomAmount.Text) = 0 Then
+                lblMessageUpdate.Text = "Please enter a valid custom amount."
+                Exit Sub
+            End If
+        End If
+
+        'update table
+        Dim decAmount As Decimal
+        If radUpdateAmount.SelectedValue <> "Custom" Then
+            decAmount = CDec(radUpdateAmount.SelectedValue)
+        Else
+            decAmount = CDec(txtUpdateCustomAmount.Text)
+        End If
+
+        dbbill.UpdateMinimumPaymentAmount(decAmount, Session("CustomerNumber").ToString)
+
+        lblMessageUpdate.Text = "You have successfully updated your minimum payment amount."
+
+        Response.AddHeader("Refresh", "2; URL= CustomerPayBills.aspx")
+    End Sub
+
+    Protected Sub btnOptOut_Click(sender As Object, e As EventArgs) Handles btnOptOut.Click
+        dbbill.OptOutMinimumPayments(Session("CustomerNumber").ToString)
+
+        lblOptOutMessage.Text = "You are no longer a participant in our minimum payments program."
     End Sub
 End Class

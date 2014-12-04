@@ -118,6 +118,11 @@
             Exit Sub
         End If
 
+        Dim strManagerApprovalNeeded As String = ""
+        If CDec(txtDepositAmount.Text) > 5000 Then
+            strManagerApprovalNeeded = "Needed"
+        End If
+
         'if selected account is an IRA, make sure they haven't reached their maximum deposit for the year
         'if they have, suggest the maximum contribution
         'update IRATotalDeposit
@@ -147,10 +152,7 @@
                 Exit Sub
             End If
             decIRATotal += CDec(txtDepositAmount.Text)
-
-            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
-                DBAccounts.UpdateIRATotalDeposit(CInt(ddlDeposit.SelectedValue), decIRATotal)
-            End If
+            DBAccounts.UpdateIRATotalDeposit(CInt(ddlDeposit.SelectedValue), decIRATotal)
         End If
 
 
@@ -159,17 +161,26 @@
         strDepositMessage = "Deposited " & txtDepositAmount.Text & " to account " & ddlDeposit.SelectedValue.ToString & " on " & txtDepositDate.Text
         GetTransactionNumber()
 
-        If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
-            'update the balance
-            DBAccounts.UpdateBalance(CInt(ddlDeposit.SelectedValue), decBalance)
-            'update the available balance
-            decAvailableBalance += CDec(txtDepositAmount.Text)
-            DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
-            'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance)
+        If strManagerApprovalNeeded = "" Then
+            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
+                'update the balance
+                DBAccounts.UpdateBalance(CInt(ddlDeposit.SelectedValue), decBalance)
+                'update the available balance
+                decAvailableBalance += CDec(txtDepositAmount.Text)
+                DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
+                'update the transactions table
+                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance, "Deposit")
+            Else
+                DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA)
+            End If
         Else
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA)
+            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
+                DBTransactions.AddTransactionNeedsApproval(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance, "Deposit", strManagerApprovalNeeded)
+            Else
+                DBPending.AddTransactionNeedsApproval(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA, strManagerApprovalNeeded)
+            End If
         End If
+        
 
         lblErrorDeposit.Text = "Deposit Confirmed"
         Response.AddHeader("Refresh", "2; URL= CustomerPerformTransaction.aspx")
@@ -210,7 +221,7 @@
             DBAccounts.UpdateBalance(CInt(ddlWithdrawal.SelectedValue), decBalance)
             DBAccounts.UpdateAvailableBalance(CInt(ddlWithdrawal.SelectedValue), decAvailableBalance)
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, decBalance, Nothing, "", decAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, decBalance, Nothing, "", decAvailableBalance, "Withdrawal")
         Else
             DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlWithdrawal.SelectedValue), "Withdrawal", txtWithdrawalDate.Text, CDec(txtWithdrawalAmount.Text), strWithdrawalMessage, Nothing, "")
             DBAccounts.UpdateAvailableBalance(CInt(ddlWithdrawal.SelectedValue), decAvailableBalance)
@@ -267,10 +278,7 @@
                 Exit Sub
             End If
             decIRATotal += CDec(txtAmountTransfer.Text)
-
-            If DBDate.CheckSelectedDate(TransferCalendar.SelectedDate) = 0 Then
-                DBAccounts.UpdateIRATotalDeposit(CInt(ddlTransferTo.SelectedValue), decIRATotal)
-            End If
+            DBAccounts.UpdateIRATotalDeposit(CInt(ddlTransferTo.SelectedValue), decIRATotal)
         End If
 
 
@@ -353,14 +361,14 @@
             DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance)
 
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferFromBalance, Nothing, strIRAFrom, decTransferFromAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferFromBalance, Nothing, strIRAFrom, decTransferFromAvailableBalance, "Transfer From")
             'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferToBalance, Nothing, strIRATo, decTransferToAvailableBalance)
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlTransferTo.SelectedValue), "Transfer", txtTransferDate.Text, decWithdrawalAmount, strTransferMessage, decTransferToBalance, Nothing, strIRATo, decTransferToAvailableBalance, "Transfer To")
             'update the transactions table with fees if making an unqualified distribution from an IRA account
 
 
             If Session("UnqualifiedDistributionFee") = "Add Fee" Or Session("UnqualifiedDistributionFee") = "Include Fee" Then
-                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", decIRAFeeBalance, Nothing, "", Nothing)
+                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")) + 1, CInt(ddlFromAccount.SelectedValue), "Fee", txtTransferDate.Text, 30, "$30 service fee for an unqualified distribution from an IRA account", decIRAFeeBalance, Nothing, "", Nothing, "Fee")
                 DBAccounts.UpdateBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromBalance - 30)
                 DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance - 30)
                 Session("UnqualifiedDistributionFee") = Nothing

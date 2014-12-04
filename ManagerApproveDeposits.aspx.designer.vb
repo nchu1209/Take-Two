@@ -12,4 +12,13 @@ Option Explicit On
 
 
 Partial Public Class ManagerApproveDeposits
+
+    '''<summary>
+    '''gvTransactionsAwaitingManagerApproval control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents gvTransactionsAwaitingManagerApproval As Global.System.Web.UI.WebControls.GridView
 End Class

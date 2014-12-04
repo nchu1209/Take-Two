@@ -7,27 +7,23 @@
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            If Request.QueryString("ID") Is Nothing Then
-                DBTransactions.GetAllTransactions(Session("AccountNumber"))
-                DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
-                lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
-                Search()
-            Else
-                Dim strAccountNumber As String
-                strAccountNumber = "100000" & Request.QueryString("ID").Substring(6, 4)
-                Session("AccountNumber") = strAccountNumber
-
-                DBTransactions.GetAllTransactions(Session("AccountNumber"))
-                DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
-                lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
-                Search()
-            End If  
+            DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
+            DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber").ToString)
+            lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName").ToString
+            Search()
         End If
         DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
     End Sub
 
     Public Sub Search()
-        DBTransactions.DoSort()
+        If RadioButtonList1.SelectedIndex = 0 Then
+            DBTransactions.DoSortAscending()
+        ElseIf RadioButtonList1.SelectedIndex = 1 Then
+            DBTransactions.DoSortDescending()
+        Else
+            lblError.Text = "Please select either ascending or descending order to search by"
+            Exit Sub
+        End If
 
         'bind the gridview to the dataview
         gvTransactionSearch.DataSource = DBTransactions.MyView
@@ -103,7 +99,7 @@
         strDateCode30 = "Date >= #" & datSystemDate.AddDays(-30) & "#"
         strDateCode60 = "Date >= #" & datSystemDate.AddDays(-60) & "#"
         strDateCodeAll = "Date <> '" & datBlank & "'"
-        
+
         Dim strIn1 As String
         Dim strIn2 As String
         Dim strIn3 As String

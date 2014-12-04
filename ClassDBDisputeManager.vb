@@ -8,6 +8,7 @@ Public Class ClassDBDisputeManager
     Dim mDatasetDispute As New DataSet
     Dim mDatasetDispute2 As New DataSet
     Dim mDatasetDispute3 As New DataSet
+    Dim mDatasetDispute4 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
@@ -15,6 +16,7 @@ Public Class ClassDBDisputeManager
     Dim mMyView As New DataView
     Dim mMyView2 As New DataView
     Dim mMyView3 As New DataView
+    Dim mMyView4 As New DataView
 
     'Define a public read-only property so "outsiders" can access the dataset filled by this class
     Public ReadOnly Property DisputeDataset() As DataSet
@@ -50,6 +52,17 @@ Public Class ClassDBDisputeManager
     Public ReadOnly Property MyView3() As DataView
         Get
             Return mMyView3
+        End Get
+    End Property
+    Public ReadOnly Property DisputeDataset4() As DataSet
+        Get
+            'Return dataset to user
+            Return mDatasetDispute4
+        End Get
+    End Property
+    Public ReadOnly Property MyView4() As DataView
+        Get
+            Return mMyView4
         End Get
     End Property
 
@@ -119,6 +132,32 @@ Public Class ClassDBDisputeManager
             mdbDataAdapter.Fill(mDatasetDispute3, "tblAccounts")
             'copy dataset to dataview
             mMyView3.Table = mDatasetDispute3.Tables("tblAccounts")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub RunProcedureOneParameter3(ByVal strProcedureName As String, ByVal strParameterName As String, ByVal strParameterValue As String)
+        'Purpose: run any stored procedure with one parameter and fill dataset
+        'Arguments: 3 strings
+        'Returns: none (query results via property)
+        'Author: Nicole Chu (nc7997)
+        'Date: 10/21/14
+        'Creates instances of the connection and command object
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim mdbDataAdapter As New SqlDataAdapter(strProcedureName, objConnection)
+        Try
+            'sets command type to "stored procedure"
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            'add parameter to SPROC
+            mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(strParameterName, strParameterValue))
+            'clear dataset
+            mDatasetDispute4.Clear()
+            'open connection and fill dataset
+            mdbDataAdapter.Fill(mDatasetDispute4, "tblAccounts")
+            'copy dataset to dataview
+            mMyView4.Table = mDatasetDispute4.Tables("tblAccounts")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
         End Try
@@ -242,6 +281,10 @@ Public Class ClassDBDisputeManager
 
     Public Sub GetAccountByAccountNumber(strAccountNumber As String)
         RunProcedureOneParameter2("usp_accounts_get_by_account_Number", "@accountNumber", strAccountNumber)
+    End Sub
+
+    Public Sub GetAccountByAccountNumber2(strAccountNumber As String)
+        RunProcedureOneParameter3("usp_accounts_get_by_account_Number", "@accountNumber", strAccountNumber)
     End Sub
 
 

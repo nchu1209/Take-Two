@@ -66,4 +66,8 @@ Public Class CustomerHome
     End Sub
 
 
+    Protected Sub gvAccounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvAccounts.SelectedIndexChanged
+        Session("AccountNumber") = "100000" & gvAccounts.SelectedRow.Cells(0).Text.Substring(6, 4)
+        Response.Redirect("CustomerTransactionSearch.aspx")
+    End Sub
 End Class

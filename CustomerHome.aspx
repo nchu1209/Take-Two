@@ -46,7 +46,7 @@
                         <asp:TextBox ID="lnkName" runat="server" Text='<%# Bind("PayeeName") %>'></asp:TextBox>
                     </EditItemTemplate>
                     <ItemTemplate>
-                        <asp:hyperlink ID="lnkName" runat="server" NavigateUrl='<%# "CustomerTransactionSearch.aspx?ID=" & Eval("AccountNumber")%>' Text='<%# Bind("AccountName")%>'></asp:hyperlink>
+                        <asp:hyperlink ID="lnkName" runat="server" NavigateUrl='<%# "CustomerAccountDetail.aspx?ID=" & Eval("AccountNumber")%>' Text='<%# Bind("AccountName")%>'></asp:hyperlink>
                     </ItemTemplate>
                     <HeaderStyle HorizontalAlign="Center" Width="150px" />
                     <ItemStyle HorizontalAlign="Center" />
@@ -60,6 +60,7 @@
                 <HeaderStyle Width="90px" HorizontalAlign="Right" />
                 <ItemStyle HorizontalAlign="Right" />
                 </asp:BoundField>
+                <asp:CommandField AccessibleHeaderText="Transaction Search" SelectText="Search this Account" ShowSelectButton="True" />
             </Columns>
             <EditRowStyle BackColor="#2461BF" HorizontalAlign="Center" />
             <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />

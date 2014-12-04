@@ -19,9 +19,11 @@ Public Class EmployeeTransactionDetail
             If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
                 lblEmployeeComments.Text = "N/A"
                 lblDisputeStatus.Text = "A dispute has not yet been submitted for this transaction"
+                lblEmpID.Text = "N/A"
             Else
                 lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
                 lblDisputeStatus.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("Status").ToString
+                lblEmpID.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("EmployeeID").ToString
             End If
 
             'bind the gridview to the dataview
@@ -29,5 +31,9 @@ Public Class EmployeeTransactionDetail
             gvSimilar.DataSource = DBTransactions.MyView2
             gvSimilar.DataBind()
         End If
+    End Sub
+
+    Protected Sub btnReturn_Click(sender As Object, e As EventArgs) Handles btnReturn.Click
+        Response.Redirect("EmployeeTransactionSearch2.aspx")
     End Sub
 End Class

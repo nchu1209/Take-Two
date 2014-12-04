@@ -6,4 +6,12 @@
         Approve Deposits<br />
         <br />
     </div>
+    <div id ="footer">
+        <div id="subtitle">Transactions Awaiting Manager Approval</div>
+            <asp:GridView ID="gvTransactionsAwaitingManagerApproval" runat="server">
+                <Columns>
+                    <asp:CommandField ShowSelectButton="True" SelectText="Approve" />
+                </Columns>
+            </asp:GridView>
+        </div>
 </asp:Content>

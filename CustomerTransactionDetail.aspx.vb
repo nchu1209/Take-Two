@@ -22,11 +22,13 @@ Public Class CustomerTransactionDetail
             If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
                 lblEmployeeComments.Text = "N/A"
                 lblDisputeStatus.Text = "You have not submitted a dispute for this transaction"
+                lblEmpID.Text = "N/A"
             Else
                 lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
                 lblDisputeStatus.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("Status").ToString
                 btnCreateDispute.Enabled = False
                 lblAlreadySubmitted.Text = "You have already submitted a dispute for this transaction, and cannot submit another dispute"
+                lblEmpID.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("EmployeeID").ToString
             End If
 
             'bind the gridview to the dataview

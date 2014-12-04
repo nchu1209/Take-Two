@@ -159,7 +159,7 @@
             strPaymentMessage = "Sent eBill payment of " & txtAmount.Text & " to " & txtPayeeName.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & calDate.SelectedDate.ToString
             GetTransactionNumber()
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPaymentMessage, mdecBalance, CInt(lblBillID.Text), "", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", calDate.SelectedDate, CDec(txtAmount.Text), strPaymentMessage, mdecBalance, CInt(lblBillID.Text), "", mdecAvailableBalance, "eBill Payment")
             'update the bills table
             Dim decAmountPaid
             decAmountPaid = CDec(dbbill.BillDataset.Tables("tblBill").Rows(0).Item("AmountPaid")) + CDec(txtAmount.Text)
@@ -208,7 +208,7 @@
             GetTransactionNumber()
 
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
         End If
 
         'late fee if necessary
@@ -227,7 +227,7 @@
             GetTransactionNumber()
 
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
         End If
 
         lblMessage.Text = "Payments successfully sent and/or scheduled."

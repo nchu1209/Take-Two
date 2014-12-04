@@ -193,9 +193,9 @@ Public Class ClassDBTransactions
         RunProcedureNoParam("usp_transactions_get_max_transaction_number")
     End Sub
 
-    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal)
+    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal, strSecret As String)
 
-        mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance) VALUES (" & _
+        mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance, TransactionTypeSecretHiddenColumn) VALUES (" & _
             "'" & intTransactionNumber & "', " & _
             "'" & intAccountNumber & "', " & _
             "'" & strTransactionType & "', " & _
@@ -205,13 +205,38 @@ Public Class ClassDBTransactions
             "'" & decAccountBalance & "', " & _
             "'" & intBillID & "', " & _
             "'" & strIRA & "', " & _
-            "'" & decAvailableBalance & "')"
+            "'" & decAvailableBalance & "', " & _
+            "'" & strSecret & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
     End Sub
-    Public Sub DoSort()
-        MyView.Sort = "[Transaction Number], [Transaction Type], Description, Amount, Date"
+
+    Public Sub AddTransactionNeedsApproval(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal, strSecret As String, strApprovalNeeded As String)
+
+        mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance, TransactionTypeSecretHiddenColumn, ManagerApprovedTransaction) VALUES (" & _
+            "'" & intTransactionNumber & "', " & _
+            "'" & intAccountNumber & "', " & _
+            "'" & strTransactionType & "', " & _
+            "'" & strDate & "', " & _
+            "'" & decTransactionAmount & "', " & _
+            "'" & strDescription & "', " & _
+            "'" & decAccountBalance & "', " & _
+            "'" & intBillID & "', " & _
+            "'" & strIRA & "', " & _
+            "'" & decAvailableBalance & "', " & _
+            "'" & strSecret & "', " & _
+            "'" & strApprovalNeeded & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+    End Sub
+    Public Sub DoSortDescending()
+        MyView.Sort = "[Transaction Number] DESC, [Transaction Type] DESC, Description DESC, Amount DESC, Date DESC"
+    End Sub
+
+    Public Sub DoSortAscending()
+        MyView.Sort = "[Transaction Number] ASC, [Transaction Type] ASC, Description ASC, Amount ASC, Date ASC"
     End Sub
 
     Public Sub DoDateSort()
@@ -226,10 +251,28 @@ Public Class ClassDBTransactions
         RunProcedureOneParameter("usp_transactions_get_details_by_transaction_number", "@transactionnumber", strTransactionNumber)
     End Sub
 
+    Public Sub GetDetailsByManagerApprovalNeeded(strApproval As String)
+        RunProcedureOneParameter("usp_transactions_get_details_by_manager_approval_needed", "@ManagerApprovedTransaction", strApproval)
+    End Sub
+
+    Public Sub GetDetailsByManagerApprovalNeededByCustomer(strApproval As String, strCustomerNumber As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@Approval")
+        aryNames.Add("@CustomerNumber")
+        aryValues.Add(strApproval)
+        aryValues.Add(strCustomerNumber)
+        RunProcedureAnyParam("usp_transactions_get_details_by_manager_approval_needed_by_customer", TransactionsDataset2, mMyView2, "tblTransactions", aryNames, aryValues)
+    End Sub
+
+    Public Sub GetTransactionsByTransactionNumber(strTransactionNumber As String)
+        RunProcedureOneParameter("usp_transactions_get_by_transaction_number", "@transactionnumber", strTransactionNumber)
+    End Sub
+
     Public Sub TransactionsByAccount(strAccountNumber As String)
         RunProcedureOneParameter2("usp_transactions_get_by_account_number", "@accountnumber", strAccountNumber)
     End Sub
-    'right now this is pulling from tbltransactions as a whole. want to limit the data set to just this account.
+
     Public Sub GetFiveSimilar(strTransactionType As String)
         RunProcedureOneParameter2("usp_transactions_get_five_similar", "@transactiontype", strTransactionType)
     End Sub
@@ -246,5 +289,14 @@ Public Class ClassDBTransactions
         aryValues.Add(strAccountNumber)
         aryValues.Add(strTransactionType)
         RunProcedureAnyParam("usp_transactions_get_five_similar_by_account", TransactionsDataset2, mMyView2, "tblTransactions", aryNames, aryValues)
+    End Sub
+
+    Public Sub ModifyTransactionManagerApproved(strChangeName As String, intTransactionNumber As Integer)
+        mstrQuery = "UPDATE tblTransactions SET " &
+            "ManagerApprovedTransaction = '" & strChangeName & "' " & _
+            "WHERE TransactionNumber = " & intTransactionNumber
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
     End Sub
 End Class

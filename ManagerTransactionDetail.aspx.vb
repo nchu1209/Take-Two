@@ -18,9 +18,11 @@
             If DBDispute.DisputeDataset.Tables("tblDispute").Rows.Count = 0 Then
                 lblEmployeeComments.Text = "N/A"
                 lblDisputeStatus.Text = "A dispute has not yet been submitted for this transaction"
+                lblEmpID.Text = "N/A"
             Else
                 lblEmployeeComments.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
                 lblDisputeStatus.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("Status").ToString
+                lblEmpID.Text = DBDispute.DisputeDataset.Tables("tblDispute").Rows(0).Item("EmployeeID").ToString
             End If
 
             'bind the gridview to the dataview
