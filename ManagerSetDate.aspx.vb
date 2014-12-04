@@ -33,6 +33,7 @@
         Dim decAccountBalance As Decimal
         Dim strIRA As String
         Dim decAvailableBalance As Decimal
+        Dim strApproved As String
 
         'PENDING TRANSACTIONS
         dbpending.GetAllPendingTransactions()
@@ -46,10 +47,14 @@
                 decTransactionAmount = CDec(dbpending.PendingDataset2.Tables("tblPending").Rows(i).Item("TransactionAmount"))
                 strDescription = dbpending.PendingDataset2.Tables("tblPending").Rows(i).Item("Description").ToString
                 strIRA = dbpending.PendingDataset2.Tables("tblPending").Rows(i).Item("IRA").ToString
+                strApproved = dbpending.PendingDataset2.Tables("tblPending").Rows(i).Item("ManagerApprovedTransaction").ToString
 
                 dbaccounts.GetBalanceByAccountNumber(intAccountNumber.ToString)
 
-                If strTransactionType = "Deposit" Then
+                If strTransactionType = "Deposit" And strApproved = "Needed" Then
+                    decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance"))
+                    decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
+                ElseIf strTransactionType = "Deposit" Then
                     decAccountBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance")) + decTransactionAmount
                     decAvailableBalance = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + decTransactionAmount
                 End If
