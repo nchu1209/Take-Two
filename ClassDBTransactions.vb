@@ -250,6 +250,21 @@ Public Class ClassDBTransactions
     Public Sub GetDetails(strTransactionNumber As String)
         RunProcedureOneParameter("usp_transactions_get_details_by_transaction_number", "@transactionnumber", strTransactionNumber)
     End Sub
+    'my new stuff below whoo
+    Public Sub GetAllTransactionsAwaitingManagerApproval(strAccountNumber As String, strManagerApproval As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@AccountNumber")
+        aryNames.Add("@ManagerApprovedTransaction")
+        aryValues.Add(strAccountNumber)
+        aryValues.Add(strManagerApproval)
+        RunProcedureAnyParam("usp_append_transactions_manager_approval_needed", TransactionsDataset2, mMyView2, "tblTransactions", aryNames, aryValues)
+    End Sub
+
+    Public Sub GetAllTransactionsandPending(strAccountNumber As String)
+        RunProcedureOneParameter("usp_append_transactions", "@accountnumber", strAccountNumber)
+    End Sub
+    'end my new stuff
 
     Public Sub GetDetailsByManagerApprovalNeeded(strApproval As String)
         RunProcedureOneParameter("usp_transactions_get_details_by_manager_approval_needed", "@ManagerApprovedTransaction", strApproval)
