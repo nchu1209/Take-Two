@@ -90,6 +90,7 @@
           </div>
         
              <div id="textbox">
+                 <br />
              <br />
                  <asp:DropDownList ID="ddlAccounts" runat="server">
              </asp:DropDownList>
@@ -98,8 +99,12 @@
               
                  <br />
                  <br />
+                 <asp:TextBox ID="txtDate" runat="server"></asp:TextBox>
+                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDate" ErrorMessage="ERROR: You must select a date to make a purchcase.">*</asp:RequiredFieldValidator>
+                 <br />
+                 <br />
              
-                 <asp:Calendar ID="TransferCalendar" runat="server"></asp:Calendar>
+                 <asp:Calendar ID="PurchaseCalendar" runat="server"></asp:Calendar>
              
                  <br />
                  <asp:Button ID="btnPurchaseStocks" runat="server" Text="Submit Purchase Order" />
