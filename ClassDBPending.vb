@@ -189,6 +189,22 @@ Public Class ClassDBPending
         UpdateDB(mstrQuery)
     End Sub
 
+    Public Sub AddTransactionPending(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, decAccountBalance As Decimal, strDescription As String, decAvailableBalance As Decimal)
+
+        mstrQuery = "INSERT INTO tblPendingTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, AccountBalance, Description, AvailableBalance) VALUES (" & _
+            "'" & intTransactionNumber & "', " & _
+            "'" & intAccountNumber & "', " & _
+            "'" & strTransactionType & "', " & _
+            "'" & strDate & "', " & _
+            "'" & decTransactionAmount & "', " & _
+            "'" & decAccountBalance & "', " & _
+            "'" & strDescription & "', " & _
+            "'" & decAvailableBalance & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+    End Sub
+
     Public Sub GetAllPendingTransactions()
         RunProcedureGetAll("usp_pending_get_all")
     End Sub
