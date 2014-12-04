@@ -73,7 +73,7 @@
         
          <ul class="nav navbar-nav navbar-right">
         <li><a href="/ManagerManageCustomer.aspx">Manage Customers</a></li>
-        <li><a href="#">Transaction Search</a></li>
+        <li><a href="/ManagerTransactionSearch.aspx">Transaction Search</a></li>
          </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
