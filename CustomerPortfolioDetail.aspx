@@ -29,6 +29,8 @@
             <br />
             <div id="content">
 
+                FIND ALEXS POST ON FB<br />
+
                 The cash-value portion is where gains, fees, bonuses, and available cash (that can be used to purchase more stock) are located
 
                 <br />

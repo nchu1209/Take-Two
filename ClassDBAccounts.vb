@@ -420,9 +420,9 @@ Public Class ClassDBAccounts
         RunProcedureOneParameter("usp_innerjoin_customer_city_by_zip", "@CustomerID", strCustomerID)
     End Sub
 
-    Public Sub GetApprovedStatus(ByVal strCustomerID As String)
-        RunProcedureOneParameter("usp_account_get_by_customer_id_and_stock", "@CustomerID", strCustomerID)
-    End Sub
+    'Public Sub GetApprovedStatus(ByVal strCustomerID As String)
+    '    RunProcedureOneParameter("usp_account_get_by_customer_id_and_stock", "@CustomerID", strCustomerID)
+    'End Sub
 
     Public Sub CustomerNumber()
         RunProcedureCustomerNumber("usp_customer_number")
@@ -570,7 +570,7 @@ Public Class ClassDBAccounts
         'Author: Nicole Chu (nc7997)
         'Date: 9/24/2014
 
-        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance, ManagerApprovedStockAccount) VALUES (" & _
+        mstrQuery = "INSERT INTO tblAccounts (CustomerID, AccountNumber, AccountName, AccountType, Active, ManagerApprovedDeposit, Initial, Balance, AvailableBalance, ManagerApprovedStockAccount) VALUES (" & _
             "'" & intCustomerID & "', " & _
             "'" & intAccountNumber & "', " & _
             "'" & strAccountName & "', " & _
@@ -579,8 +579,8 @@ Public Class ClassDBAccounts
             "'" & strManagerApprovedDeposit & "', " & _
             "'" & intInitial & "', " & _
             "'" & intBalance & "', " & _
-            "'" & strManagerApprovedStockAccount & "', " & _
-            "'" & decAvailableBalance & "')"
+            "'" & decAvailableBalance & "', " & _
+            "'" & strManagerApprovedStockAccount & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
@@ -640,6 +640,20 @@ Public Class ClassDBAccounts
         UpdateDB(mstrQuery)
     End Sub
 
+    Public Function GetApprovedStatus(strIN As String) As Boolean
 
+        ' to Get Customer use Select
+        mstrQuery = "Select * from tblAccounts where CustomerID= " & strIN & " and AccountType= 'Stock'"
+        ' run the query
+        SelectQuery(mstrQuery)
+
+        If mDatasetAccounts.Tables("tblAccounts").Rows.Count = 0 Then
+            'means there is none in there
+            Return False
+        Else
+            'means nothing is one there
+            Return True
+        End If
+    End Function
 
 End Class

@@ -44,8 +44,27 @@
         Session("CustomerFirstName") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName")
         Session("CustomerNumber") = DB.CustDataset.Tables("tblCustomers").Rows(0).Item("CustomerNumber")
 
-        'DBAccounts.GetApprovedStatus(Session("CustomerNumber"))
-        'Session("CustomerManagerApprovedStockAccount") = DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("CustomerID")
+
+
+
+        If DBAccounts.GetApprovedStatus(Session("CustomerNumber")) = False Then
+            Session("CustomerManagerApprovedStockAccount") = False
+        Else
+
+            If DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("ManagerApprovedStockAccount") Is Nothing Then
+                Session("CustomerManagerApprovedStockAccount") = False
+            Else
+
+                Session("CustomerManagerApprovedStockAccount") = DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("ManagerApprovedStockAccount")
+            End If
+
+
+        End If
+
+
+
+       
+
         Response.Redirect("CustomerHome.aspx")
 
     End Sub
