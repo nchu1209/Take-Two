@@ -17,7 +17,6 @@
             <asp:ListItem>Withdrawal</asp:ListItem>
             <asp:ListItem>Deposit</asp:ListItem>
             <asp:ListItem>Transfer</asp:ListItem>
-            <asp:ListItem>Bill</asp:ListItem>
         </asp:DropDownList>
         <br />
         <br />

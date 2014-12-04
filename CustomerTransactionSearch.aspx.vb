@@ -7,14 +7,21 @@
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            Dim strAccountNumber As String
-            strAccountNumber = "100000" & Request.QueryString("ID").Substring(6, 4)
-            Session("AccountNumber") = strAccountNumber
+            If Request.QueryString("ID") Is Nothing Then
+                DBTransactions.GetAllTransactions(Session("AccountNumber"))
+                DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
+                lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
+                Search()
+            Else
+                Dim strAccountNumber As String
+                strAccountNumber = "100000" & Request.QueryString("ID").Substring(6, 4)
+                Session("AccountNumber") = strAccountNumber
 
-            DBTransactions.GetAllTransactions(Session("AccountNumber"))
-            DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
-            lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
-            Search()
+                DBTransactions.GetAllTransactions(Session("AccountNumber"))
+                DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber"))
+                lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName")
+                Search()
+            End If  
         End If
         DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
     End Sub
@@ -54,8 +61,8 @@
         Dim strDescriptionPartialCode2 As String
         Dim strDescriptionKeywordCode1 As String
         Dim strDescriptionKeywordCode2 As String
-        strDescriptionPartialCode1 = "Description like '%"
-        strDescriptionPartialCode2 = "'"
+        strDescriptionPartialCode1 = "Description like '"
+        strDescriptionPartialCode2 = "%'"
         strDescriptionKeywordCode1 = "Description like '%"
         strDescriptionKeywordCode2 = "%'"
 
