@@ -37,7 +37,7 @@
         </asp:GridView>
         <br />
         <br />
-        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:MIS333K_msbck614ConnectionString2 %>" SelectCommand="usp_dispute_get_all" SelectCommandType="StoredProcedure">
+        <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:MIS333K_msbck614ConnectionString %>" SelectCommand="usp_dispute_get_all" SelectCommandType="StoredProcedure">
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="Submitted" Name="filter" SessionField="Status" Type="String" />
                 <asp:SessionParameter DefaultValue="Accepted" Name="filter2" SessionField="Status2" Type="String" />
@@ -45,7 +45,6 @@
 
             </SelectParameters>
         </asp:SqlDataSource>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
 
     </div>
 </asp:Content>

@@ -228,7 +228,7 @@ Public Class ClassDBTransactions
     End Sub
 
     Public Sub GetTransactionsByTransactionNumber(strTransactionNumber As String)
-        RunProcedureOneParameter("usp_transactions_get_transactions_by_transaction_number", "@transactionnumber", strTransactionNumber)
+        RunProcedureOneParameter("usp_transactions_get_by_transaction_number", "@transactionnumber", strTransactionNumber)
     End Sub
 
     Public Sub TransactionsByAccount(strAccountNumber As String)

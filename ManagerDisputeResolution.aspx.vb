@@ -86,6 +86,102 @@ Public Class ManagerDisputeResolution
             mstrAccountNumber2 = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(1).Item("AccountNumber").ToString
             DBDisputes.GetAccountByAccountNumber2(mstrAccountNumber2)
 
+            Dim strTransactionTypeSecret1 As String
+            strTransactionTypeSecret1 = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionTypeSecretHiddenColumn").ToString
+
+            Dim strTransactionTypeSecret2 As String
+            strTransactionTypeSecret2 = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(1).Item("TransactionTypeSecretHiddenColumn").ToString
+
+            'for the first transaction
+            If ddlAction.SelectedIndex = 0 Then
+                lblError.Text = "Please pick an action."
+                Exit Sub
+            End If
+
+            If ddlAction.SelectedIndex = 1 Then
+                DBDisputes.ModifyDisputeAmount(txtClaim.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
+                DBDisputes.ModifyStatusResolved("Accepted", txtDisputeNumber.Text)
+
+                If strTransactionTypeSecret1 = "Deposit" Or strTransactionTypeSecret1 = "Transfer To" Then
+                    DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("Balance")) - mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) - mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString())
+                Else
+                    DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("Balance")) + mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString())
+                End If
+            End If
+
+            If ddlAction.SelectedIndex = 2 Then
+                DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
+                Session("UpdatedStatus") = "Rejected"
+                lblError.Text = "The request has been rejected."
+                UpdateEmpID()
+            End If
+
+            If ddlAction.SelectedIndex = 3 Then
+                If Valid.CheckDecimal(txtAdjusted.Text) = -1 Then
+                    lblError.Text = "Please enter a valid adjusted amount."
+                    Exit Sub
+                End If
+                DBDisputes.ModifyDisputeAmount(txtAdjusted.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
+                DBDisputes.ModifyStatusResolved("Adjusted", txtDisputeNumber.Text)
+                Session("UpdatedStatus") = "Adjusted"
+                UpdateEmpID()
+                lblError.Text = "The transaction amount has been updated."
+            End If
+
+            If txtComment.Text <> "" Then
+                DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
+            End If
+
+            'for the second transaction
+            If ddlAction.SelectedIndex = 0 Then
+                lblError.Text = "Please pick an action."
+                Exit Sub
+            End If
+
+            If ddlAction.SelectedIndex = 1 Then
+                DBDisputes.ModifyDisputeAmount(txtClaim.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
+                DBDisputes.ModifyStatusResolved("Accepted", txtDisputeNumber.Text)
+
+                If strTransactionTypeSecret2 = "Deposit" Or strTransactionTypeSecret2 = "Transfer To" Then
+                    DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset4.Tables("tblAccounts").Rows(0).Item("Balance")) - mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset4.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) - mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(1).Item("AccountNumber").ToString())
+                Else
+                    DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset4.Tables("tblAccounts").Rows(0).Item("Balance")) + mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset4.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(1).Item("AccountNumber").ToString())
+                End If
+
+                Session("UpdatedStatus") = "Accepted"
+                UpdateEmpID()
+                lblError.Text = "The transaction amount has been updated."
+                Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
+            End If
+
+            If ddlAction.SelectedIndex = 2 Then
+                DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
+                Session("UpdatedStatus") = "Rejected"
+                lblError.Text = "The request has been rejected."
+                UpdateEmpID()
+                Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
+            End If
+
+            If ddlAction.SelectedIndex = 3 Then
+                If Valid.CheckDecimal(txtAdjusted.Text) = -1 Then
+                    lblError.Text = "Please enter a valid adjusted amount."
+                    Exit Sub
+                End If
+                DBDisputes.ModifyDisputeAmount(txtAdjusted.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
+                DBDisputes.ModifyStatusResolved("Adjusted", txtDisputeNumber.Text)
+                Session("UpdatedStatus") = "Adjusted"
+                UpdateEmpID()
+                lblError.Text = "The transaction amount has been updated."
+                Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
+            End If
+
+            If txtComment.Text <> "" Then
+                DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
+            End If
+        Else
+            mstrAccountNumber = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString
+            DBDisputes.GetAccountByAccountNumber(mstrAccountNumber)
+
             If ddlAction.SelectedIndex = 0 Then
                 lblError.Text = "Please pick an action."
                 Exit Sub
@@ -131,55 +227,6 @@ Public Class ManagerDisputeResolution
             If txtComment.Text <> "" Then
                 DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
             End If
-        End If
-
-        mstrAccountNumber = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString
-        DBDisputes.GetAccountByAccountNumber(mstrAccountNumber)
-
-        If ddlAction.SelectedIndex = 0 Then
-            lblError.Text = "Please pick an action."
-            Exit Sub
-        End If
-
-        If ddlAction.SelectedIndex = 1 Then
-            DBDisputes.ModifyDisputeAmount(txtClaim.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
-            DBDisputes.ModifyStatusResolved("Accepted", txtDisputeNumber.Text)
-
-            If strTransactionType = "Deposit" Or strTransactionType = "Transfer To" Then
-                DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("Balance")) - mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) - mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString())
-            Else
-                DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("Balance")) + mdecDifference).ToString, (CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + mdecDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString())
-            End If
-
-            Session("UpdatedStatus") = "Accepted"
-            UpdateEmpID()
-            lblError.Text = "The transaction amount has been updated."
-            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
-        End If
-
-        If ddlAction.SelectedIndex = 2 Then
-            DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
-            Session("UpdatedStatus") = "Rejected"
-            lblError.Text = "The request has been rejected."
-            UpdateEmpID()
-            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
-        End If
-
-        If ddlAction.SelectedIndex = 3 Then
-            If Valid.CheckDecimal(txtAdjusted.Text) = -1 Then
-                lblError.Text = "Please enter a valid adjusted amount."
-                Exit Sub
-            End If
-            DBDisputes.ModifyDisputeAmount(txtAdjusted.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
-            DBDisputes.ModifyStatusResolved("Adjusted", txtDisputeNumber.Text)
-            Session("UpdatedStatus") = "Adjusted"
-            UpdateEmpID()
-            lblError.Text = "The transaction amount has been updated."
-            Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
-        End If
-
-        If txtComment.Text <> "" Then
-            DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
         End If
     End Sub
 
