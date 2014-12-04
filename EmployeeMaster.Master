@@ -56,7 +56,7 @@
     <div id="masterright">
     <link href="ContentStyle.css" rel="stylesheet" type="text/css" />
     Hello  <asp:Label ID="lblName" runat="server" Text="[]" Font-Bold="True"></asp:Label>! Not <asp:label ID="lblName2" runat="server" text="[]"></asp:label>?
-    <asp:linkbutton ID="lnkLogout" runat="server">Logout</asp:linkbutton>
+    <asp:linkbutton ID="lnkLogout" runat="server" CausesValidation="False">Logout</asp:linkbutton>
     <br>
     Today's date is: <asp:label ID ="lblDate" runat="server" text="[]"></asp:label>
     </div>
