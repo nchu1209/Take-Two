@@ -130,7 +130,7 @@
                 Exit Sub
             End If
         End If
-
+        Session("ManagerApprovedStock") = ""
         Dim strApprovalNeeded As String = ""
         If CInt(txtInitialDeposit.Text) >= 5000 Then
             Session("Active") = "False"
