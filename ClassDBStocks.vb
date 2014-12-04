@@ -253,5 +253,28 @@ Public Class ClassDBStocks
 
     End Sub
 
+    'if the buy date is today
+    Public Sub ModifyAccountBalances(strNewAccountBalance As String, strNewAvailableBalance As String, strAccountNumber As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblAccounts SET Balance= '" & strNewAccountBalance & "', AvailableBalance= '" & strNewAvailableBalance & _
+            "' where AccountNumber = " & strAccountNumber
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+
+    'for the future
+    Public Sub ModifyAccountBalance1(strNewAvailableBalance As String, strAccountNumber As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblAccounts SET AvailableBalance= '" & strNewAvailableBalance & _
+            "' where AccountNumber = " & strAccountNumber
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
 
 End Class
