@@ -29,6 +29,7 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="/CustomerCreateBankAccount.aspx">Apply for Account</a></li>
             <li><a href="/CustomerManageAccount.aspx">Manage Profile</a></li>
+            <li><a href="/CustomerHome.aspx">My Accounts</a></li>
             <%--<li class="divider"></li>
             <li><a href="#">Separated link</a></li>
             <li class="divider"></li>
