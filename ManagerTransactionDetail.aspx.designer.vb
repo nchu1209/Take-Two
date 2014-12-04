@@ -113,6 +113,15 @@ Partial Public Class ManagerTransactionDetail
     Protected WithEvents lblEmployeeComments As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''lblEmpID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblEmpID As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''btnReturn control.
     '''</summary>
     '''<remarks>

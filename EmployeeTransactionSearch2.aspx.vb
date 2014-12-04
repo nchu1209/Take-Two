@@ -19,7 +19,14 @@
         gvTransactionSearch.DataSource = DBTransactions.MyView
         gvTransactionSearch.DataBind()
 
-        DBTransactions.DoSort()
+        If RadioButtonList1.SelectedIndex = 0 Then
+            DBTransactions.DoSortAscending()
+        ElseIf RadioButtonList1.SelectedIndex = 1 Then
+            DBTransactions.DoSortDescending()
+        Else
+            lblError.Text = "Please select either ascending or descending order to search by"
+            Exit Sub
+        End If
 
         'error message & table disappears if there are no matching records
         If DBTransactions.MyView.Count = 0 Then

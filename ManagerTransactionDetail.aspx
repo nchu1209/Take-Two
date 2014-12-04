@@ -21,7 +21,8 @@
            <br />
            Dispute Status:
            <br />
-           Employee Comments: <br />
+           Employee Comments:<br />
+           Employee ID: <br />
            
         </div>
         <div id ="label3">
@@ -38,6 +39,8 @@
             <asp:Label ID="lblDisputeStatus" runat="server"></asp:Label>
             <br />
             <asp:Label ID="lblEmployeeComments" runat="server"></asp:Label>
+            <br />
+            <asp:Label ID="lblEmpID" runat="server"></asp:Label>
             <br />
             <br />
             <asp:Button ID="btnReturn" runat="server" Text="Return to Transaction Search" />

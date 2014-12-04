@@ -211,8 +211,12 @@ Public Class ClassDBTransactions
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
     End Sub
-    Public Sub DoSort()
-        MyView.Sort = "[Transaction Number], [Transaction Type], Description, Amount, Date"
+    Public Sub DoSortDescending()
+        MyView.Sort = "[Transaction Number] DESC, [Transaction Type] DESC, Description DESC, Amount DESC, Date DESC"
+    End Sub
+
+    Public Sub DoSortAscending()
+        MyView.Sort = "[Transaction Number] ASC, [Transaction Type] ASC, Description ASC, Amount ASC, Date ASC"
     End Sub
 
     Public Sub DoDateSort()

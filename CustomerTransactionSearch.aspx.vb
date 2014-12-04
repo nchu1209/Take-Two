@@ -27,7 +27,14 @@
     End Sub
 
     Public Sub Search()
-        DBTransactions.DoSort()
+        If RadioButtonList1.SelectedIndex = 0 Then
+            DBTransactions.DoSortAscending()
+        ElseIf RadioButtonList1.SelectedIndex = 1 Then
+            DBTransactions.DoSortDescending()
+        Else
+            lblError.Text = "Please select either ascending or descending order to search by"
+            Exit Sub
+        End If
 
         'bind the gridview to the dataview
         gvTransactionSearch.DataSource = DBTransactions.MyView
