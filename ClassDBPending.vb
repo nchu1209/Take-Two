@@ -155,6 +155,7 @@ Public Class ClassDBPending
         RunProcedureNoParam("usp_transactions_get_max_transaction_number")
     End Sub
 
+    'PENDING
     Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, strBillID As String, strIRA As String)
 
         mstrQuery = "INSERT INTO tblPendingTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, BillID, IRA) VALUES (" & _
@@ -166,6 +167,22 @@ Public Class ClassDBPending
             "'" & strDescription & "', " & _
             "'" & strBillID & "', " & _
             "'" & strIRA & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+    End Sub
+
+    Public Sub AddTransactionPending(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, decAccountBalance As Decimal, strDescription As String, decAvailableBalance As Decimal)
+
+        mstrQuery = "INSERT INTO tblPendingTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, AccountBalance, Description, AvailableBalance) VALUES (" & _
+            "'" & intTransactionNumber & "', " & _
+            "'" & intAccountNumber & "', " & _
+            "'" & strTransactionType & "', " & _
+            "'" & strDate & "', " & _
+            "'" & decTransactionAmount & "', " & _
+            "'" & decAccountBalance & "', " & _
+            "'" & strDescription & "', " & _
+            "'" & decAvailableBalance & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)

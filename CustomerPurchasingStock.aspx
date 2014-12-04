@@ -77,6 +77,7 @@
              <br />
 
              <asp:Label ID="Label2" runat="server" Text="Transfer From: "></asp:Label>
+                  <br />
              <br />
 
              <%-- Default to Current Date --%>
@@ -92,15 +93,14 @@
              <div id="textbox">
                  <br />
              <br />
-                 <asp:DropDownList ID="ddlAccounts" runat="server">
+                 <asp:DropDownList ID="ddlAccounts" runat="server" AutoPostBack="True">
              </asp:DropDownList>
               
                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="ddlAccounts" ErrorMessage="ERROR: You must select an account from which to purchase the stocks">*</asp:RequiredFieldValidator>
               
                  <br />
                  <br />
-                 <asp:TextBox ID="txtDate" runat="server"></asp:TextBox>
-                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDate" ErrorMessage="ERROR: You must select a date to make a purchcase.">*</asp:RequiredFieldValidator>
+                 <asp:TextBox ID="txtDate" runat="server" ReadOnly="True"></asp:TextBox>
                  <br />
                  <br />
              
