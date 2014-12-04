@@ -36,12 +36,6 @@
             Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
 
-        ''check to see if session emptype exists page 60
-        'If Session("CustomerNumber") Is Nothing Then
-        '    Response.Redirect("CustomerLogin.aspx")
-        'End If
-
-
         DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
         ''get the record id from the select
         mCustomerID = CInt(Session("CustomerNumber"))
@@ -203,12 +197,18 @@
                 'DO get all for stockPortfolio
 
                 'THEN THIS
-                Dim intNumHoldingStocks As Integer
-                'still need to create this
-                'intNumHoldingStocks = DBStocks.GetHeldStocksByStockPortfolioIDAndTicker()
 
+                DBStocks.GetMaxTransactionNumber()
+                If DBStocks.StocksDataset2.Tables("tblStocks").Rows(0).Item("MaxTransactionNumber") Is DBNull.Value Then
+                    Session("TransactionNumber") = 1
+                Else
+                    Session("TransactionNumber") = CInt(DBStocks.StocksDataset2.Tables("tblStocks").Rows(0).Item("MaxTransactionNumber")) + 1
+                End If
+
+                Dim intNumHoldingStocks As Integer
                 intNumHoldingStocks += CInt(t.Text)
-                DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice)
+                DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
+
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information
@@ -303,14 +303,14 @@
         txtDate.Text = PurchaseCalendar.SelectedDate
     End Sub
 
-    'Private Sub GetTransactionNumber()
-    '    dbtrans.GetMaxTransactionNumber()
-    '    If dbtrans.TransactionsDataset.Tables("tblTransactions").Rows.Count = 0 Then
-    '        Session("TransactionNumber") = 1
-    '    Else
-    '        Session("TransactionNumber") = CInt(dbtrans.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
-    '    End If
-    'End Sub
+    Private Sub GetTransactionNumber()
+        dbstocks.GetMaxTransactionNumber()
+        If DBStocks.StocksDataset2.Tables("tblStocks").Rows.Count = 0 Then
+            Session("StockTransactionNumber") = 1
+        Else
+            Session("StockTransactionNumber") = CInt(DBStocks.StocksDataset2.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
+        End If
+    End Sub
 
 
 End Class

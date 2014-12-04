@@ -66,7 +66,10 @@
             <br />
             <div id="content">
 
-              &nbsp;#of shares of a certain stock<br />
+              &nbsp;<br />
+                <br />
+                <br />
+                #of shares of a certain stock<br />
                 purchase price of stocks
 
             </div>
