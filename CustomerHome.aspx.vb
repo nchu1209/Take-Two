@@ -68,8 +68,11 @@ Public Class CustomerHome
 
     Protected Sub gvAccounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvAccounts.SelectedIndexChanged
         lblError.Text = gvAccounts.SelectedRow.Cells(0).Text
-        Exit Sub
-        Session("AccountNumber") = "100000" & gvAccounts.SelectedRow.Cells(0).Text.Substring(6, 4)
-        Response.Redirect("CustomerTransactionSearch.aspx")
+
+        Dim intSelectedIndex As Integer = gvAccounts.SelectedIndex
+        Dim k As Label = DirectCast(gvAccounts.Rows(intSelectedIndex).Cells(1).FindControl("lblAccountNumber"), Label)
+
+        Session("AccountNumber") = "100000" & K.text.substring(6, 4)
+        Response.Redirect("CustomerTransactionSearch.aspx?ID=" & Session("AccountNumber").ToString)
     End Sub
 End Class
