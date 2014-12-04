@@ -167,10 +167,10 @@
         Dim strDescription As String = "Deposited " & txtInitialDeposit.Text & " to account " & txtAccountNumber.Text & " on " & strDate & " while opening the account"
 
         If Session("AccountType") = "IRA" Then
-            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "True", CInt(txtInitialDeposit.Text))
+            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "True", CInt(txtInitialDeposit.Text), "Deposit")
             DBAccounts.UpdateIRATotalDeposit(CInt(txtAccountNumber.Text), CDec(txtInitialDeposit.Text))
         Else
-            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "False", CInt(txtInitialDeposit.Text))
+            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "False", CInt(txtInitialDeposit.Text), "Deposit")
         End If
         
         'clear form once application is submitted and show message to customer. or redirect after lag????

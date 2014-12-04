@@ -193,9 +193,9 @@ Public Class ClassDBTransactions
         RunProcedureNoParam("usp_transactions_get_max_transaction_number")
     End Sub
 
-    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal)
+    Public Sub AddTransaction(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, decAccountBalance As Decimal, intBillID As Integer, strIRA As String, decAvailableBalance As Decimal, strSecret As String)
 
-        mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance) VALUES (" & _
+        mstrQuery = "INSERT INTO tblTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, AccountBalance, BillID, IRA, AvailableBalance, TransactionTypeSecretHiddenColumn) VALUES (" & _
             "'" & intTransactionNumber & "', " & _
             "'" & intAccountNumber & "', " & _
             "'" & strTransactionType & "', " & _
@@ -205,7 +205,8 @@ Public Class ClassDBTransactions
             "'" & decAccountBalance & "', " & _
             "'" & intBillID & "', " & _
             "'" & strIRA & "', " & _
-            "'" & decAvailableBalance & "')"
+            "'" & decAvailableBalance & "', " & _
+            "'" & strSecret & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
@@ -224,6 +225,10 @@ Public Class ClassDBTransactions
 
     Public Sub GetDetails(strTransactionNumber As String)
         RunProcedureOneParameter("usp_transactions_get_details_by_transaction_number", "@transactionnumber", strTransactionNumber)
+    End Sub
+
+    Public Sub GetTransactionsByTransactionNumber(strTransactionNumber As String)
+        RunProcedureOneParameter("usp_transactions_get_transactions_by_transaction_number", "@transactionnumber", strTransactionNumber)
     End Sub
 
     Public Sub TransactionsByAccount(strAccountNumber As String)
