@@ -86,7 +86,7 @@
 
                 'add transaction
                 'update balance and available balance
-                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionType, strDate, decTransactionAmount, strDescription, decAccountBalance, "NULL", strIRA, decAvailableBalance)
+                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionType, strDate, decTransactionAmount, strDescription, decAccountBalance, Nothing, strIRA, decAvailableBalance)
                 dbaccounts.UpdateBalance(intAccountNumber, decAccountBalance)
                 dbaccounts.UpdateAvailableBalance(intAccountNumber, decAvailableBalance)
 
@@ -98,6 +98,7 @@
 
         'MINIMUM PAYMENTS
         dbbill.GetAllMinimumPayments()
+        'For each person who signed up for minimum payments
         For i = 0 To dbbill.BillDataset.Tables("tblBill").Rows.Count - 1
             db.GetDate()
             Dim datToday As Date = CDate(db.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date"))
@@ -105,26 +106,69 @@
             Dim intCustomerNumber As Integer = CInt(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("CustomerNumber"))
             Dim decMonthlyPayment As Decimal = CDec(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("MinimumAmount"))
             Dim datSignUpDate As Date = CDate(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("SignUpDate"))
-            Dim intAccountNumber As Integer = CInt(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("AccountNumber"))
+            Dim datLastPaymentDate As Date = CDate(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("LastPaymentDate"))
+            Dim intAccountNumberMin As Integer = CInt(dbbill.BillDataset.Tables("tblBill").Rows(i).Item("AccountNumber"))
 
-            Dim intMonths As Integer = DateDiff(DateInterval.Month, datSignUpDate, datToday) + 1
+            Dim intMonths As Integer
+
+            If datToday >= datLastPaymentDate And datSignUpDate = datLastPaymentDate Then
+                intMonths = DateDiff(DateInterval.Month, datLastPaymentDate, datToday) + 1
+            ElseIf datToday >= datLastPaymentDate And datSignUpDate <> datLastPaymentDate And datToday.Month <> datLastPaymentDate.Month Then
+                intMonths = DateDiff(DateInterval.Month, datLastPaymentDate, datToday) + 1
+            Else
+                intMonths = 0
+            End If
+
             Dim decTotalPayment As Decimal = intMonths * decMonthlyPayment
 
-            'get sorted bills
+            dbaccounts.GetBalanceByAccountNumber(intAccountNumberMin.ToString)
+            Dim decBalanceMin As Decimal = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("Balance"))
+            Dim decAvailableBalanceMin As Decimal = CDec(dbaccounts.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("AvailableBalance"))
+
+            'get customer's sorted bills
             dbbill.SortBills(intCustomerNumber.ToString)
             For j = 0 To dbbill.BillDataset2.Tables("tblBill").Rows.Count - 1
                 Dim decBillAmount As Decimal = CDec(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("BillAmount"))
+                Dim decAmountRemaining As Decimal = CDec(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("AmountRemaining"))
+                Dim strPayeeNameMin As String = dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("PayeeName").ToString
+                Dim intBillID As Integer = CInt(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("BillID"))
+                Dim datBillDate As Date = CDate(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("BillDate"))
+                Dim datDueDate As Date = CDate(dbbill.BillDataset2.Tables("tblBill").Rows(j).Item("DueDate"))
 
-                If decBillAmount <= decTotalPayment Then
+                If decAmountRemaining <= decTotalPayment Then 'pay bill in full
                     'add transaction
+                    decBalanceMin = decBalanceMin - decAmountRemaining
+                    decAvailableBalanceMin = decAvailableBalanceMin - decAmountRemaining
+                    dbaccounts.UpdateBalance(intAccountNumberMin, decBalanceMin)
+                    dbaccounts.UpdateAvailableBalance(intAccountNumberMin, decAvailableBalanceMin)
                     GetTransactionNumber()
-                    'Dim strDescription As String = ""
-                    'dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumber, "eBill Payment", datToday.ToString,decBillAmount,
+                    Dim strDescriptionMin As String = "Sent eBill payment of " & decAmountRemaining.ToString & " to " & strPayeeNameMin & " from account " & intAccountNumberMin.ToString & " on " & datToday.ToString
+                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decAmountRemaining, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin)
                     'update bills table
+                    dbbill.ModifyBill(decBillAmount.ToString, datBillDate.ToString, datDueDate.ToString, decAmountRemaining, "0", "Paid", "TRUE", intBillID.ToString)
                     'decrease total payment amount
+                    decTotalPayment = decTotalPayment - decAmountRemaining
                 End If
 
+                If decAmountRemaining > decTotalPayment And decTotalPayment <> 0 Then 'pay rest of decTotalPayment
+                    'add transaction
+                    decBalanceMin = decBalanceMin - decTotalPayment
+                    decAvailableBalanceMin = decAvailableBalanceMin - decTotalPayment
+                    dbaccounts.UpdateBalance(intAccountNumberMin, decBalanceMin)
+                    dbaccounts.UpdateAvailableBalance(intAccountNumberMin, decAvailableBalanceMin)
+                    GetTransactionNumber()
+                    Dim strDescriptionMin As String = "Sent eBill payment of " & decTotalPayment.ToString & " to " & strPayeeNameMin & " from account " & intAccountNumberMin.ToString & " on " & datToday.ToString
+                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decTotalPayment, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin)
+                    'update bills table
+                    decAmountRemaining = decAmountRemaining - decTotalPayment
+                    dbbill.ModifyBill(decBillAmount.ToString, datBillDate.ToString, datDueDate.ToString, decTotalPayment.ToString, decAmountRemaining, "Partially Paid", "TRUE", intBillID.ToString)
+                    'end loop
+                    Exit For
+                End If
             Next
+
+            dbbill.UpdateMinimumPaymentDate(datToday, intCustomerNumber.ToString)
+
         Next
 
 

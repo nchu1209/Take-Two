@@ -7,12 +7,14 @@ Public Class ClassDBDisputeManager
     'Declare module-level variables
     Dim mDatasetDispute As New DataSet
     Dim mDatasetDispute2 As New DataSet
+    Dim mDatasetDispute3 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
     Dim mstrConnection As String = "workstation id=COMPUTER;packet size =4096;data source=MISSQL.mccombs.utexas.edu;integrated security=False; initial catalog=mis333k_msbck614; user id=msbck614; password=AmyEnrione1"
     Dim mMyView As New DataView
     Dim mMyView2 As New DataView
+    Dim mMyView3 As New DataView
 
     'Define a public read-only property so "outsiders" can access the dataset filled by this class
     Public ReadOnly Property DisputeDataset() As DataSet
@@ -36,6 +38,18 @@ Public Class ClassDBDisputeManager
     Public ReadOnly Property MyView2() As DataView
         Get
             Return mMyView2
+        End Get
+    End Property
+
+    Public ReadOnly Property DisputeDataset3() As DataSet
+        Get
+            'Return dataset to user
+            Return mDatasetDispute3
+        End Get
+    End Property
+    Public ReadOnly Property MyView3() As DataView
+        Get
+            Return mMyView3
         End Get
     End Property
 
@@ -79,6 +93,32 @@ Public Class ClassDBDisputeManager
             mdbDataAdapter.Fill(mDatasetDispute, "tblDispute")
             'copy dataset to dataview
             mMyView.Table = mDatasetDispute.Tables("tblDispute")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub RunProcedureOneParameter2(ByVal strProcedureName As String, ByVal strParameterName As String, ByVal strParameterValue As String)
+        'Purpose: run any stored procedure with one parameter and fill dataset
+        'Arguments: 3 strings
+        'Returns: none (query results via property)
+        'Author: Nicole Chu (nc7997)
+        'Date: 10/21/14
+        'Creates instances of the connection and command object
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim mdbDataAdapter As New SqlDataAdapter(strProcedureName, objConnection)
+        Try
+            'sets command type to "stored procedure"
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            'add parameter to SPROC
+            mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(strParameterName, strParameterValue))
+            'clear dataset
+            mDatasetDispute3.Clear()
+            'open connection and fill dataset
+            mdbDataAdapter.Fill(mDatasetDispute3, "tblAccounts")
+            'copy dataset to dataview
+            mMyView3.Table = mDatasetDispute3.Tables("tblAccounts")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strProcedureName.ToString & "parameters are " & strParameterName.ToString & strParameterValue.ToString & " error is " & ex.Message)
         End Try
@@ -154,6 +194,36 @@ Public Class ClassDBDisputeManager
 
     End Sub
 
+    Public Sub ModifyManagerID(strEmployeeID As String, strDisputeID As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblDispute SET EmployeeID= '" & strEmployeeID & _
+            "' where DisputeID = " & strDisputeID
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub ModifyTransactionDescription(strDescription As String, strTransactionID As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblTransactions SET Description= '" & strDescription & _
+            "' where TransactionNumber = " & strTransactionID
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub ModifyAccountBalances(strNewAccountBalance As String, strNewAvailableBalance As String, strAccountNumber As String)
+        'the strquery that will be modified
+        mstrQuery = "UPDATE tblAccounts SET Balance= '" & strNewAccountBalance & "', AvailableBalance= '" & strNewAvailableBalance & _
+            "' where AccountNumber = " & strAccountNumber
+
+        'updates the db
+        UpdateDB(mstrQuery)
+
+    End Sub
+
     Public Sub GetAllUnresolvedDispute()
         RunProcedureNoParam("usp_dispute_get_unresolved")
     End Sub
@@ -170,7 +240,9 @@ Public Class ClassDBDisputeManager
         RunProcedureOneParameter("usp_dispute_get_by_disputeID", "@disputeID", strDisputeID)
     End Sub
 
-
+    Public Sub GetAccountByAccountNumber(strAccountNumber As String)
+        RunProcedureOneParameter2("usp_accounts_get_by_account_Number", "@accountNumber", strAccountNumber)
+    End Sub
 
 
 End Class

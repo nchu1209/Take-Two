@@ -4,14 +4,23 @@ Public Class ManagerDisputeResolution
     Inherits System.Web.UI.Page
     Dim DBDisputes As New ClassDBDisputeManager
     Dim mstrDisputeID As String
+    Dim mstrDescription As String
+    Dim mstrUpdatedDescription As String
     Dim Valid As New ClassValidate
+    Dim mintDifference As Integer
+    Dim mstrAccountNumber As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         mstrDisputeID = Session("DisputeID").ToString
 
         If IsPostBack = False Then
             FillTextboxes()
-
+            If Session("UpdatedStatus").ToString <> "Submitted" Then
+                Panel1.Visible = False
+                lblNoDispute.Text = "You have already resolved this dispute."
+                Response.AddHeader("Refresh", "3; URL=ManagerResolveDisputes.aspx")
+                Exit Sub
+            End If
 
 
         End If
@@ -23,6 +32,7 @@ Public Class ManagerDisputeResolution
         'put info from selected customer into text boxes on form
 
         DBDisputes.GetByDisputeID(mstrDisputeID)
+
 
         txtDisputeNumber.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("DisputeID").ToString
         txtComments.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CustomerComment").ToString
@@ -56,6 +66,11 @@ Public Class ManagerDisputeResolution
     Protected Sub btnSubmit_Click(sender As Object, e As EventArgs) Handles btnSubmit.Click
         DBDisputes.GetByDisputeID(mstrDisputeID)
 
+        mintDifference = CInt(DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionAmount")) - CInt(DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CorrectAmount"))
+
+        mstrAccountNumber = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString
+        DBDisputes.GetAccountByAccountNumber(mstrAccountNumber)
+
         If ddlAction.SelectedIndex = 0 Then
             lblError.Text = "Please pick an action."
             Exit Sub
@@ -64,13 +79,18 @@ Public Class ManagerDisputeResolution
         If ddlAction.SelectedIndex = 1 Then
             DBDisputes.ModifyDisputeAmount(txtClaim.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
             DBDisputes.ModifyStatusResolved("Accepted", txtDisputeNumber.Text)
+            DBDisputes.ModifyAccountBalances((CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("Balance")) + mintDifference).ToString, (CInt(DBDisputes.DisputeDataset3.Tables("tblAccounts").Rows(0).Item("AvailableBalance")) + mintDifference).ToString, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("AccountNumber").ToString())
+            Session("UpdatedStatus") = "Accepted"
+            UpdateEmpID()
             lblError.Text = "The transaction amount has been updated."
             Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
         End If
 
         If ddlAction.SelectedIndex = 2 Then
             DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
+            Session("UpdatedStatus") = "Rejected"
             lblError.Text = "The request has been rejected."
+            UpdateEmpID()
             Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
         End If
 
@@ -81,6 +101,8 @@ Public Class ManagerDisputeResolution
             End If
             DBDisputes.ModifyDisputeAmount(txtAdjusted.Text, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString)
             DBDisputes.ModifyStatusResolved("Adjusted", txtDisputeNumber.Text)
+            Session("UpdatedStatus") = "Adjusted"
+            UpdateEmpID()
             lblError.Text = "The transaction amount has been updated."
             Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
         End If
@@ -88,5 +110,13 @@ Public Class ManagerDisputeResolution
         If txtComment.Text <> "" Then
             DBDisputes.ModifyManagerComment(txtComment.Text, txtDisputeNumber.Text)
         End If
+    End Sub
+
+    Protected Sub UpdateEmpID()
+        DBDisputes.ModifyManagerID(Session("EmpID").ToString, txtDisputeNumber.Text)
+        DBDisputes.GetByDisputeID(mstrDisputeID)
+        mstrDescription = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("Description").ToString()
+        mstrUpdatedDescription = "Dispute " & Session("UpdatedStatus").ToString & ": " + mstrDescription
+        DBDisputes.ModifyTransactionDescription(mstrUpdatedDescription, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString())
     End Sub
 End Class

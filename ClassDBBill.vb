@@ -276,11 +276,12 @@ Public Class ClassDBBill
 
     Public Sub SetUpMinimumPayment(strCustomerNumber As String, decMinimumAmount As Decimal, datSignUpDate As Date, strAccountNumber As String)
 
-        mstrQuery = "INSERT INTO tblMinimumPayments (CustomerNumber, MinimumAmount, SignUpDate, AccountNumber) VALUES (" & _
+        mstrQuery = "INSERT INTO tblMinimumPayments (CustomerNumber, MinimumAmount, SignUpDate, AccountNumber, LastPaymentDate) VALUES (" & _
             "'" & strCustomerNumber & "', " & _
             "'" & decMinimumAmount & "', " & _
             "'" & datSignUpDate & "', " & _
-            "'" & strAccountNumber & "')"
+            "'" & strAccountNumber & "', " & _
+            "'" & datSignUpDate & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
@@ -297,6 +298,17 @@ Public Class ClassDBBill
 
     Public Sub GetAllMinimumPayments()
         RunProcedureNoParam("usp_minimumpayments_get_all")
+    End Sub
+
+    Public Sub UpdateMinimumPaymentDate(datToday As Date, strCustomerNumber As String)
+
+        mstrQuery = "UPDATE tblMinimumPayments SET " & _
+            "LastPaymentDate = '" & datToday & "' " & _
+            "WHERE CustomerNumber = " & strCustomerNumber
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
     End Sub
 
 End Class
