@@ -188,7 +188,7 @@
                 strDescription = "Fee for purchase of " & DBStocks.StocksDataset.Tables("tblStocks").Rows(0).Item("Name").ToString
                 mdecIStillDK = CDec(mdecIStillDK - CDec(strFee))
                 mdecidk = CDec(mdecidk - CDec(strFee))
-                DBTransactions.AddTransaction(intMaxTransaction, CInt(ddlAccounts.SelectedValue.ToString), "Fee", PurchaseCalendar.SelectedDate.ToString, CDec(strFee), strDescription, mdecIStillDK, Nothing, "", mdecidk)
+                DBTransactions.AddTransaction(intMaxTransaction, CInt(ddlAccounts.SelectedValue.ToString), "Fee", PurchaseCalendar.SelectedDate.ToString, CDec(strFee), strDescription, mdecIStillDK, Nothing, "", mdecidk, "Fee")
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information
@@ -240,7 +240,7 @@
 
             DBStocks.ModifyAccountBalances(mdecNewBalance.ToString, mdecNewAvailableBalance.ToString, ddlAccounts.SelectedValue.ToString)
 
-            DBTransactions.AddTransaction(intMaxTransaction2, CInt(ddlAccounts.SelectedValue.ToString), "Withdrawal", PurchaseCalendar.SelectedDate.ToString, mdecSumTotal - mdecFeeTotal, strDescription, mdecBalance - mdecSumTotal, Nothing, "", mdecAvailableBalance - mdecSumTotal)
+            DBTransactions.AddTransaction(intMaxTransaction2, CInt(ddlAccounts.SelectedValue.ToString), "Withdrawal", PurchaseCalendar.SelectedDate.ToString, mdecSumTotal - mdecFeeTotal, strDescription, mdecBalance - mdecSumTotal, Nothing, "", mdecAvailableBalance - mdecSumTotal, "Withdrawal")
 
 
         Else ' if in the future
