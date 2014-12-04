@@ -232,7 +232,7 @@
                     strPaymentMessage = "Sent payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Payment")
                 End If
 
                 'eBill Payments
@@ -254,7 +254,7 @@
                     strPaymentMessage = "Sent eBill payment of " & t.Text & " to " & n.Text & " from account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "eBill Payment", c.SelectedDate, CDec(t.Text), strPaymentMessage, mdecBalance, intBillID, "", mdecAvailableBalance, "eBill Payment")
 
                     'update bills table
                     
@@ -333,7 +333,7 @@
             strFeeMessage = "Overdraft fee of " & OVERDRAFT_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & datDate.ToString
             GetTransactionNumber()
             'update the transactions table
-            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+            dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
         End If
 
         'late fee if necessary
@@ -353,7 +353,7 @@
                     Dim strFeeMessage As String = "Late fee of " & LATE_FEE.ToString & " charged to account " & ddlAccount.SelectedValue.ToString & " on " & c.SelectedDate.ToString
                     GetTransactionNumber()
                     'update the transactions table
-                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance)
+                    dbtrans.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlAccount.SelectedValue), "Fee", c.SelectedDate.ToString, LATE_FEE, strFeeMessage, mdecBalance, Nothing, "", mdecAvailableBalance, "Fee")
                 End If
             End If
         Next

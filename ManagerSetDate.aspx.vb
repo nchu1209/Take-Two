@@ -76,17 +76,19 @@
                     dbaccounts.UpdateIRATotalDeposit(intAccountNumber, decIRATotal + decTransactionAmount)
                 End If
 
+                Dim strTransactionTypeGeneric As String
+
                 If strTransactionType = "Transfer To" Then
-                    strTransactionType = "Transfer"
+                    strTransactionTypeGeneric = "Transfer"
                 End If
 
                 If strTransactionType = "Transfer From" Then
-                    strTransactionType = "Transfer"
+                    strTransactionTypeGeneric = "Transfer"
                 End If
 
                 'add transaction
                 'update balance and available balance
-                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionType, strDate, decTransactionAmount, strDescription, decAccountBalance, Nothing, strIRA, decAvailableBalance)
+                dbtransaction.AddTransaction(intTransactionNumber, intAccountNumber, strTransactionTypeGeneric, strDate, decTransactionAmount, strDescription, decAccountBalance, Nothing, strIRA, decAvailableBalance, strTransactionType)
                 dbaccounts.UpdateBalance(intAccountNumber, decAccountBalance)
                 dbaccounts.UpdateAvailableBalance(intAccountNumber, decAvailableBalance)
 
@@ -143,7 +145,7 @@
                     dbaccounts.UpdateAvailableBalance(intAccountNumberMin, decAvailableBalanceMin)
                     GetTransactionNumber()
                     Dim strDescriptionMin As String = "Sent eBill payment of " & decAmountRemaining.ToString & " to " & strPayeeNameMin & " from account " & intAccountNumberMin.ToString & " on " & datToday.ToString
-                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decAmountRemaining, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin)
+                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decAmountRemaining, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin, "eBill Payment")
                     'update bills table
                     dbbill.ModifyBill(decBillAmount.ToString, datBillDate.ToString, datDueDate.ToString, decAmountRemaining, "0", "Paid", "TRUE", intBillID.ToString)
                     'decrease total payment amount
@@ -158,7 +160,7 @@
                     dbaccounts.UpdateAvailableBalance(intAccountNumberMin, decAvailableBalanceMin)
                     GetTransactionNumber()
                     Dim strDescriptionMin As String = "Sent eBill payment of " & decTotalPayment.ToString & " to " & strPayeeNameMin & " from account " & intAccountNumberMin.ToString & " on " & datToday.ToString
-                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decTotalPayment, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin)
+                    dbtransaction.AddTransaction(Session("TransactionNumber"), intAccountNumberMin, "eBill Payment", datToday.ToString, decTotalPayment, strDescriptionMin, decBalanceMin, intBillID, "", decAvailableBalanceMin, "eBill Payment")
                     'update bills table
                     decAmountRemaining = decAmountRemaining - decTotalPayment
                     dbbill.ModifyBill(decBillAmount.ToString, datBillDate.ToString, datDueDate.ToString, decTotalPayment.ToString, decAmountRemaining, "Partially Paid", "TRUE", intBillID.ToString)
