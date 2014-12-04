@@ -153,6 +153,7 @@
             Dim strPrice As String
             Dim strFee As String
             Dim decTotal As Decimal
+            Dim strStockType As String
 
             'get all the stocks
             DBStocks.GetAllStocks()
@@ -163,6 +164,8 @@
             'get the specific price and fee for that stock
             strPrice = DBStocks.StocksDataset.Tables("tblStocks").Rows(0).Item("SalesPrice").ToString
             strFee = DBStocks.StocksDataset.Tables("tblStocks").Rows(0).Item("Fee").ToString
+            strStockType = DBStocks.StocksDataset.Tables("tblStocks").Rows(0).Item("StockType").ToString
+
 
             'Making sure the number is valid
             If t.Text = "" Or t.Text = "0" Then
@@ -197,8 +200,15 @@
                 mdecidk = CDec(mdecidk - CDec(strFee))
                 DBTransactions.AddTransaction(intMaxTransaction, CInt(ddlAccounts.SelectedValue.ToString), "Fee", PurchaseCalendar.SelectedDate.ToString, CDec(strFee), strDescription, mdecIStillDK, Nothing, "", mdecidk, "Fee")
 
+                'DO get all for stockPortfolio
 
-                'DBStocks.AddStockPortfolio((ddlAccounts.SelectedValue.ToString, strTick, NumberOfSharesHeld, StockAccountNumber, CInt(t.Text), StockType, PurchasePrice)
+                'THEN THIS
+                Dim intNumHoldingStocks As Integer
+                'still need to create this
+                'intNumHoldingStocks = DBStocks.GetHeldStocksByStockPortfolioIDAndTicker()
+
+                intNumHoldingStocks += CInt(t.Text)
+                DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice)
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information
@@ -292,6 +302,15 @@
     Protected Sub TransferCalendar_SelectionChanged(sender As Object, e As EventArgs) Handles PurchaseCalendar.SelectionChanged
         txtDate.Text = PurchaseCalendar.SelectedDate
     End Sub
+
+    'Private Sub GetTransactionNumber()
+    '    dbtrans.GetMaxTransactionNumber()
+    '    If dbtrans.TransactionsDataset.Tables("tblTransactions").Rows.Count = 0 Then
+    '        Session("TransactionNumber") = 1
+    '    Else
+    '        Session("TransactionNumber") = CInt(dbtrans.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("MaxTransactionNumber")) + 1
+    '    End If
+    'End Sub
 
 
 End Class
