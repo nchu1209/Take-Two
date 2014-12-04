@@ -147,10 +147,7 @@
                 Exit Sub
             End If
             decIRATotal += CDec(txtDepositAmount.Text)
-
-            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
-                DBAccounts.UpdateIRATotalDeposit(CInt(ddlDeposit.SelectedValue), decIRATotal)
-            End If
+            DBAccounts.UpdateIRATotalDeposit(CInt(ddlDeposit.SelectedValue), decIRATotal)
         End If
 
 
@@ -267,10 +264,7 @@
                 Exit Sub
             End If
             decIRATotal += CDec(txtAmountTransfer.Text)
-
-            If DBDate.CheckSelectedDate(TransferCalendar.SelectedDate) = 0 Then
-                DBAccounts.UpdateIRATotalDeposit(CInt(ddlTransferTo.SelectedValue), decIRATotal)
-            End If
+            DBAccounts.UpdateIRATotalDeposit(CInt(ddlTransferTo.SelectedValue), decIRATotal)
         End If
 
 
