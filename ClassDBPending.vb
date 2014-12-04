@@ -171,6 +171,24 @@ Public Class ClassDBPending
         UpdateDB(mstrQuery)
     End Sub
 
+
+    Public Sub AddTransactionNeedsApproval(intTransactionNumber As Integer, ByVal intAccountNumber As Integer, strTransactionType As String, strDate As String, decTransactionAmount As Decimal, strDescription As String, intBillID As Integer, strIRA As String, strApprovalNeeded As String)
+
+        mstrQuery = "INSERT INTO tblPendingTransactions (TransactionNumber, AccountNumber, TransactionType, Date, TransactionAmount, Description, BillID, IRA, ManagerApprovedTransaction) VALUES (" & _
+            "'" & intTransactionNumber & "', " & _
+            "'" & intAccountNumber & "', " & _
+            "'" & strTransactionType & "', " & _
+            "'" & strDate & "', " & _
+            "'" & decTransactionAmount & "', " & _
+            "'" & strDescription & "', " & _
+            "'" & intBillID & "', " & _
+            "'" & strIRA & "', " & _
+            "'" & strApprovalNeeded & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+    End Sub
+
     Public Sub GetAllPendingTransactions()
         RunProcedureGetAll("usp_pending_get_all")
     End Sub

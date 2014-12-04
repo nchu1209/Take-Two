@@ -40,8 +40,6 @@
 
     </div>
     <div id ="center">
-        <asp:Label ID="comment" runat="server" Text="I dont think view all tasks is needed"></asp:Label>
-        <asp:Button ID="btnViewAll" runat="server" Text="View All Tasks" />
         &nbsp;&nbsp;&nbsp;
         <asp:Button ID="btnFilter" runat="server" Text="Resolve Disputes" PostBackUrl="~/ManagerResolveDisputes.aspx"/>
         &nbsp;&nbsp;&nbsp;&nbsp;

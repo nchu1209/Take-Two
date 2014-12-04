@@ -118,6 +118,11 @@
             Exit Sub
         End If
 
+        Dim strManagerApprovalNeeded As String = ""
+        If CDec(txtDepositAmount.Text) > 5000 Then
+            strManagerApprovalNeeded = "Needed"
+        End If
+
         'if selected account is an IRA, make sure they haven't reached their maximum deposit for the year
         'if they have, suggest the maximum contribution
         'update IRATotalDeposit
@@ -156,17 +161,26 @@
         strDepositMessage = "Deposited " & txtDepositAmount.Text & " to account " & ddlDeposit.SelectedValue.ToString & " on " & txtDepositDate.Text
         GetTransactionNumber()
 
-        If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
-            'update the balance
-            DBAccounts.UpdateBalance(CInt(ddlDeposit.SelectedValue), decBalance)
-            'update the available balance
-            decAvailableBalance += CDec(txtDepositAmount.Text)
-            DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
-            'update the transactions table
-            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance, "Deposit")
+        If strManagerApprovalNeeded = "" Then
+            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
+                'update the balance
+                DBAccounts.UpdateBalance(CInt(ddlDeposit.SelectedValue), decBalance)
+                'update the available balance
+                decAvailableBalance += CDec(txtDepositAmount.Text)
+                DBAccounts.UpdateAvailableBalance(CInt(ddlDeposit.SelectedValue), decAvailableBalance)
+                'update the transactions table
+                DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance, "Deposit")
+            Else
+                DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA)
+            End If
         Else
-            DBPending.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA)
+            If DBDate.CheckSelectedDate(DepositCalendar.SelectedDate) = 0 Then
+                DBTransactions.AddTransactionNeedsApproval(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, decBalance, Nothing, strIRA, decAvailableBalance, "Deposit", strManagerApprovalNeeded)
+            Else
+                DBPending.AddTransactionNeedsApproval(CInt(Session("TransactionNumber")), CInt(ddlDeposit.SelectedValue), "Deposit", txtDepositDate.Text, CDec(txtDepositAmount.Text), strDepositMessage, Nothing, strIRA, strManagerApprovalNeeded)
+            End If
         End If
+        
 
         lblErrorDeposit.Text = "Deposit Confirmed"
         Response.AddHeader("Refresh", "2; URL= CustomerPerformTransaction.aspx")
