@@ -425,8 +425,8 @@
             Exit Sub
         End If
 
-        If dbdate.CheckSelectedDate(calMinimum.SelectedDate) = -1 Then
-            lblMinimumMessage.Text = "Please do not select a date prior to today."
+        If dbdate.CheckSelectedDate(calMinimum.SelectedDate) <> 1 Then
+            lblMinimumMessage.Text = "Minimum payment setup requires 24 hours. Please choose a date beginning tomorrow."
             Exit Sub
         End If
 
