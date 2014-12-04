@@ -17,6 +17,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
         <br />
         <br />
+        <asp:Label ID="lblError" runat="server"></asp:Label>
+        <br />
         <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource2">
             <Columns>
@@ -33,6 +35,8 @@
                 <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
             </Columns>
         </asp:GridView>
+        <br />
+        <br />
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:MIS333K_msbck614ConnectionString2 %>" SelectCommand="usp_dispute_get_all" SelectCommandType="StoredProcedure">
             <SelectParameters>
                 <asp:SessionParameter DefaultValue="Submitted" Name="filter" SessionField="Status" Type="String" />

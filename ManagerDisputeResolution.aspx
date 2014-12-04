@@ -9,7 +9,8 @@
     </div>
 
     <div id="center">
-
+        <asp:Label ID="lblNoDispute" runat="server"></asp:Label>
+        <asp:Panel ID="Panel1" runat="server">
       <div id="employeeModifyAddress" class="text-justify">
 
             <div class="text-left">
@@ -60,6 +61,7 @@
                     <asp:Button ID="btnHome" runat="server" PostBackUrl="~/ManagerResolveDisputes.aspx" Text="Back to Disputes" />
                   <br />
                  <br />
+
                 <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
                 </div>
                   
@@ -72,7 +74,7 @@
           
             <br />
         </div>
-
+            </asp:Panel>
 </div>
 
 </asp:Content>
