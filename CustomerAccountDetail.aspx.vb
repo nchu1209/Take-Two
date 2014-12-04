@@ -6,9 +6,20 @@ Public Class CustomerAccountDetail
     Dim DBAccount As New ClassDBAccounts
     Dim DBDate As New ClassDBDate
     Dim Val As New ClassValidate
+    Dim DBAccounts As ClassDBAccounts
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
+            ''redirect to create account if no accounts
+
+            If Session("CustomerNumber").ToString = "" Then
+                Response.Redirect("CustomerCreateBankAccount.aspx")
+            End If
+            'DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+            'If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+            '    Response.Redirect("CustomerCreateBankAccount.aspx")
+            'End If
+
             If Request.QueryString("ID") Is Nothing Then
                 DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
                 DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber").ToString)

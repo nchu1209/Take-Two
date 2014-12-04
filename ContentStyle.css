@@ -139,6 +139,15 @@
     position: relative;
 }
 
+#labelcreateaccount {
+    float: left;
+    width: 20%;
+    text-align: right;
+    line-height: 26px;
+    position: relative;
+    font-size: medium;
+}
+
 #label2 {
     float: left;
     width: 50%;
@@ -169,8 +178,11 @@
 #textbox2 {
     float: left;
     width: 39%;
+    padding: 5px;
     text-align: left;
      position: relative;
+     font-size:medium;
+     
 }
 
 #footer{

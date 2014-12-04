@@ -10,8 +10,8 @@
     Dim Valid As New ClassValidate
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("CustomerNumber") Is Nothing Then
-            Response.Redirect("CustomerLogin.aspx")
+        If Session("CustomerNumber").ToString = "" Then
+            Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
 
         DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
