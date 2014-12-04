@@ -277,4 +277,27 @@ Public Class ClassDBStocks
     End Sub
 
 
+    Public Sub AddStockPortfolio(strStockPortfolioID As String, strTicker As String, intNumberOfSharesHeld As Integer, strStockAccountNumber As String, intNumberOfSharesInTransaction As Integer, strStockType As String, decPurchasePrice As Decimal)
+        'Purpose: adds a stock to database
+        'Arguments: strings
+        'Returns: nothing
+        'Author: Leah Carroll
+        'Date: 11/25/2014
+
+        mstrQuery = "INSERT INTO tblStockPortfolio (StockPortfolioID, Ticker, NumberOfSharesHeld, StockAccountNumber,NumberOfSharesInTransaction, StockType, PurchasePrice) VALUES (" & _
+            "'" & strStockPortfolioID & "', " & _
+            "'" & strTicker & "', " & _
+            "'" & intNumberOfSharesHeld & "', " & _
+            "'" & strStockAccountNumber & "', " & _
+             "'" & intNumberOfSharesInTransaction & "', " & _
+            "'" & strStockType & "', " & _
+            "'" & decPurchasePrice & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+
+
 End Class

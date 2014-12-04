@@ -189,6 +189,9 @@
                 mdecIStillDK = CDec(mdecIStillDK - CDec(strFee))
                 mdecidk = CDec(mdecidk - CDec(strFee))
                 DBTransactions.AddTransaction(intMaxTransaction, CInt(ddlAccounts.SelectedValue.ToString), "Fee", PurchaseCalendar.SelectedDate.ToString, CDec(strFee), strDescription, mdecIStillDK, Nothing, "", mdecidk, "Fee")
+
+
+                'DBStocks.AddStockPortfolio((ddlAccounts.SelectedValue.ToString, strTick, NumberOfSharesHeld, StockAccountNumber, CInt(t.Text), StockType, PurchasePrice)
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information
