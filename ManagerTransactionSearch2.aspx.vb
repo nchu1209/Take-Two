@@ -7,6 +7,7 @@
     Dim Val As New ClassValidate
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
+            RadioButtonList1.SelectedIndex = 1
             DBTransactions.GetAllTransactions(Session("AccountNumberTransactions").ToString)
             Search()
             lblAccountNumber.Text = (Session("AccountNumberTransactions").ToString)

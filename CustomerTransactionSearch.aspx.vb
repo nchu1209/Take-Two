@@ -7,6 +7,7 @@
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
+            RadioButtonList1.SelectedIndex = 1
             DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
             DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber").ToString)
             lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName").ToString
