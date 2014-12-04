@@ -178,7 +178,7 @@
             Dim strDate As String = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
             Dim strDescription As String = "Deposited " & txtInitialDeposit.Text & " to account " & txtAccountNumber.Text & " on " & strDate & " while opening the account"
 
-            DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, 0, Nothing, "False", 0, "Deposit")
+            DBTransactions.AddTransactionNeedsApproval(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, 0, Nothing, "False", 0, "Deposit", "Needed")
         End If
         'clear form once application is submitted and show message to customer. or redirect after lag????
         lblError.Text = "Application Submitted"

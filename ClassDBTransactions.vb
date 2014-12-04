@@ -6,12 +6,14 @@ Imports System.Data.SqlClient
 Public Class ClassDBTransactions
     Dim mDatasetTransactions As New DataSet
     Dim mDatasetTransactions2 As New DataSet
+    Dim mDatasetTransactions3 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
     Dim mstrConnection As String = "workstation id=COMPUTER;packet size =4096;data source=MISSQL.mccombs.utexas.edu;integrated security=False; initial catalog=mis333k_msbck614; user id=msbck614; password=AmyEnrione1"
     Dim mMyView As New DataView
     Dim mMyView2 As New DataView
+    Dim mMyView3 As New DataView
 
     Public ReadOnly Property TransactionsDataset() As DataSet
         Get
@@ -33,6 +35,17 @@ Public Class ClassDBTransactions
     Public ReadOnly Property MyView2() As DataView
         Get
             Return mMyView2
+        End Get
+    End Property
+    Public ReadOnly Property TransactionsDataset3() As DataSet
+        Get
+            'Return dataset to user
+            Return mDatasetTransactions3
+        End Get
+    End Property
+    Public ReadOnly Property MyView3() As DataView
+        Get
+            Return mMyView3
         End Get
     End Property
 
@@ -80,6 +93,30 @@ Public Class ClassDBTransactions
             mdbDataAdapter.Fill(mDatasetTransactions, "tblTransactions")
             'copy dataset to dataview
             mMyView.Table = mDatasetTransactions.Tables("tblTransactions")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strProcedureName.ToString & " error is " & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub RunProcedureNoParam2(ByVal strProcedureName As String)
+        'Purpose: run any stored procedure with no parameters and fill dataset
+        'Arguments: 1 string that contains procedure name
+        'Returns: none (query results via property)
+        'Author: Nicole Chu (nc7997)
+        'Date: 10/21/14
+        'Creates instances of the connection and command object
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim mdbDataAdapter As New SqlDataAdapter(strProcedureName, objConnection)
+        Try
+            'sets command type to "stored procedure"
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            'clear dataset
+            mDatasetTransactions3.Clear()
+            'open connection and fill dataset
+            mdbDataAdapter.Fill(mDatasetTransactions3, "tblTransactions")
+            'copy dataset to dataview
+            mMyView3.Table = mDatasetTransactions3.Tables("tblTransactions")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strProcedureName.ToString & " error is " & ex.Message)
         End Try
