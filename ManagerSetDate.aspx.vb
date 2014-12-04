@@ -73,7 +73,6 @@
                     dbaccounts.GetIRATotalDepositByAccountNumber(intAccountNumber)
                     Dim decIRATotal As Decimal
                     decIRATotal = CDec(dbaccounts.AccountsDataset8.Tables("tblAccounts").Rows(0).Item("IRATotalDeposit"))
-                    dbaccounts.UpdateIRATotalDeposit(intAccountNumber, decIRATotal + decTransactionAmount)
                 End If
 
                 Dim strTransactionTypeGeneric As String
