@@ -8,6 +8,7 @@
         If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
             Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
+
     End Sub
 
 End Class
