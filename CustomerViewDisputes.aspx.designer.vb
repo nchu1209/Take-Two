@@ -21,4 +21,13 @@ Partial Public Class CustomerViewDisputes
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents gvDisputes As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''btnNewDispute control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNewDispute As Global.System.Web.UI.WebControls.Button
 End Class
