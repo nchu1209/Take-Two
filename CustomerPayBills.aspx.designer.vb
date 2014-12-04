@@ -140,24 +140,6 @@ Partial Public Class CustomerPayBills
     Protected WithEvents txtCustomAmount As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''calMinimum control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents calMinimum As Global.System.Web.UI.WebControls.Calendar
-
-    '''<summary>
-    '''btnTest control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnTest As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
     '''btnSetup control.
     '''</summary>
     '''<remarks>
@@ -192,4 +174,58 @@ Partial Public Class CustomerPayBills
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblMinimumPayment As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''radUpdateAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents radUpdateAmount As Global.System.Web.UI.WebControls.RadioButtonList
+
+    '''<summary>
+    '''txtUpdateCustomAmount control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtUpdateCustomAmount As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''btnUpdate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUpdate As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lblMessageUpdate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblMessageUpdate As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''btnOptOut control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnOptOut As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''lblOptOutMessage control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblOptOutMessage As Global.System.Web.UI.WebControls.Label
 End Class
