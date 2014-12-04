@@ -29,10 +29,17 @@
 
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'check to see if session emptype exists page 60
-        If Session("CustomerNumber") Is Nothing Then
-            Response.Redirect("CustomerLogin.aspx")
+
+        DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+        If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+            Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
+
+        ''check to see if session emptype exists page 60
+        'If Session("CustomerNumber") Is Nothing Then
+        '    Response.Redirect("CustomerLogin.aspx")
+        'End If
 
 
         DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)

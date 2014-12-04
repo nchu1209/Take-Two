@@ -9,6 +9,7 @@
     Dim dbpending As New ClassDBPending
     Dim dbbill As New ClassDBBill
 
+
     Dim mdecTotalToday As Decimal
     Dim mdecTotalPending As Decimal
     Dim mdecTotalWithdrawal As Decimal
@@ -20,8 +21,10 @@
     Const LATE_FEE As Decimal = 5D
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("CustomerFirstName") Is Nothing Then
-            Response.Redirect("CustomerLogin.aspx")
+        dbact.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+        If dbact.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+            Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
 
         If IsPostBack = False Then

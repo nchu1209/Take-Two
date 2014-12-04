@@ -15,6 +15,9 @@
             <img class="auto-style1" src="Petunia2.jpg" /><br />
             <br />
             <br />
+            <br />
+            <br />
+            <br />
          </div>
 
 
@@ -26,9 +29,12 @@
                 <br />
             </div>
         </div>
-
+        <br />
        
-        <div id="label">
+        <div id="content">
+
+   
+        <div id="labelcreateaccount">
            
 
             <asp:Label ID="Label3" runat="server" Text="Last Name:"></asp:Label>
@@ -48,6 +54,19 @@
             <asp:Label ID="Label13" runat="server" Text="Phone Number:"></asp:Label>
             <br />
             Birth Year:<br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
            
            
 
@@ -95,8 +114,9 @@
                     <br />
                     <br />
         </div>
+
         
-       
+            </div>
         
      
          <div id="footer">
