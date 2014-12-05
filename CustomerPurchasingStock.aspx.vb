@@ -9,7 +9,7 @@
     Dim DBDate As New ClassDBDate
     Dim mdecSumTotal As Decimal
     Dim DBDisputeManager As New ClassDBDisputeManager
-    Dim DBPendingStocks As New ClassDBPendingStocks
+    'Dim DBPendingStocks As New ClassDBPendingStocks
     Dim mdecAvailableBalance As Decimal
     Dim mdecOriginalAvailableBalance As Decimal
     Dim mdecBalance As Decimal
@@ -86,6 +86,10 @@
     '       START OF PURCHASE BUTTON                '
     '                                               '
     '''''''''''''''''''''''''''''''''''''''''''''''''
+
+    'stocks will only be bought 
+    'table stock transactions?????????
+
     Protected Sub btnPurchaseStocks_Click(sender As Object, e As EventArgs) Handles btnPurchaseStocks.Click
         'Dim decTotalPurchasePrice As Decimal
         'decTotalPurchasePrice= 
@@ -98,8 +102,8 @@
             'find the quantity
             Dim t As TextBox = DirectCast(gvPurchaseStocks.Rows(i).Cells(5).FindControl("txtQuantity"), TextBox)
             Dim strTick As String = gvPurchaseStocks.Rows(i).Cells(0).Text
-            Dim strPrice As String
-            Dim strFee As String
+            'Dim strPrice As String
+            'Dim strFee As String
             'Dim decTotal As Decimal
 
             'get all the stocks
@@ -179,6 +183,8 @@
                 mdecFeeTotal += CDec(strFee)
             End If
 
+         
+
 
             If mdecSumTotal > mdecOriginalAvailableBalance Then
                 lblErrorTransfer.Text = "We're sorry, insufficient funds."
@@ -212,8 +218,19 @@
 
                 Dim intNumHoldingStocks As Integer
                 intNumHoldingStocks += CInt(t.Text)
-                DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
+                'DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
 
+                'populate the tblStockTransactions
+
+                'DBStocks.GetMaxSetNumber()
+                'If DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber") Is DBNull.Value Then
+                '    Session("SetNumber") = 1
+                'Else
+                '    Session("SetNumber") = CInt(DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber")) + 1
+                'End If
+                'DBStocks.AddStockTransaction(CDec(Session("SetNumber")), CDec(mCustomerID), strTick, CDec(strPrice), CInt(t.Text), Convert.ToDateTime(PurchaseCalendar.SelectedDate))
+
+                'DBStocks.
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information
@@ -234,7 +251,18 @@
 
                 Dim intNumHoldingStocks As Integer
                 intNumHoldingStocks += CInt(t.Text)
-                DBPendingStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
+                '' DBPendingStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
+
+                ''populate the tblStockTransactions
+                'DBStocks.GetMaxSetNumber()
+                'If DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber") Is DBNull.Value Then
+                '    Session("SetNumber") = 1
+                'Else
+                '    Session("SetNumber") = CInt(DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber")) + 1
+                'End If
+                'DBStocks.AddStockTransaction(CDec(Session("SetNumber")), CDec(mCustomerID), strTick, CDec(strPrice), CInt(t.Text), Convert.ToDateTime(PurchaseCalendar.SelectedDate))
+
+
             End If
 
             If t.Text = 1 Then
@@ -246,7 +274,10 @@
 
         Next
 
-
+        If mdecSumTotal = 0 Then
+            lblErrorTransfer.Text = "Please buy some stock."
+            Exit Sub
+        End If
         'future dont change the balance, change the available balance
         'if today change balance and available balance
 
@@ -311,11 +342,10 @@
         ddlAccounts.DataSource = DBAccounts.AccountsDataset5
         ddlAccounts.DataTextField = "Details"
         ddlAccounts.DataValueField = "AccountNumber"
-        'Session("AccountNumber") = DBAccounts.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountNumber")
         ddlAccounts.DataBind()
     End Sub
 
-   
+
     Protected Sub TransferCalendar_SelectionChanged(sender As Object, e As EventArgs) Handles PurchaseCalendar.SelectionChanged
         txtDate.Text = PurchaseCalendar.SelectedDate
     End Sub
