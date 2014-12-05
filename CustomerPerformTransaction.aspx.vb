@@ -223,7 +223,7 @@
         'make sure that you are not withdrawing more than you have in the current account
         '****check to make sure you can't overdraw with overdraft fees
         If decAvailableBalance < CInt(txtWithdrawalAmount.Text) Then
-            lblErrorWithdrawal.Text = "Please enter an amount to withdraw less than or equal to the amount of available money in this account."
+            lblErrorWithdrawal.Text = "Please enter an amount to withdraw less than or equal to the maximum overdraft ($50) for this account."
             Exit Sub
         End If
 
@@ -329,6 +329,10 @@
             DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, decTransferFromBalance, Nothing, "", decTransferFromAvailableBalance, "Fee")
         End If
 
+        If decTransferFromAvailableBalance < 0 Then
+            lblErrorTransfer.Text = "You cannot complete transfers from an account with a negative balance, even if it is within the $50 overdraft limit"
+            Exit Sub
+        End If
 
         DBAccounts.GetAccountTypeByAccountNumber2(ddlFromAccount.SelectedValue.ToString)
         Dim strIRAFrom As String
