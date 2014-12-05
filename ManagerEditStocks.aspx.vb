@@ -28,6 +28,8 @@
         If Session("EmployeeFirstName") Is Nothing Then
             Response.Redirect("EmployeeLogin.aspx")
         End If
+
+        lblMessage.Text = ""
     End Sub
 
 
