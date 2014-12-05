@@ -82,6 +82,9 @@
             If DB.AccountsDataset3.Tables("tblAccounts").Rows.Count = 0 Then
                 txtAccountName.Text = ""
                 Session("AccountType") = "Stock"
+                txtInitialDeposit.Visible = False
+                Label7.Visible = False
+                txtInitialDeposit.Text = "0"
             Else
                 lblError.Text = "You cannot have more than one Stock Account. Please select another account type"
                 txtAccountName.Visible = False
@@ -110,27 +113,30 @@
         End If
 
         'make sure deposit is numeric
-        If Valid.CheckDigits(txtInitialDeposit.Text) = False Then
-            lblError.Text = "Please enter a valid initial deposit"
-            Exit Sub
+        If ddlBankAccounts.SelectedIndex = 4 Then
+        Else
+            If Valid.CheckDecimal(txtInitialDeposit.Text) = -1 Or Valid.CheckDecimal(txtInitialDeposit.Text) = 0 Then
+                lblError.Text = "Please enter a valid initial deposit"
+                Exit Sub
+            End If
         End If
 
-        'make sure deposit is not negative
-        If CInt(txtInitialDeposit.Text) <= 0 Then
-            lblError.Text = "Please enter an initial deposit of more than $0"
-            Exit Sub
-        End If
+
 
         'if the account is an IRA, they cannot deposit more than 5k
         'but they are automatically stopped by the initial deposit validation below
         'but we need to make sure the manager cannot approve them -- they cannot enter that much regardless, so perhaps its better to stop them now
+        Session("Active") = "True"
+        Session("ManagerApprovedDeposit") = "True"
+
         If Session("AccountType").ToString = "IRA" Then
             If CInt(txtInitialDeposit.Text) > 5000 Then
                 lblError.Text = "You cannot enter more than $5000 into an IRA account per year. Please select a lower initial deposit"
                 Exit Sub
             End If
         End If
-        Session("ManagerApprovedStock") = ""
+        GetTransactionNumber()
+
         Dim strApprovalNeeded As String = ""
         If CInt(txtInitialDeposit.Text) >= 5000 Then
             Session("Active") = "False"
@@ -138,13 +144,15 @@
             strApprovalNeeded = "Needed"
         End If
 
-        ''if the account is a stock account, they automatically need manager approval
-        'If Session("AccountType").ToString = "Stock" Then
-        '    Session("Active") = "False"
-        '    Session("ManagerApprovedStock") = "False"
-        'End If
+        'if the account is a stock account, they automatically need manager approval
+        If Session("AccountType").ToString = "Stock" Then
+            Session("Active") = "False"
+            Session("ManagerApprovedStock") = "False"
+        End If
+
         If strApprovalNeeded = "" Then
             If Session("AccountType") = "Checking" Or Session("AccountType") = "Savings" Then
+
                 DB.AddAccountChecking(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
             End If
 
@@ -163,6 +171,7 @@
                 DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "True", CInt(txtInitialDeposit.Text), "Deposit")
                 DBAccounts.UpdateIRATotalDeposit(CInt(txtAccountNumber.Text), CDec(txtInitialDeposit.Text))
             Else
+                Dim strTrans As String = Session("TransactionNumber")
                 DBTransactions.AddTransaction(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, CInt(txtInitialDeposit.Text), Nothing, "False", CInt(txtInitialDeposit.Text), "Deposit")
             End If
 
@@ -178,6 +187,7 @@
             Dim strDate As String = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
             Dim strDescription As String = "Deposited " & txtInitialDeposit.Text & " to account " & txtAccountNumber.Text & " on " & strDate & " while opening the account"
 
+            Dim strTrans2 As String = Session("TransactionNumber")
             DBTransactions.AddTransactionNeedsApproval(Session("TransactionNumber"), CInt(txtAccountNumber.Text), "Deposit", strDate, CInt(txtInitialDeposit.Text), strDescription, 0, Nothing, "False", 0, "Deposit", "Needed")
         End If
         'clear form once application is submitted and show message to customer. or redirect after lag????

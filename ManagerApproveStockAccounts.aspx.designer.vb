@@ -11,14 +11,14 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerViewDisputes
+Partial Public Class ManageApproveStockAccounts
 
     '''<summary>
-    '''gvDisputes control.
+    '''btnApprove control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents gvDisputes As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents btnApprove As Global.System.Web.UI.WebControls.Button
 End Class
