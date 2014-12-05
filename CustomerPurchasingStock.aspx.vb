@@ -49,23 +49,23 @@
 
 
         'Makes sure that the manager has approved that they can view this
-        Dim strApprovedStockAccount As String
-        strApprovedStockAccount = Session("CustomerManagerApprovedStockAccount")
-        If strApprovedStockAccount <> "" Then
-            If strApprovedStockAccount <> "True" Then
-                pnlNotApproved.Visible = True
-                pnlPurchaseStocks.Visible = False
-                Exit Sub
+        'Dim strApprovedStockAccount As String
+        'strApprovedStockAccount = Session("CustomerManagerApprovedStockAccount")
+        'If strApprovedStockAccount <> "" Then
+        '    If strApprovedStockAccount <> "True" Then
+        '        pnlNotApproved.Visible = True
+        '        pnlPurchaseStocks.Visible = False
+        '        Exit Sub
 
-            Else
-                pnlNotApproved.Visible = False
-                pnlPurchaseStocks.Visible = True
-            End If
-        Else
-            pnlNotApproved.Visible = True
-            pnlPurchaseStocks.Visible = False
+        '    Else
+        '        pnlNotApproved.Visible = False
+        '        pnlPurchaseStocks.Visible = True
+        '    End If
+        'Else
+        '    pnlNotApproved.Visible = True
+        '    pnlPurchaseStocks.Visible = False
 
-        End If
+        'End If
 
 
         'filling the ddl

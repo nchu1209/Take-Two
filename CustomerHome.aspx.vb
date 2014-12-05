@@ -67,7 +67,7 @@ Public Class CustomerHome
 
 
     Protected Sub gvAccounts_SelectedIndexChanged(sender As Object, e As EventArgs) Handles gvAccounts.SelectedIndexChanged
-        lblError.Text = gvAccounts.SelectedRow.Cells(0).Text
+        'lblError.Text = gvAccounts.SelectedRow.Cells(0).Text
 
         Dim intSelectedIndex As Integer = gvAccounts.SelectedIndex
         Dim k As Label = DirectCast(gvAccounts.Rows(intSelectedIndex).Cells(1).FindControl("lblAccountNumber"), Label)
