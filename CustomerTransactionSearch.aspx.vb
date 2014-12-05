@@ -20,7 +20,7 @@
                 Response.Redirect("CustomerCreateBankAccount.aspx")
             End If
 
-
+            RadioButtonList1.SelectedIndex = 1
             DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
             DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber").ToString)
             lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName").ToString
@@ -60,7 +60,6 @@
         txtSearchByOtherPriceMin.Text = ""
         txtSearchByTransactionNumber.Text = ""
         rblDate.SelectedValue = Nothing
-        txtCustomDateMin.Text = ""
         For i As Integer = 0 To cblParameters.Items.Count - 1
             cblParameters.Items(i).Selected = Nothing
         Next
@@ -109,6 +108,8 @@
         Dim strDateCode60 As String
         Dim strDateCodeAll As String
         Dim datBlank As New Date(1500, 1, 1, 1, 1, 1)
+        Dim datFirst As Date = calFirstDate.SelectedDate
+        Dim datSecond As Date = calSecondDate.SelectedDate
         strDateCode15 = "Date >= #" & datSystemDate.AddDays(-2) & "#"
         strDateCode30 = "Date >= #" & datSystemDate.AddDays(-30) & "#"
         strDateCode60 = "Date >= #" & datSystemDate.AddDays(-60) & "#"
@@ -223,19 +224,11 @@
                 Exit Sub
             End If
             If rblDate.SelectedValue = "Custom Date Range" Then
-                If txtCustomDateMax.Text = "" Or txtCustomDateMin.Text = "" Then
-                    lblError.Text = "Please enter a minimum and a maximum date amount"
+                If calFirstDate.SelectedDate = Nothing Or calSecondDate.SelectedDate = Nothing Then
+                    lblError.Text = "Please enter a date range to search between"
                     Exit Sub
                 End If
-                If Val.CheckDigits(txtCustomDateMax.Text) = -1 Then
-                    lblError.Text = "Please enter a positive numeric amount as your maximum date"
-                    Exit Sub
-                End If
-                If Val.CheckDecimal(txtCustomDateMin.Text) = -1 Then
-                    lblError.Text = "Please enter a positive numeric amount as your minimum date"
-                    Exit Sub
-                End If
-                If CDec(txtCustomDateMin.Text) >= CDec(txtCustomDateMax.Text) Then
+                If calFirstDate.SelectedDate >= calSecondDate.SelectedDate Then
                     lblError.Text = "Please enter a minimum value that is less than your maximum value"
                     Exit Sub
                 End If
@@ -256,8 +249,7 @@
                 strIn5 = strDateCodeAll
             End If
             If rblDate.SelectedIndex = 4 Then
-                strIn5 = "Date >= #" & datSystemDate.AddDays(-CInt(txtCustomDateMax.Text)) & "# and Date <= #" & datSystemDate.AddDays(-CInt(txtCustomDateMin.Text)) & "#"
-
+                strIn5 = "Date >= #" & datFirst & "# and Date <= #" & datSecond & "#"
             End If
         End If
 

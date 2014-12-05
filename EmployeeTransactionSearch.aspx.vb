@@ -10,6 +10,9 @@
         gvCustomers.DataBind()
         PanelAccounts.Visible = False
         If IsPostBack = False Then
+            If Session("EmpID") = "" Then
+                Response.Redirect("EmployeeLogin.aspx")
+            End If
             CustomerSelect.Visible = True
         End If
     End Sub

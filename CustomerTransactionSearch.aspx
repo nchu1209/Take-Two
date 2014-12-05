@@ -98,11 +98,10 @@
             <br />
             <br />
             Between&nbsp; 
-            <asp:TextBox ID="txtCustomDateMin" runat="server" Width="58px"></asp:TextBox>
-            &nbsp;And
-            <asp:TextBox ID="txtCustomDateMax" runat="server" Width="56px"></asp:TextBox>
-            Days
+            <asp:Calendar ID="calFirstDate" runat="server"></asp:Calendar>
+            &nbsp;And&nbsp;
             <br />
+            <asp:Calendar ID="calSecondDate" runat="server"></asp:Calendar>
             <br />
             <br />
         </div>
@@ -142,38 +141,11 @@
             <br />
                 </div>        
         </div>
-    <div id="gridviewright">
-
-
-
-
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
-
-
-
-    </div>
-        <div id ="center">
-            <asp:GridView ID="gvTransactionSearch" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None">
-                <AlternatingRowStyle BackColor="White" />
+        <div id ="footer">
+            <asp:GridView ID="gvTransactionSearch" runat="server">
                 <Columns>
                     <asp:CommandField HeaderText="View Details" ShowSelectButton="True" />
                 </Columns>
-                <EditRowStyle BackColor="#2461BF" />
-                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#EFF3FB" />
-                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                <SortedDescendingHeaderStyle BackColor="#4870BE" />
             </asp:GridView>
         </div>
     </asp:Content>
