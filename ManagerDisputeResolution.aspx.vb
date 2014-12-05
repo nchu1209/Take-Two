@@ -60,6 +60,7 @@ Public Class ManagerDisputeResolution
         mCustomerIDforDispute = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CustomerID").ToString
         Session("CustomerIDforDispute") = mCustomerIDforDispute
         mManagerMessageforDispute = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
+        lblError.Text = mManagerMessageforDispute.ToString
         Session("ManagerMessageforDispute") = mManagerMessageforDispute
     End Sub
 
@@ -267,14 +268,18 @@ Public Class ManagerDisputeResolution
         mstrFirst = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName").ToString
         mstrLast = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("LastName").ToString
         Dim strName As String
-        strName = mstrFirst + mstrLast
+        strName = mstrFirst + " " + mstrLast
         Dim Msg As MailMessage = New MailMessage()
         Dim MailObj As New SmtpClient("smtp.mccombs.utexas.edu")
         Msg.From = New MailAddress("longhornbankingteam3@gmail.com", "Team 3")
         'Msg.To.Add(New MailAddress(mstrEmail, strName))
         Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
         Msg.IsBodyHtml = CBool("False")
-        Msg.Body = "Hello" + strName + "! <br/> Your dispute has been " + Session("UpdatedStatus").ToString + ".  The manager that handled your account said: " + Session("ManagerMessageforDispute").ToString + ". <br/> Best regards, <br/> Longhorn Bank Team 3"
+        If mManagerMessageforDispute = "" Or mManagerMessageforDispute = " " Then
+            Msg.Body = "Hello " + strName + "!" & vbCrLf & " Your dispute has been " + Session("UpdatedStatus").ToString + ".  The manager that handled this had no comment to make about the dispute. " & vbCrLf & "Best regards," & vbCrLf & "Longhorn Bank Team 3"
+        Else
+            Msg.Body = "Hello " + strName + "!" & vbCrLf & " Your dispute has been " + Session("UpdatedStatus").ToString + ".  The manager that handled your account said: " & Session("ManagerMessageforDispute").ToString & ". " & vbCrLf & " Best regards," & vbCrLf & " Longhorn Bank Team 3"
+        End If
         Msg.Subject = "Team 3:  Transaction Dispute Resolution"
         MailObj.Send(Msg)
         Msg.To.Clear()

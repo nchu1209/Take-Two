@@ -6,8 +6,4 @@
         gvDisputes.DataSource = DBDispute.MyView
         gvDisputes.DataBind()
     End Sub
-
-    Protected Sub btnNewDispute_Click(sender As Object, e As EventArgs) Handles btnNewDispute.Click
-        Response.Redirect("CustomerTransactionSearch.aspx")
-    End Sub
 End Class

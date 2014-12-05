@@ -14,7 +14,6 @@
     <div id ="footer">
         <asp:GridView ID="gvDisputes" runat="server"></asp:GridView>
         <br />
-        <asp:Button ID="btnNewDispute" runat="server" Text="Create New Dispute Via Transaction Search" />
     </div>
 
 
