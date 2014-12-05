@@ -68,4 +68,10 @@
         Response.Redirect("CustomerHome.aspx")
 
     End Sub
+
+    'Protected Sub lnkForgotPassword_Click(sender As Object, e As EventArgs) Handles lnkForgotPassword.Click
+    '    Session("ForgotPassword") = 1
+    'End Sub
+
+
 End Class

@@ -460,4 +460,21 @@ Public Class ClassDBCustomer
 
     End Sub
 
+
+    Public Function CheckBirthYear(ByVal strUsername As String, strBirthYear As String) As Boolean
+
+
+        'get DB password that corresponds to username
+        Dim strDBBirthYear As String
+        strDBBirthYear = mDatasetCustomer.Tables("tblCustomers").Rows(0).Item("DOB").ToString
+
+        'check if input password matches DB password and return T/F
+        If strBirthYear = strDBBirthYear Then
+            'password is valid, so return true
+            Return True
+        Else : Return False 'because password is not valid
+        End If
+
+    End Function
+
 End Class
