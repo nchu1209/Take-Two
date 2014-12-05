@@ -109,7 +109,7 @@
         
     </div>
     <div id ="textbox">
-        <asp:DropDownList ID="ddlAccounts" runat="server" AutoPostBack="True"></asp:DropDownList>
+        <asp:DropDownList ID="ddlAccounts" runat="server" AutoPostBack="True" Height="25px"></asp:DropDownList>
         <br />
         <asp:TextBox ID="txtChangeName" runat="server"></asp:TextBox>
         <br />
