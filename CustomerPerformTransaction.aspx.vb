@@ -14,6 +14,14 @@
             Response.Redirect("CustomerLogin.aspx")
         End If
 
+
+        DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+        If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+            Response.Redirect("CustomerCreateBankAccount.aspx")
+        End If
+
+
         If Session("CustomerNumber").ToString = "" Then
             Response.Redirect("CustomerCreateBankAccount.aspx")
         End If

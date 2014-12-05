@@ -13,12 +13,18 @@ Public Class CustomerManageAccount
     Dim mstrOldPassword As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("CustomerNumber") Is Nothing Then
-            Response.Redirect("CustomerLogin.aspx")
 
+        If Session("CustomerFirstName") Is Nothing Then
+            Response.Redirect("CustomerLogin.aspx")
         End If
 
         DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+        If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+            Response.Redirect("CustomerCreateBankAccount.aspx")
+        End If
+
+
 
         ''get the record id from the select
         mCustomerID = CInt(Session("CustomerNumber"))

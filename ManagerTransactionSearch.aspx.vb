@@ -5,6 +5,10 @@
     Dim DBAccounts As New ClassDBAccounts
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("EmployeeFirstName") Is Nothing Then
+            Response.Redirect("EmployeeLogin.aspx")
+        End If
+
         DBCustomer.GetNumberFNameLNameAllCustomers()
         gvCustomers.DataSource = DBCustomer.MyView
         gvCustomers.DataBind()

@@ -7,6 +7,10 @@ Public Class ManagerResolveDisputes
     Dim DBDispute As New ClassDBDisputeManager
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("EmployeeFirstName") Is Nothing Then
+            Response.Redirect("EmployeeLogin.aspx")
+        End If
+
         Session("Status") = "Submitted"
         Session("Status2") = "Null"
         Session("Status3") = "Null"
