@@ -33,6 +33,7 @@ Public Class ManagerEditBills
         End If
 
         lblMessage.Text = ""
+        lblNotification.Text = ""
 
     End Sub
 
