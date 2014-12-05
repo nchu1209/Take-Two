@@ -34,6 +34,12 @@ Public Class CustomerCreateAccount
             Exit Sub
         End If
 
+        'check to make sure email is not already in the system
+        If DB.CheckUsername(txtEmail.Text) Then
+            lblError.Text = "You have already created an account with this email address. Either log on with this account or use another email address"
+            Exit Sub
+        End If
+
 
         If Not IsValid Then
             Exit Sub
