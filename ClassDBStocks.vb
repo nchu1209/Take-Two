@@ -435,4 +435,15 @@ Public Class ClassDBStocks
         RunProcedureNoParam5("usp_stocktransactions_get_max_setnumber")
     End Sub
 
+    Public Sub UpdateStockTransactionsShares(intRemainingShares As Integer, intSetNumber As Integer, strTicker As String)
+
+        mstrQuery = "UPDATE tblStockTransactions SET " & _
+            "SharesHeld = '" & intRemainingShares & "' " & _
+            "WHERE SetNumber = " & intSetNumber & " and Ticker = '" & strTicker & "'"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
 End Class

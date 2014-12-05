@@ -95,6 +95,8 @@
                 Session("CurrentFees") = gvStocks.Rows(i).Cells(7).Text
                 Session("CurrentPrice") = CDec(gvStocks.Rows(i).Cells(6).Text)
                 Session("PurchasePrice") = CDec(gvStocks.Rows(i).Cells(4).Text)
+                Session("SetNumber") = CInt(gvStocks.Rows(i).Cells(0).Text)
+
             End If
 
         Next
