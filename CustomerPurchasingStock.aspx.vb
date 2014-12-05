@@ -218,19 +218,17 @@
 
                 Dim intNumHoldingStocks As Integer
                 intNumHoldingStocks += CInt(t.Text)
-                'DBStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
 
                 'populate the tblStockTransactions
 
-                'DBStocks.GetMaxSetNumber()
-                'If DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber") Is DBNull.Value Then
-                '    Session("SetNumber") = 1
-                'Else
-                '    Session("SetNumber") = CInt(DBStocks.StocksDataset4.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber")) + 1
-                'End If
-                'DBStocks.AddStockTransaction(CDec(Session("SetNumber")), CDec(mCustomerID), strTick, CDec(strPrice), CInt(t.Text), Convert.ToDateTime(PurchaseCalendar.SelectedDate))
+                DBStocks.GetMaxSetNumber()
+                If DBStocks.StocksDataset5.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber") Is DBNull.Value Then
+                    Session("SetNumber") = 1
+                Else
+                    Session("SetNumber") = CInt(DBStocks.StocksDataset5.Tables("tblStockTransactions").Rows(0).Item("MaxSetNumber")) + 1
+                End If
+                DBStocks.AddStockTransaction(CInt(Session("SetNumber")), CInt(mCustomerID), strTick, CDec(strPrice), CInt(t.Text), PurchaseCalendar.SelectedDate)
 
-                'DBStocks.
             ElseIf t.Text >= 1 Then
                 ' if in the future
                 'if the transaction occurs in the future, this is going to updat the account information

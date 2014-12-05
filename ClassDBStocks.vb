@@ -4,12 +4,12 @@ Imports System.Data.SqlClient
 
 Public Class ClassDBStocks
 
-
     'Declare module-level variables
     Dim mDatasetStocks As New DataSet
     Dim mDatasetStocks2 As New DataSet
     Dim mDatasetStocks3 As New DataSet
     Dim mDatasetStocks4 As New DataSet
+    Dim mDatasetStocks5 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
@@ -18,6 +18,7 @@ Public Class ClassDBStocks
     Dim mMyView2 As New DataView
     Dim mMyView3 As New DataView
     Dim mMyView4 As New DataView
+    Dim mMyView5 As New DataView
     Private _session As String
 
     Public ReadOnly Property StocksDataset() As DataSet
@@ -70,6 +71,19 @@ Public Class ClassDBStocks
     Public ReadOnly Property MyView4() As DataView
         Get
             Return Me.mMyView4
+        End Get
+    End Property
+
+    Public ReadOnly Property StocksDataset5() As DataSet
+        Get
+            ' return dataset to user
+            Return mDatasetStocks5
+        End Get
+    End Property
+
+    Public ReadOnly Property MyView5() As DataView
+        Get
+            Return Me.mMyView5
         End Get
     End Property
 
@@ -154,6 +168,26 @@ Public Class ClassDBStocks
             objCommand.Fill(mDatasetStocks4, "tblStocks")
             'copy dataset to dataview
             mMyView4.Table = mDatasetStocks4.Tables("tblStocks")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strName.ToString & " error is " & ex.Message)
+        End Try
+
+    End Sub
+
+    Public Sub RunProcedureNoParam5(strName As String)
+        'CREATES INSTANCES OF THE CONNECTION AND COMAND OBJECT
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim objCommand As New SqlDataAdapter(strName, objConnection)
+        Try
+            'SETS THE COMMAND TYPE TO "STORED PROCEDURE
+            objCommand.SelectCommand.CommandType = CommandType.StoredProcedure
+            'clear dataset
+            Me.mDatasetStocks.Clear()
+            'OPEN CONNECTION AND FILL DATASET
+            objCommand.Fill(mDatasetStocks5, "tblStockTransactions")
+            'copy dataset to dataview
+            mMyView.Table = mDatasetStocks5.Tables("tblStocksTransactions")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strName.ToString & " error is " & ex.Message)
         End Try
@@ -294,8 +328,6 @@ Public Class ClassDBStocks
     End Sub
 
 
-
-
     Public Sub ModifyStockPrice(strPrice As String, strTicker As String)
         'the strquery that will be modified
         mstrQuery = "UPDATE tblStocks SET SalesPrice= " & strPrice & _
@@ -330,22 +362,15 @@ Public Class ClassDBStocks
     End Sub
 
 
-    Public Sub AddStockPortfolio(strStockPortfolioID As String, strTicker As String, intNumberOfSharesHeld As Integer, strStockAccountNumber As String, intNumberOfSharesInTransaction As Integer, strStockType As String, decPurchasePrice As Decimal, intTransactionNumber As Integer)
-        'Purpose: adds a stock to database
-        'Arguments: strings
-        'Returns: nothing
-        'Author: Leah Carroll
-        'Date: 11/25/2014
+    Public Sub AddStockTransaction(intSetNumber As Integer, intCustomerNumber As Integer, strTicker As String, decPurchasePrice As Decimal, intSharesHeld As Integer, datPurchaseDate As Date)
 
-        mstrQuery = "INSERT INTO tblStockPortfolio (StockPortfolioID, Ticker, NumberOfSharesHeld, StockAccountNumber,NumberOfSharesInTransaction, StockType, TransactionNumber, PurchasePrice) VALUES (" & _
-            "'" & strStockPortfolioID & "', " & _
+        mstrQuery = "INSERT INTO tblStockTransactions (SetNumber, CustomerNumber, Ticker, PurchasePrice, SharesHeld, PurchaseDate) VALUES (" & _
+            "'" & intSetNumber & "', " & _
+            "'" & intCustomerNumber & "', " & _
             "'" & strTicker & "', " & _
-            "'" & intNumberOfSharesHeld & "', " & _
-            "'" & strStockAccountNumber & "', " & _
-             "'" & intNumberOfSharesInTransaction & "', " & _
-            "'" & strStockType & "', " & _
-            "'" & intTransactionNumber & "', " & _
-            "'" & decPurchasePrice & "')"
+            "'" & decPurchasePrice & "', " & _
+             "'" & intSharesHeld & "', " & _
+            "'" & datPurchaseDate & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
@@ -356,17 +381,7 @@ Public Class ClassDBStocks
         RunProcedureGetMax("usp_transactions_get_max_transaction_number")
     End Sub
 
-    Public Sub GetStockPortfolioSummary(intTransactionNumber As Integer)
-        RunProcedureOneParameter("usp_stockportfolio_get_by_transactionnumber", "@transactionnumber", intTransactionNumber.ToString)
-    End Sub
 
-    Public Sub GetMaxTransactionNumberByCustomerID(intCustomerID As Integer)
-        RunProcedureOneParameter3("usp_stockportfolio_get_max_transactionnumber_by_customerID", "@customerID", intCustomerID.ToString)
-    End Sub
-
-    Public Sub GetMaxSetNumber()
-        RunProcedureNoParam4("usp_stocktransactions_get_max_setnumber")
-    End Sub
 
     Public Sub ApproveStockAccount(strApproval As String, ByVal strAccountNumber As String)
 
@@ -416,5 +431,8 @@ Public Class ClassDBStocks
 
     End Sub
 
+    Public Sub GetMaxSetNumber()
+        RunProcedureNoParam5("usp_stocktransactions_get_max_setnumber")
+    End Sub
 
 End Class
