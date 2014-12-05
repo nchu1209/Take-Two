@@ -1,4 +1,7 @@
-﻿Public Class ManagerApproveDeposits
+﻿
+Imports System.Net.Mail
+
+Public Class ManagerApproveDeposits
     Inherits System.Web.UI.Page
 
     Dim DBTransactions As New ClassDBTransactions
@@ -34,6 +37,31 @@
 
             DBAccount.UpdateBalance(CInt(strAccountNumber), decBalance)
             DBAccount.UpdateAvailableBalance(CInt(strAccountNumber), decAvailableBalance)
+
+
+            ''''''''''''''''''''''''''EMAIL'''''''''''''''''''''''''''''''''
+
+
+            'DBCustomer.GetByCustomerNumber(Session("CustomerIDForDispute").ToString)
+            'mstrEmail = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("EmailAddr").ToString
+            'mstrFirst = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName").ToString
+            'mstrLast = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("LastName").ToString
+            Dim strName As String
+            strName = "Bobby Joe"
+            'strName = mstrFirst + mstrLast
+            Dim Msg As MailMessage = New MailMessage()
+            Dim MailObj As New SmtpClient("smtp.mccombs.utexas.edu")
+            Msg.From = New MailAddress("longhornbankingteam3@gmail.com", "Team 3")
+            'Msg.To.Add(New MailAddress(mstrEmail, strName))
+            Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
+            Msg.IsBodyHtml = CBool("False")
+            Msg.Body = "Hello" + strName + "! <br/> Your deposit has been approved by the manager.  The manager that handled your account said. <br/> Best regards, <br/> Longhorn Bank Team 3"
+            Msg.Subject = "Team 3:  Transaction Dispute Resolution"
+            MailObj.Send(Msg)
+            Msg.To.Clear()
+
+            '''''''''''''''''''''''''''EMAIL''''''''''''''''''''''''''''''''''''
+
 
             Response.Redirect("ManagerApproveDeposits.aspx")
         End If
