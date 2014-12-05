@@ -22,7 +22,6 @@
     End Sub
 
 
-
     Protected Sub btnConfirm_Click(sender As Object, e As EventArgs) Handles btnConfirm.Click
         'updates!
         'update portfolio with new stock amounts

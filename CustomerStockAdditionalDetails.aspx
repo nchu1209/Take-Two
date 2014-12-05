@@ -25,7 +25,7 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="usp_stocks_get_times_and_prices_by_ticker" SelectCommandType="StoredProcedure">
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:MIS333K_msbck614ConnectionString %>" SelectCommand="usp_stocks_get_times_and_prices_by_ticker" SelectCommandType="StoredProcedure">
             <SelectParameters>
                 <asp:SessionParameter Name="ticker" SessionField="Ticker" Type="String" />
                 <asp:SessionParameter DbType="Date" Name="originalDate" SessionField="PurchaseDate" />
