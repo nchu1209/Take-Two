@@ -57,6 +57,9 @@
             <asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" PostBackUrl="~/CustomerCreateAccount.aspx">Apply for an Account!</asp:LinkButton>
             <br />
             <br />
+            <asp:LinkButton ID="lnkForgotPassword" runat="server" CausesValidation="False" PostBackUrl="~/CustomerForgotPassword.aspx">Forgot Password? </asp:LinkButton>
+            <br />
+            <br />
             <asp:LinkButton ID="lnkEmployeeHome" runat="server" CausesValidation="False" PostBackUrl="~/EmployeeLogin.aspx">Employee? Login Here!</asp:LinkButton>
             <br />
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" />

@@ -446,4 +446,27 @@ Public Class ClassDBStocks
 
     End Sub
 
+    Public Sub AddBalancedPortfolio(intStockAccountNumber As Integer, strBoolean As String, decTotalStockValue As Decimal)
+
+        mstrQuery = "INSERT INTO tblStockPortfolio (StockAccountNumber, Balanced, StockValue) VALUES (" & _
+            "'" & intStockAccountNumber & "', " & _
+            "'" & strBoolean & "', " & _
+            "'" & decTotalStockValue & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+    Public Sub UpdateBalancedPortfolio(intStockAccountNumber As Integer, strBoolean As String, decTotalStockValue As Decimal)
+
+        mstrQuery = "UPDATE tblStockPortfolio SET " & _
+            "Balanced = '" & strBoolean & "', StockValue = " & decTotalStockValue & " " & _
+            "WHERE StockAccountNumber = " & intStockAccountNumber
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
 End Class

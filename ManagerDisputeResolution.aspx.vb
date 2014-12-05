@@ -272,8 +272,8 @@ Public Class ManagerDisputeResolution
         Dim Msg As MailMessage = New MailMessage()
         Dim MailObj As New SmtpClient("smtp.mccombs.utexas.edu")
         Msg.From = New MailAddress("longhornbankingteam3@gmail.com", "Team 3")
-        'Msg.To.Add(New MailAddress(mstrEmail, strName))
-        Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
+        Msg.To.Add(New MailAddress(mstrEmail, strName))
+        'Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
         Msg.IsBodyHtml = CBool("False")
         If mManagerMessageforDispute = "" Or mManagerMessageforDispute = " " Then
             Msg.Body = "Hello " + strName + "!" & vbCrLf & " Your dispute has been " + Session("UpdatedStatus").ToString + ".  The manager that handled this had no comment to make about the dispute. " & vbCrLf & "Best regards," & vbCrLf & "Longhorn Bank Team 3"
