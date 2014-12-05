@@ -95,15 +95,6 @@ Partial Public Class CustomerCreateBankAccount
     Protected WithEvents txtInitialDeposit As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''RequiredFieldValidator3 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents RequiredFieldValidator3 As Global.System.Web.UI.WebControls.RequiredFieldValidator
-
-    '''<summary>
     '''ValidationSummary1 control.
     '''</summary>
     '''<remarks>
