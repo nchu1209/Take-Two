@@ -8,6 +8,10 @@ Public Class EmployeeTransactionDetail
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
+            If Session("EmpID") Is Nothing Then
+                Response.Redirect("EmployeeLogin.aspx")
+            End If
+
             DBTransactions.GetDetails(Session("TransactionID").ToString)
             lblDescription.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Description").ToString
             lblTransactionType.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Transaction Type").ToString
