@@ -34,6 +34,7 @@
          <div id ="label">
              <asp:Label ID="Label3" runat="server" Text="Account type: "></asp:Label>
              <br />
+
               <asp:Label ID="Label1" runat="server" Text="Account Name: "></asp:Label>
              <br />
 
@@ -63,8 +64,6 @@
               
                  <br />
                  <asp:TextBox ID="txtInitialDeposit" runat="server"></asp:TextBox>
-              
-            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ClientIDMode="Static" ControlToValidate="txtInitialDeposit" ErrorMessage="ERROR: Initial Deposit Required">*</asp:RequiredFieldValidator>
               
                  <br />
                  <br />

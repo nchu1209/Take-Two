@@ -82,6 +82,9 @@
             If DB.AccountsDataset3.Tables("tblAccounts").Rows.Count = 0 Then
                 txtAccountName.Text = ""
                 Session("AccountType") = "Stock"
+                txtInitialDeposit.Visible = False
+                Label7.Visible = False
+                txtInitialDeposit.Text = "0"
             Else
                 lblError.Text = "You cannot have more than one Stock Account. Please select another account type"
                 txtAccountName.Visible = False
@@ -110,16 +113,15 @@
         End If
 
         'make sure deposit is numeric
-        If Valid.CheckDigits(txtInitialDeposit.Text) = False Then
-            lblError.Text = "Please enter a valid initial deposit"
-            Exit Sub
+        If ddlBankAccounts.SelectedIndex = 4 Then
+        Else
+            If Valid.CheckDecimal(txtInitialDeposit.Text) = -1 Or Valid.CheckDecimal(txtInitialDeposit.Text) = 0 Then
+                lblError.Text = "Please enter a valid initial deposit"
+                Exit Sub
+            End If
         End If
 
-        'make sure deposit is not negative
-        If CInt(txtInitialDeposit.Text) <= 0 Then
-            lblError.Text = "Please enter an initial deposit of more than $0"
-            Exit Sub
-        End If
+
 
         'if the account is an IRA, they cannot deposit more than 5k
         'but they are automatically stopped by the initial deposit validation below
