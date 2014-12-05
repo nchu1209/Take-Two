@@ -329,5 +329,15 @@ Public Class ClassDBStocks
         RunProcedureOneParameter3("usp_stockportfolio_get_max_transactionnumber_by_customerID", "@customerID", intCustomerID.ToString)
     End Sub
 
+    Public Sub ApproveStockAccount(strApproval As String, ByVal strAccountNumber As String)
+
+        mstrQuery = "UPDATE tblAccounts SET " & _
+            "ManagerApprovedStockAccount = '" & strApproval & "' " & _
+            "WHERE AccountNumber = " & strAccountNumber
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
 
 End Class
