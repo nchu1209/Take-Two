@@ -13,7 +13,7 @@
         <asp:Button ID="btnProcessPortfolios" runat="server" Text="Process Stock Portfolios" />
 
         <br />
-        ^no coding behind yet (line 408)</div>
+        </div>
     
     
     
@@ -24,19 +24,13 @@
         <asp:Label ID="lblConfirmation" runat="server" Text="The processing of the stock portfolios was successful."></asp:Label>
         </div>
     </asp:Panel>
-    ^Panel to become visible when successful.<br />
     <br />
-    Still need to make sure all of this is coded.<br />
-    Tasks also include approving large deposits and disputes that need to be resolved. 
-
-    <br />
-    <br />
-     <div id ="Div1">
-        View eBills<br />
+    <div id ="Div1">
+        <br />
         <br />
     </div>
-    <div id="content">
-    <b><asp:Label ID="Label1" runat="server" Text="Tasks"></asp:Label></b>
+    <div id="subtitle">
+    <b><asp:Label ID="Label1" runat="server" Text="Manager Tasks"></asp:Label></b>
 
     </div>
     <div id ="center">
@@ -47,6 +41,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button runat="server" Text="Approve Stock Accounts" PostBackUrl ="~/ManagerApproveStockAccounts.aspx" />
         <br />
-        <asp:Label ID="lblMessage" runat="server" Text="[]"></asp:Label>
+        <asp:Label ID="lblMessage" runat="server"></asp:Label>
         <br />
 </asp:Content>
