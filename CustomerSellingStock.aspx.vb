@@ -88,8 +88,16 @@
             Exit Sub
         End If
 
+        'pass whatever stuff I need to pass
+        'name, number of shares, number of shares remaining, fees, NET profit
+        Session("Ticker") = gvStocks.Rows(intSelectedIndex).Cells(2).Text
+        Session("intAmount") = intAmount
+        Session("sharesRemaining") = intSharesHeld - intAmount
+        Session("CurrentFees") = gvStocks.Rows(intSelectedIndex).Cells(7).Text
+        Session("CurrentPrice") = CDec(gvStocks.Rows(intSelectedIndex).Cells(6).Text)
+        Session("PurchasePrice") = CDec(gvStocks.Rows(intSelectedIndex).Cells(4).Text)
+
         'send to confirmation page
         Response.Redirect("CustomerSellingStockConfirm.aspx")
-
     End Sub
 End Class
