@@ -9,6 +9,7 @@
     Dim DBDate As New ClassDBDate
     Dim mdecSumTotal As Decimal
     Dim DBDisputeManager As New ClassDBDisputeManager
+    Dim DBPendingStocks As New ClassDBPendingStocks
     Dim mdecAvailableBalance As Decimal
     Dim mdecOriginalAvailableBalance As Decimal
     Dim mdecBalance As Decimal
@@ -29,6 +30,10 @@
 
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Session("CustomerFirstName") Is Nothing Then
+            Response.Redirect("CustomerLogin.aspx")
+        End If
 
         DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
 
@@ -218,6 +223,18 @@
 
                 mdecidk = CDec(mdecidk - CDec(strFee))
                 DBPending.AddTransactionPending(intMaxTransaction, CInt(ddlAccounts.SelectedValue.ToString), "Fee", PurchaseCalendar.SelectedDate.ToString, CDec(strFee), CDec(mdecBalance), strDescription, mdecidk)
+
+                'ADD TO STOCK PORTFOLIO PENDING
+                DBStocks.GetMaxTransactionNumber()
+                If DBStocks.StocksDataset2.Tables("tblStocks").Rows(0).Item("MaxTransactionNumber") Is DBNull.Value Then
+                    Session("TransactionNumber") = 1
+                Else
+                    Session("TransactionNumber") = CInt(DBStocks.StocksDataset2.Tables("tblStocks").Rows(0).Item("MaxTransactionNumber")) + 1
+                End If
+
+                Dim intNumHoldingStocks As Integer
+                intNumHoldingStocks += CInt(t.Text)
+                DBPendingStocks.AddStockPortfolio(ddlAccounts.SelectedValue.ToString, strTick, intNumHoldingStocks, mCustomerID, CInt(t.Text), strStockType, strPrice, Session("TransactionNumber"))
             End If
 
             If t.Text = 1 Then
