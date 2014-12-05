@@ -8,7 +8,6 @@
     <div id ="title">
         Customer Home
         <br />
-        <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
         <br />
     </div>
     <div id ="subtitle">
