@@ -53,10 +53,11 @@
           </ul>
         </li>
         <li><a href="/CustomerViewDisputes.aspx">View Disputes</a></li>
+          <li><a href="/CustomerPaidBills.aspx">View Paid Bills</a></li>
       </ul>
-     <%-- <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">View Cart</a></li>
-      </ul>--%>
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/CustomerUserManual.aspx">Need Help?</a></li>
+      </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
