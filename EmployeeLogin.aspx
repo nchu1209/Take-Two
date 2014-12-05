@@ -25,13 +25,29 @@
             <img class="auto-style1" src="Petunia2.jpg" /><br />
             <br />
             <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
        
   
         <div id="employeeloginright">
              <div id ="title">
+                 <br />
         Welcome Employees!
     </div>
+
+             <br />
+             <br />
 
             <br />
             <br />
@@ -48,6 +64,10 @@
             <br />
             <asp:Button ID="btnLogin" runat="server" Text="Login" />
             <br />
+             <br />
+             <br />
+             <asp:LinkButton ID="lnkCustomerHome" runat="server" CausesValidation="False" PostBackUrl="~/CustomerLogin.aspx">Not an employee? Customers log in here!</asp:LinkButton>
+             <br />
             <br />
             <asp:Label ID="lbltesting" runat="server"></asp:Label>
             <br />

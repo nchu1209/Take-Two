@@ -86,6 +86,15 @@ Partial Public Class CustomerLogin
     Protected WithEvents LinkButton1 As Global.System.Web.UI.WebControls.LinkButton
 
     '''<summary>
+    '''lnkEmployeeHome control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lnkEmployeeHome As Global.System.Web.UI.WebControls.LinkButton
+
+    '''<summary>
     '''ValidationSummary1 control.
     '''</summary>
     '''<remarks>
