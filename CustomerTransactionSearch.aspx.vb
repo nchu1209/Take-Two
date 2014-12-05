@@ -4,10 +4,23 @@
     Dim DBAccount As New ClassDBAccounts
     Dim DBDate As New ClassDBDate
     Dim Val As New ClassValidate
+    Dim DBAccounts As New ClassDBAccounts
+
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
-            RadioButtonList1.SelectedIndex = 1
+            If Session("CustomerFirstName") Is Nothing Then
+                Response.Redirect("CustomerLogin.aspx")
+            End If
+
+
+            DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+            If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+                Response.Redirect("CustomerCreateBankAccount.aspx")
+            End If
+
+
             DBTransactions.GetAllTransactions(Session("AccountNumber").ToString)
             DBAccount.GetAccountNameByAccountNumber(Session("AccountNumber").ToString)
             lblAccountName.Text = DBAccount.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountName").ToString

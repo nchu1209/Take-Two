@@ -12,6 +12,10 @@ Public Class CustomerAccountDetail
         If IsPostBack = False Then
             ''redirect to create account if no accounts
 
+            If Session("CustomerFirstName") Is Nothing Then
+                Response.Redirect("CustomerLogin.aspx")
+            End If
+
             If Session("CustomerNumber").ToString = "" Then
                 Response.Redirect("CustomerCreateBankAccount.aspx")
             End If

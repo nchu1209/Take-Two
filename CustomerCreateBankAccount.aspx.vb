@@ -9,6 +9,10 @@
     Dim DBAccounts As New ClassDBAccounts
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("CustomerFirstName") Is Nothing Then
+            Response.Redirect("CustomerLogin.aspx")
+        End If
+
         txtAccountName.Visible = True
         txtAccountNumber.Visible = True
         txtInitialDeposit.Visible = True
@@ -124,9 +128,6 @@
         'if the account is an IRA, they cannot deposit more than 5k
         'but they are automatically stopped by the initial deposit validation below
         'but we need to make sure the manager cannot approve them -- they cannot enter that much regardless, so perhaps its better to stop them now
-        Session("Active") = "True"
-        Session("ManagerApprovedDeposit") = "True"
-
         If Session("AccountType").ToString = "IRA" Then
             If CInt(txtInitialDeposit.Text) > 5000 Then
                 lblError.Text = "You cannot enter more than $5000 into an IRA account per year. Please select a lower initial deposit"
@@ -146,14 +147,8 @@
         '    Session("Active") = "False"
         '    Session("ManagerApprovedStock") = "False"
         'End If
-        Dim strCustNumber As String = Session("CustomerNumber")
-        Dim strAccountType As String = Session("AccountType")
-        Dim strActive As String = Session("Active") 'NOTHING
-        Dim strManagerApprovedDeposit As String = Session("ManagerApprovedDeposit") 'NOTHING
-
         If strApprovalNeeded = "" Then
             If Session("AccountType") = "Checking" Or Session("AccountType") = "Savings" Then
-
                 DB.AddAccountChecking(CInt(Session("CustomerNumber")), CInt(txtAccountNumber.Text), txtAccountName.Text, Session("AccountType").ToString, Session("Active").ToString, Session("ManagerApprovedDeposit").ToString, CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text), CInt(txtInitialDeposit.Text))
             End If
 

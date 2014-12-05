@@ -5,12 +5,24 @@ Public Class CustomerTransactionDetail
     Dim DBDispute As New ClassDBDispute
     Dim DBTransactions As New ClassDBTransactions
     Dim Val As New ClassValidate
+    Dim DBAccounts As New ClassDBAccounts
+
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("CustomerNumber") Is Nothing Then
-            Response.Redirect("CustomerLogin.aspx")
-        End If
+
+
         If IsPostBack = False Then
+
+            If Session("CustomerNumber") Is Nothing Then
+                Response.Redirect("CustomerLogin.aspx")
+            End If
+
+            DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+
+            If DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count = 0 Then
+                Response.Redirect("CustomerCreateBankAccount.aspx")
+            End If
+
             DBTransactions.GetDetails(Session("TransactionID").ToString)
             lblDescription.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Description").ToString
             lblTransactionType.Text = DBTransactions.TransactionsDataset.Tables("tblTransactions").Rows(0).Item("Transaction Type").ToString

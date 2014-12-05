@@ -20,6 +20,11 @@
     Const LATE_FEE As Decimal = 5D
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Session("CustomerFirstName") Is Nothing Then
+            Response.Redirect("CustomerLogin.aspx")
+        End If
+
         If Session("CustomerNumber") Is Nothing Then
             Response.Redirect("CustomerLogin.aspx")
         End If
