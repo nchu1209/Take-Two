@@ -9,6 +9,7 @@ Public Class ClassDBStocks
     Dim mDatasetStocks As New DataSet
     Dim mDatasetStocks2 As New DataSet
     Dim mDatasetStocks3 As New DataSet
+    Dim mDatasetStocks4 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
@@ -16,6 +17,7 @@ Public Class ClassDBStocks
     Dim mMyView As New DataView
     Dim mMyView2 As New DataView
     Dim mMyView3 As New DataView
+    Dim mMyView4 As New DataView
     Private _session As String
 
     Public ReadOnly Property StocksDataset() As DataSet
@@ -55,6 +57,19 @@ Public Class ClassDBStocks
     Public ReadOnly Property MyView3() As DataView
         Get
             Return Me.mMyView2
+        End Get
+    End Property
+
+    Public ReadOnly Property StocksDataset4() As DataSet
+        Get
+            ' return dataset to user
+            Return mDatasetStocks4
+        End Get
+    End Property
+
+    Public ReadOnly Property MyView4() As DataView
+        Get
+            Return Me.mMyView4
         End Get
     End Property
 
@@ -119,6 +134,26 @@ Public Class ClassDBStocks
             objCommand.Fill(mDatasetStocks2, "tblStocks")
             'copy dataset to dataview
             mMyView.Table = mDatasetStocks2.Tables("tblStocks")
+        Catch ex As Exception
+            Throw New Exception("stored procedure is " & strName.ToString & " error is " & ex.Message)
+        End Try
+
+    End Sub
+
+    Public Sub RunProcedureNoParam4(strName As String)
+        'CREATES INSTANCES OF THE CONNECTION AND COMAND OBJECT
+        Dim objConnection As New SqlConnection(mstrConnection)
+        'Tell SQL server the name of the stored procedure you will be executing
+        Dim objCommand As New SqlDataAdapter(strName, objConnection)
+        Try
+            'SETS THE COMMAND TYPE TO "STORED PROCEDURE
+            objCommand.SelectCommand.CommandType = CommandType.StoredProcedure
+            'clear dataset
+            Me.mDatasetStocks4.Clear()
+            'OPEN CONNECTION AND FILL DATASET
+            objCommand.Fill(mDatasetStocks4, "tblStocks")
+            'copy dataset to dataview
+            mMyView4.Table = mDatasetStocks4.Tables("tblStocks")
         Catch ex As Exception
             Throw New Exception("stored procedure is " & strName.ToString & " error is " & ex.Message)
         End Try
@@ -318,7 +353,7 @@ Public Class ClassDBStocks
     End Sub
 
     Public Sub GetMaxTransactionNumber()
-        RunProcedureGetMax("usp_stocks_get_max_transaction_number")
+        RunProcedureGetMax("usp_transactions_get_max_transaction_number")
     End Sub
 
     Public Sub GetStockPortfolioSummary(intTransactionNumber As Integer)
@@ -327,6 +362,10 @@ Public Class ClassDBStocks
 
     Public Sub GetMaxTransactionNumberByCustomerID(intCustomerID As Integer)
         RunProcedureOneParameter3("usp_stockportfolio_get_max_transactionnumber_by_customerID", "@customerID", intCustomerID.ToString)
+    End Sub
+
+    Public Sub GetMaxSetNumber()
+        RunProcedureNoParam4("usp_stocktransactions_get_max_setnumber")
     End Sub
 
     Public Sub ApproveStockAccount(strApproval As String, ByVal strAccountNumber As String)
@@ -351,6 +390,26 @@ Public Class ClassDBStocks
             "'" & strTicker & "', " & _
             "'" & strDate & "', " & _
             "'" & decPrice & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+
+    Public Sub AddStockTransaction(decSetNumber As Decimal, decCustomerNumber As Decimal, strTicker As String, decPurchasePrice As Decimal, intSharesHeld As Integer, strDate As String)
+        'Arguments: strings
+        'Returns: nothing
+        'Author: Leah Carroll
+        'Date: 11/25/2014
+
+        mstrQuery = "INSERT INTO tblTickerDatePrice (SetNumber, CustomerNumber, Ticker, PurchasePrice, SharesHeld, Date) VALUES (" & _
+            "'" & decSetNumber & "', " & _
+            "'" & decCustomerNumber & "', " & _
+             "'" & strTicker & "', " & _
+            "'" & decPurchasePrice & "', " & _
+             "'" & intSharesHeld & "', " & _
+            "'" & strDate & "')"
 
         'use UpdateDB sub to update database
         UpdateDB(mstrQuery)
