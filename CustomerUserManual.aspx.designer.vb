@@ -23,29 +23,38 @@ Partial Public Class CustomerUserManual
     Protected WithEvents ddlHelp As Global.System.Web.UI.WebControls.DropDownList
 
     '''<summary>
-    '''CreatingAccount control.
+    '''DisputesPanel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents CreatingAccount As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents DisputesPanel As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''Modifying Your Account control.
+    '''CreatingAccountPanel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ModifyingYourAccount As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents CreatingAccountPanel As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''IRA control.
+    '''ModifyingYourAccountPanel control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents IRA As Global.System.Web.UI.WebControls.Panel
+    Protected WithEvents ModifyingYourAccountPanel As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''StocksPanel control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents StocksPanel As Global.System.Web.UI.WebControls.Panel
 End Class
