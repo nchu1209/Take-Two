@@ -11,7 +11,7 @@
             If Session("EmpID") Is Nothing Then
                 Response.Redirect("EmployeeLogin.aspx")
             End If
-
+            RadioButtonList1.SelectedIndex = 1
             DBTransactions.GetAllTransactions(Session("AccountNumberTransactions").ToString)
             Search()
             lblAccountNumber.Text = (Session("AccountNumberTransactions").ToString)
