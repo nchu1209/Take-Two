@@ -14,6 +14,7 @@ Public Class ClassDBAccounts
     Dim mDatasetAccounts7 As New DataSet
     Dim mDatasetAccounts8 As New DataSet
     Dim mDatasetAccounts9 As New DataSet
+    Dim mDatasetAccounts10 As New DataSet
     Dim mstrQuery As String
     Dim mdbDataAdapter As New SqlDataAdapter
     Dim mdbConn As New SqlConnection
@@ -27,6 +28,7 @@ Public Class ClassDBAccounts
     Dim mMyView7 As New DataView
     Dim mMyView8 As New DataView
     Dim mMyView9 As New DataView
+    Dim mMyView10 As New DataView
 
     Public ReadOnly Property AccountsDataset() As DataSet
         Get
@@ -130,6 +132,17 @@ Public Class ClassDBAccounts
     Public ReadOnly Property MyView9() As DataView
         Get
             Return mMyView9
+        End Get
+    End Property
+
+    Public ReadOnly Property AccountsDataset10() As DataSet
+        Get
+            Return mDatasetAccounts10
+        End Get
+    End Property
+    Public ReadOnly Property MyView10() As DataView
+        Get
+            Return mMyView10
         End Get
     End Property
 
@@ -416,6 +429,31 @@ Public Class ClassDBAccounts
         End Try
     End Sub
 
+    Public Sub RunProcedureAnyParam(ByVal strUSPName As String, ByVal strDatasetName As DataSet, ByVal strViewName As DataView, ByVal strTableName As String, ByVal aryParamNames As ArrayList, ByVal aryParamValues As ArrayList)
+        Dim objConnection As New SqlConnection(mstrConnection)
+        Dim mdbDataAdapter As New SqlDataAdapter(strUSPName, objConnection)
+        Try
+            mdbDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                mdbDataAdapter.SelectCommand.Parameters.Add(New SqlParameter(CStr(aryParamNames(index)), CStr(aryParamValues(index))))
+                index = index + 1
+            Next
+            strDatasetName.Clear()
+            mdbDataAdapter.Fill(strDatasetName, strTableName)
+            strViewName.Table = strDatasetName.Tables(strTableName)
+        Catch ex As Exception
+            Dim strError As String = ""
+            Dim index As Integer = 0
+            For Each paramName As String In aryParamNames
+                strError = strError & "ParamName: " & CStr(aryParamNames(index))
+                strError = strError & "ParamValue: " & CStr(aryParamValues(index))
+                index += 1
+            Next
+            Throw New Exception(strError & " error message is " & ex.Message)
+        End Try
+    End Sub
+
     Public Sub LinkZip(ByVal strCustomerID As String)
         RunProcedureOneParameter("usp_innerjoin_customer_city_by_zip", "@CustomerID", strCustomerID)
     End Sub
@@ -660,5 +698,13 @@ Public Class ClassDBAccounts
             Return True
         End If
     End Function
+
+    Public Sub GetStockAccountByCustomerNumber2(strCustomerNumber As String)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@customerID")
+        aryValues.Add(strCustomerNumber)
+        RunProcedureAnyParam("usp_accounts_get_stock_account_by_customerID", AccountsDataset10, mMyView10, "tblAccounts", aryNames, aryValues)
+    End Sub
 
 End Class

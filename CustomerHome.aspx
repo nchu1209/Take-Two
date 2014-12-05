@@ -80,4 +80,6 @@
         </asp:SqlDataSource>
     </div>
 
+    <asp:Label ID="lblError" runat="server"></asp:Label>
+
 </asp:Content>

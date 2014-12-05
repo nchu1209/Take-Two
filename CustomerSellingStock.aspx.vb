@@ -33,15 +33,12 @@
     Protected Sub btnSell_Click(sender As Object, e As EventArgs) Handles btnSell.Click
         'count all textboxes <> "" -- if <> 1, error: you can only sell from 1 at a time!
         Dim intCountFilled As Integer
-        Dim intSelectedIndex As Integer
 
         For i = 0 To gvStocks.Rows.Count - 1
             Dim t As TextBox = DirectCast(gvStocks.Rows(i).Cells(8).FindControl("txtAmount"), TextBox)
             If t.Text <> "" Then
                 intCountFilled += 1
             End If
-
-            intSelectedIndex = i
         Next
 
         If intCountFilled <> 1 Then
@@ -49,54 +46,60 @@
             Exit Sub
         End If
 
-        Dim txtAmount As TextBox = DirectCast(gvStocks.Rows(intSelectedIndex).Cells(8).FindControl("txtAmount"), TextBox)
+        For i = 0 To gvStocks.Rows.Count - 1
+            Dim txtAmount As TextBox = DirectCast(gvStocks.Rows(i).Cells(8).FindControl("txtAmount"), TextBox)
 
-        'integer
-        If valid.CheckInteger(txtAmount.Text) <= 0 Then
-            lblMessage.Text = "Please enter a valid amount of shares to sell."
-            Exit Sub
-        End If
+            If txtAmount.Text <> "" Then
+                'integer
+                If valid.CheckInteger(txtAmount.Text) <= 0 Then
+                    lblMessage.Text = "Please enter a valid amount of shares to sell."
+                    Exit Sub
+                End If
 
-        Dim intAmount As Integer = CInt(txtAmount.Text)
+                Dim intAmount As Integer = CInt(txtAmount.Text)
 
-        '<= SharesHeld
-        Dim intSharesHeld As Integer = CInt(gvStocks.Rows(intSelectedIndex).Cells(5).Text)
-        If intAmount > intSharesHeld Then
-            lblMessage.Text = "You cannot sell more shares than you currently hold."
-            Exit Sub
-        End If
+                '<= SharesHeld
+                Dim intSharesHeld As Integer = CInt(gvStocks.Rows(i).Cells(5).Text)
+                If intAmount > intSharesHeld Then
+                    lblMessage.Text = "You cannot sell more shares than you currently hold."
+                    Exit Sub
+                End If
 
-        'check sell date selected
-        Dim calSaleDate As Calendar = DirectCast(gvStocks.Rows(intSelectedIndex).Cells(9).FindControl("calSaleDate"), Calendar)
-        If calSaleDate.SelectedDate = Nothing Then
-            lblMessage.Text = "Please select a sale date."
-            Exit Sub
-        End If
+                'check sell date selected
+                Dim calSaleDate As Calendar = DirectCast(gvStocks.Rows(i).Cells(9).FindControl("calSaleDate"), Calendar)
+                If calSaleDate.SelectedDate = Nothing Then
+                    lblMessage.Text = "Please select a sale date."
+                    Exit Sub
+                End If
 
-        Dim datSaleDate As Date = CDate(calSaleDate.SelectedDate)
-        Dim datPurchaseDate As Date = CDate(gvStocks.Rows(intSelectedIndex).Cells(3).Text)
+                Dim datSaleDate As Date = CDate(calSaleDate.SelectedDate)
+                Dim datPurchaseDate As Date = CDate(gvStocks.Rows(i).Cells(3).Text)
 
-        'sale date >= currentdate
-        If DBDate.CheckSelectedDate(datSaleDate) = -1 Then
-            lblMessage.Text = "Error: You have selected a sale date prior to today."
-            Exit Sub
-        End If
+                'sale date >= currentdate
+                If DBDate.CheckSelectedDate(datSaleDate) = -1 Then
+                    lblMessage.Text = "Error: You have selected a sale date prior to today."
+                    Exit Sub
+                End If
 
-        'sale date >= purchasedate
-        If datSaleDate < datPurchaseDate Then
-            lblMessage.Text = "Error: You have selected a sale date prior to the purchase date."
-            Exit Sub
-        End If
+                'sale date >= purchasedate
+                If datSaleDate < datPurchaseDate Then
+                    lblMessage.Text = "Error: You have selected a sale date prior to the purchase date."
+                    Exit Sub
+                End If
 
-        'pass whatever stuff I need to pass
-        'name, number of shares, number of shares remaining, fees, NET profit
-        Session("Ticker") = gvStocks.Rows(intSelectedIndex).Cells(2).Text
-        Session("intAmount") = intAmount
-        Session("sharesRemaining") = intSharesHeld - intAmount
-        Session("CurrentFees") = gvStocks.Rows(intSelectedIndex).Cells(7).Text
-        Session("CurrentPrice") = CDec(gvStocks.Rows(intSelectedIndex).Cells(6).Text)
-        Session("PurchasePrice") = CDec(gvStocks.Rows(intSelectedIndex).Cells(4).Text)
+                'pass whatever stuff I need to pass
+                'name, number of shares, number of shares remaining, fees, NET profit
+                Session("Ticker") = gvStocks.Rows(i).Cells(2).Text
+                Session("intAmount") = intAmount
+                Session("sharesRemaining") = intSharesHeld - intAmount
+                Session("CurrentFees") = gvStocks.Rows(i).Cells(7).Text
+                Session("CurrentPrice") = CDec(gvStocks.Rows(i).Cells(6).Text)
+                Session("PurchasePrice") = CDec(gvStocks.Rows(i).Cells(4).Text)
+                Session("SetNumber") = CInt(gvStocks.Rows(i).Cells(0).Text)
 
+            End If
+
+        Next
         'send to confirmation page
         Response.Redirect("CustomerSellingStockConfirm.aspx")
     End Sub
