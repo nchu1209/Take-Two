@@ -11,34 +11,25 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class CustomerSellingStock
+Partial Public Class CustomerStockAdditionalDetails
 
     '''<summary>
-    '''btnSell control.
+    '''btnReturn control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnSell As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents btnReturn As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
-    '''lblMessage control.
+    '''gvAdditionalDetails control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblMessage As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''gvStocks control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents gvStocks As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents gvAdditionalDetails As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
     '''SqlDataSource1 control.
