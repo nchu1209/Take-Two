@@ -10,9 +10,11 @@
         db.GetDate()
 
         Dim strDate As String
+        Dim strNewDate As String
 
         strDate = db.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
-        lblDate.Text = strDate
+        strNewDate = strDate.Substring(0, strDate.Length - 11)
+        lblDate.Text = strNewDate
 
     End Sub
 
