@@ -7,6 +7,10 @@ Public Class ManagerApproveDeposits
     Dim DBTransactions As New ClassDBTransactions
     Dim DBAccount As New ClassDBAccounts
     Dim DBDate As New ClassDBDate
+    Dim DBCustomer As New ClassDBCustomer
+    Dim mstrEmail As String
+    Dim mstrFirst As String
+    Dim mstrLast As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
@@ -46,22 +50,23 @@ Public Class ManagerApproveDeposits
 
             ''''''''''''''''''''''''''EMAIL'''''''''''''''''''''''''''''''''
 
-
+            Dim strCustomerID As String = DBAccount.AccountsDataset6.Tables("tblAccounts").Rows(0).Item("CustomerID")
+            DBCustomer.GetByCustomerNumber(strCustomerID)
             'DBCustomer.GetByCustomerNumber(Session("CustomerIDForDispute").ToString)
-            'mstrEmail = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("EmailAddr").ToString
-            'mstrFirst = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName").ToString
-            'mstrLast = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("LastName").ToString
+            mstrEmail = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("EmailAddr").ToString
+            mstrFirst = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName").ToString
+            mstrLast = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("LastName").ToString
             Dim strName As String
-            strName = "Bobby Joe"
+            strName = mstrFirst + " " + mstrLast
             'strName = mstrFirst + mstrLast
             Dim Msg As MailMessage = New MailMessage()
             Dim MailObj As New SmtpClient("smtp.mccombs.utexas.edu")
             Msg.From = New MailAddress("longhornbankingteam3@gmail.com", "Team 3")
-            'Msg.To.Add(New MailAddress(mstrEmail, strName))
-            Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
+            Msg.To.Add(New MailAddress(mstrEmail, strName))
+            'Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
             Msg.IsBodyHtml = CBool("False")
-            Msg.Body = "Hello" + strName + "! <br/> Your deposit has been approved by the manager.  The manager that handled your account said. <br/> Best regards, <br/> Longhorn Bank Team 3"
-            Msg.Subject = "Team 3:  Transaction Dispute Resolution"
+            Msg.Body = "Hello" + strName + "!" & vbCrLf & "Your deposit has been approved by the manager." & vbCrLf & "Best regards," & vbCrLf & "Longhorn Bank Team 3"
+            Msg.Subject = "Team 3:  Deposit Approved"
             MailObj.Send(Msg)
             Msg.To.Clear()
 
