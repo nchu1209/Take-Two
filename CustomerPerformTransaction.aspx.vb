@@ -9,6 +9,9 @@
     Dim mCustomerID As Integer
     Dim Valid As New ClassValidate
 
+    Const OVERDRAFT_MAXIMUM As Decimal = 50D
+    Const OVERDRAFT_FEE As Decimal = 30D
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Session("CustomerFirstName") Is Nothing Then
             Response.Redirect("CustomerLogin.aspx")
@@ -304,10 +307,28 @@
 
         'make sure that you are not withdrawing more than you have in the current account ***
         '****check to make sure you can't overdraw with overdraft fees
-        If decTransferFromAvailableBalance < CInt(txtAmountTransfer.Text) Then
+        If (CInt(txtAmountTransfer.Text) - decTransferFromAvailableBalance) >= OVERDRAFT_MAXIMUM Then
             lblErrorTransfer.Text = "Please enter an amount to transfer less than or equal to the available amount of money in the account you are transferring money from."
             Exit Sub
         End If
+
+        If (CInt(txtAmountTransfer.Text) - decTransferFromAvailableBalance) > 0 Then
+            DBDate.GetDate()
+            Dim datDate As Date
+            datDate = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString()
+
+            decTransferFromBalance = decTransferFromBalance - OVERDRAFT_FEE
+            DBAccounts.UpdateBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromBalance)
+            decTransferFromAvailableBalance = decTransferFromAvailableBalance - OVERDRAFT_FEE
+            DBAccounts.UpdateAvailableBalance(CInt(ddlFromAccount.SelectedValue), decTransferFromAvailableBalance)
+
+            Dim strFeeMessage As String
+            strFeeMessage = "Overdraft fee of " & OVERDRAFT_FEE.ToString & " charged to account " & ddlFromAccount.SelectedValue.ToString & " on " & datDate.ToString
+            GetTransactionNumber()
+            'update the transactions table
+            DBTransactions.AddTransaction(CInt(Session("TransactionNumber")), CInt(ddlFromAccount.SelectedValue), "Fee", datDate, OVERDRAFT_FEE, strFeeMessage, decTransferFromBalance, Nothing, "", decTransferFromAvailableBalance, "Fee")
+        End If
+
 
         DBAccounts.GetAccountTypeByAccountNumber2(ddlFromAccount.SelectedValue.ToString)
         Dim strIRAFrom As String
