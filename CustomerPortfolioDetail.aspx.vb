@@ -7,6 +7,8 @@ Public Class CustomerPortfolioDetail
     Dim mdecTotalPortfolioValue As Decimal
     Dim mdecTotalCashValue As Decimal
 
+
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim i As Integer
         Dim intOrdinary As Integer
@@ -52,12 +54,24 @@ Public Class CustomerPortfolioDetail
             Next
         End If
 
-        If gvCash.Rows(0).Cells(0).Text Is DBNull.Value Then
-            lblBalanced.Text = "nada"
-            Exit Sub
-        End If
-        mdecTotalCashValue = CDec(gvCash.Rows(0).Cells(0).Text)
+        DBAccounts.GetStockAccountByCustomerNumber2(Session("CustomerNumber").ToString)
+
+        mdecTotalCashValue = CDec(DBAccounts.AccountsDataset10.Tables("tblAccounts").Rows(0).Item("Balance").ToString)
+
         lblBalanced.Text = mdecTotalCashValue.ToString
+
+        'If gvCash.Rows(0).Cells(0).Text Is DBNull.Value Then
+        '    lblBalanced.Text = "nada"
+        '    Exit Sub
+        'End If
+        'If gvCash.Rows(0).Cells(0).Text Is DBNull.Value Then
+        '    lblBalanced.Text = "nada"
+        '    Exit Sub
+        'End If
+
+        'mdecTotalCashValue = CDec(gvCash.Rows(0).Cells(0).Text)
+
+        'lblBalanced.Text = mdecTotalCashValue.ToString
         Exit Sub
 
         If mdecTotalCashValue = 0 Then

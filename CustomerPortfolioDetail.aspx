@@ -40,6 +40,8 @@
 
                 FIND ALEXS POST ON FB
                 <br />
+                <asp:Label ID="lblCashValue" runat="server" Text=""></asp:Label>
+                <br />
 
                 <div id ="gridviewright">
 
@@ -53,7 +55,7 @@
                 <div id="content">
 
                     <asp:Panel ID="PanelCash" runat="server">
-                <asp:GridView ID="gvCash" runat="server" AutoGenerateColumns="False" CellPadding="4" DataSourceID="SqlDataSource2" ForeColor="#333333" GridLines="None">
+              <%--  <asp:GridView ID="gvCash" runat="server" AutoGenerateColumns="False" CellPadding="4" DataSourceID="SqlDataSource2" ForeColor="#333333" GridLines="None">
                     <AlternatingRowStyle BackColor="White" />
                     <Columns>
                         <asp:BoundField DataField="Balance" HeaderText="Balance" SortExpression="Balance" />
@@ -73,7 +75,7 @@
                     <SelectParameters>
                         <asp:SessionParameter Name="customerNumber" SessionField="CustomerNumber" Type="String" />
                     </SelectParameters>
-                </asp:SqlDataSource>
+                </asp:SqlDataSource>--%>
                         </asp:Panel>
                    
             </div>
