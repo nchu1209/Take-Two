@@ -16,17 +16,15 @@
         <div id="content">
             <asp:Label ID="lblPortfolioStatus" runat="server"></asp:Label>
             <br />
-            <asp:Label ID="lblBalanced" runat="server" Text=""></asp:Label>
         </div>
+
         <span style="font-weight: normal; font-family: Arial; font-size: medium">Total Value of Your Portfolio=
         <asp:Label ID="lblTotalValue" runat="server"></asp:Label>
         <br />
+        <asp:Label ID="lblBalanced" runat="server" Text=""></asp:Label>
+
         <br />
-        sum of these two portions constitutes the total value of a portfolio.</span><br />
-              <span style="font-weight: normal; font-family: Arial; font-size: medium">there rshould be a select or ddl on top for the custoemrs to select which stock portfolio they want to look at</span><br />
-         <span style="font-family: Arial; font-size: medium; font-weight: normal">Customers can create a new stock portfolio through an option on their home page (after they login).
-        <br />
-    </span>
+        </span>
 
         
     </div>
@@ -37,9 +35,33 @@
             Cash-Value Portion
             <br />
             <div id="content">
-
-                FIND ALEXS POST ON FB
+                <div id="gridviewright">
+                    <br />
+                    <br />
+                </div>
                 <br />
+                <asp:GridView ID="gvCash" runat="server" AutoGenerateColumns="False" DataSourceID="SqlDataSource2" CellPadding="4" ForeColor="#333333" GridLines="None">
+                    <AlternatingRowStyle BackColor="White" />
+                    <Columns>
+                        <asp:BoundField DataField="Balance" HeaderText="Balance" SortExpression="Balance" />
+                    </Columns>
+                    <EditRowStyle BackColor="#2461BF" />
+                    <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                    <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                    <RowStyle BackColor="#EFF3FB" />
+                    <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                    <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                    <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                    <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                    <SortedDescendingHeaderStyle BackColor="#4870BE" />
+                </asp:GridView>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:MIS333K_msbck614ConnectionString2 %>" SelectCommand="usp_accounts_get_stock_balance" SelectCommandType="StoredProcedure">
+                    <SelectParameters>
+                        <asp:SessionParameter Name="customerNumber" SessionField="CustomerNumber" Type="String" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
+&nbsp;<br />
                 <asp:Label ID="lblCashValue" runat="server" Text=""></asp:Label>
                 <br />
 
@@ -130,9 +152,7 @@
 
             </div>
              </div>
+        
         </div>
-
-
-
 
 </asp:Content>

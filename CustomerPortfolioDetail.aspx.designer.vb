@@ -23,6 +23,15 @@ Partial Public Class CustomerPortfolioDetail
     Protected WithEvents lblPortfolioStatus As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
+    '''lblTotalValue control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalValue As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''lblBalanced control.
     '''</summary>
     '''<remarks>
@@ -32,13 +41,22 @@ Partial Public Class CustomerPortfolioDetail
     Protected WithEvents lblBalanced As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''lblTotalValue control.
+    '''gvCash control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lblTotalValue As Global.System.Web.UI.WebControls.Label
+    Protected WithEvents gvCash As Global.System.Web.UI.WebControls.GridView
+
+    '''<summary>
+    '''SqlDataSource2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents SqlDataSource2 As Global.System.Web.UI.WebControls.SqlDataSource
 
     '''<summary>
     '''lblCashValue control.
