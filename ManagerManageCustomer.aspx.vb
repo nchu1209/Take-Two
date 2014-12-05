@@ -98,13 +98,13 @@ Public Class ManagerManageCustomer
         'Purpose: reloads the dataset and resets the ddl
         'Arguments: n/a
         'Returns: n/a
-        'Author: Catherine King
-        'Date: 10/4/2014
+        'Author: Leah Carroll
 
-        DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumberForSearch").ToString)
+        DBAccounts.GetAccountWithAccountNumberByCustomerNumber(Session("CustomerNumberForSearch").ToString)
         ddlAccounts.DataSource = DBAccounts.AccountsDataset4
-        ddlAccounts.DataTextField = "AccountName"
+        ddlAccounts.DataTextField = "Details"
         ddlAccounts.DataValueField = "AccountNumber"
+        'Session("AccountNumber") = DBAccounts.AccountsDataset5.Tables("tblAccounts").Rows(0).Item("AccountNumber")
         ddlAccounts.DataBind()
 
         If ddlAccounts.Items.Count = 0 Then

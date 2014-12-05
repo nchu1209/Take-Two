@@ -452,6 +452,11 @@ Public Class ClassDBAccounts
         RunProcedureOneParameterDDL("usp_accounts_get_account_by_customer_number", "@CustomerNumber", strCustomerNumber)
     End Sub
 
+    'this also has the account number next to it
+    Public Sub GetAccountWithAccountNumberByCustomerNumber(strCustomerNumber As String)
+        RunProcedureOneParameterDDL("usp_accounts_get_account_with_account_number_by_customer_number", "@CustomerNumber", strCustomerNumber)
+    End Sub
+
     Public Sub GetAccountByCustomerNumberTransfer(strCustomerNumber As String)
         RunProcedureOneParameterTransfer("usp_accounts_get_account_by_customer_number_for_ddl", "@CustomerNumber", strCustomerNumber)
     End Sub

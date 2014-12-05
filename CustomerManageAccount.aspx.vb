@@ -43,9 +43,14 @@ Public Class CustomerManageAccount
         'Author: Catherine King
         'Date: 10/4/2014
 
-        DBAccounts.GetAccountByCustomerNumber(Session("CustomerNumber").ToString)
+        'Purpose: reloads the dataset and resets the ddl
+        'Arguments: n/a
+        'Returns: n/a
+        'Author: Leah Carroll
+
+        DBAccounts.GetAccountWithAccountNumberByCustomerNumber(Session("CustomerNumber").ToString)
         ddlAccounts.DataSource = DBAccounts.AccountsDataset4
-        ddlAccounts.DataTextField = "AccountName"
+        ddlAccounts.DataTextField = "Details"
         ddlAccounts.DataValueField = "AccountNumber"
         ddlAccounts.DataBind()
 
