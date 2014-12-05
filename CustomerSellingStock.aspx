@@ -6,7 +6,7 @@
     <div id="title">
         Sell Stocks
     </div>
-
+    <div id="subtitle">Please sell from only one stock at a time</div>
     <div id="center">
 
 
