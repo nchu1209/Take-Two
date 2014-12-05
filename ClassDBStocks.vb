@@ -340,4 +340,22 @@ Public Class ClassDBStocks
 
     End Sub
 
+    Public Sub AddNewPriceField(strTicker As String, strDate As String, decPrice As Decimal)
+        'Purpose: adds a new price field for the tblTickerDatePrice
+        'Arguments: strings
+        'Returns: nothing
+        'Author: Leah Carroll
+        'Date: 11/25/2014
+
+        mstrQuery = "INSERT INTO tblTickerDatePrice (Ticker, Date, Price) VALUES (" & _
+            "'" & strTicker & "', " & _
+            "'" & strDate & "', " & _
+            "'" & decPrice & "')"
+
+        'use UpdateDB sub to update database
+        UpdateDB(mstrQuery)
+
+    End Sub
+
+
 End Class

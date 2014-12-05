@@ -3,6 +3,7 @@
 
     Dim DBStocks As New ClassDBStocks
     Dim valid As New ClassStockValidation
+    Dim DBDate As New ClassDBDate
     'have a gridview with textboxes for the prices.
     'for the descriptive message we should do loops to see what was changed and store that in a string to be output on a panel that will become visible after a succesful transaction
 
@@ -70,6 +71,13 @@
             If y.Text <> DBStocks.StocksDataset.Tables("tblStocks").Rows(0).Item("SalesPrice").ToString Then
                 'edit db
                 DBStocks.ModifyStockPrice(y.Text, strTick)
+
+                'update the ticker date price
+                Dim strDate As String
+                DBDate.GetDate()
+                strDate = DBDate.DateDataset.Tables("tblSystemDate").Rows(0).Item("Date").ToString
+                DBStocks.AddNewPriceField(strTick, strDate, y.Text.ToString)
+
                 'add to descriptive string
                 strDescriptiveMessage = strDescriptiveMessage.ToString + strTick & " price was changed to $" & y.Text & "<br/>"
             End If
