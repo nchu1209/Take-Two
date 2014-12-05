@@ -18,6 +18,13 @@ Public Class CustomerHome
             Response.Redirect("CustomerCreateBankAccount.aspx")
         End If
 
+        For i = 0 To DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows.Count - 1
+            If CDec(DBAccounts.AccountsDataset4.Tables("tblAccounts").Rows(i).Item("Balance")) < 0 Then
+                lblError.Text = "ERROR: YOU HAVE AT LEAST ONE OVERDRAWN ACCOUNT"
+                Exit Sub
+            End If
+        Next
+
         ''Checking*
         'DBAccounts.GetCheckingAccountByCustomerNumber(Session("CustomerNumber").ToString)
 
