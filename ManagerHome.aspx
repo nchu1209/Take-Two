@@ -45,6 +45,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button ID="btnActive" runat="server" Text="Approve Deposits" PostBackUrl="~/ManagerApproveDeposits.aspx" />
 &nbsp;&nbsp;&nbsp;&nbsp;
+        <asp:Button runat="server" Text="Approve Stock Accounts" PostBackUrl ="~/ManagerApproveStockAccounts.aspx" />
         <br />
         <asp:Label ID="lblMessage" runat="server" Text="[]"></asp:Label>
         <br />
