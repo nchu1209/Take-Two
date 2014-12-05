@@ -3,6 +3,7 @@
 Public Class CustomerPortfolioDetail
     Inherits System.Web.UI.Page
     Dim DBAccounts As New ClassDBAccounts
+    Dim dbstocks As New ClassDBStocks
     Dim mdecTotalStockValue As Decimal
     Dim mdecTotalPortfolioValue As Decimal
     Dim mdecTotalCashValue As Decimal
@@ -88,12 +89,26 @@ Public Class CustomerPortfolioDetail
 
         lblTotalValue.Text = mdecTotalPortfolioValue.ToString("C2")
 
+        DBAccounts.GetStockAccountByCustomerNumber(Session("CustomerNumber").ToString)
+        Dim intStockAccountNumber As Integer = CInt(DBAccounts.AccountsDataset.Tables("tblAccounts").Rows(0).Item("AccountNumber"))
+        DBAccounts.GetPortfolioByAccountNumber(intStockAccountNumber)
+
         If intIndex >= 1 And intOrdinary >= 2 And intMutual >= 1 Then
             Session("Balanced") = True
             lblBalanced.Text = "Your account is balanced."
+            If DBAccounts.AccountsDataset10.Tables("tblAccounts").Rows.Count = 0 Then
+                dbstocks.AddBalancedPortfolio(intStockAccountNumber, "True", mdecTotalStockValue)
+            ElseIf DBAccounts.AccountsDataset10.Tables("tblAccounts").Rows.Count = 1 Then
+                dbstocks.UpdateBalancedPortfolio(intStockAccountNumber, "True", mdecTotalStockValue)
+            End If
         Else
             Session("Balanced") = False
             lblBalanced.Text = "Your account is not balanced."
+            If DBAccounts.AccountsDataset10.Tables("tblAccounts").Rows.Count = 0 Then
+                dbstocks.AddBalancedPortfolio(intStockAccountNumber, "False", mdecTotalStockValue)
+            ElseIf DBAccounts.AccountsDataset10.Tables("tblAccounts").Rows.Count = 1 Then
+                dbstocks.UpdateBalancedPortfolio(intStockAccountNumber, "False", mdecTotalStockValue)
+            End If
         End If
 
 

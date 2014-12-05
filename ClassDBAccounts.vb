@@ -707,4 +707,16 @@ Public Class ClassDBAccounts
         RunProcedureAnyParam("usp_accounts_get_stock_account_by_customerID", AccountsDataset10, mMyView10, "tblAccounts", aryNames, aryValues)
     End Sub
 
+    Public Sub GetPortfolioByAccountNumber(intAccountNumber As Integer)
+        Dim aryNames As New ArrayList
+        Dim aryValues As New ArrayList
+        aryNames.Add("@accountnumber")
+        aryValues.Add(intAccountNumber)
+        RunProcedureAnyParam("usp_stockportfolio_get_by_accountnumber", AccountsDataset10, mMyView10, "tblAccounts", aryNames, aryValues)
+    End Sub
+
+    Public Sub GetBalancedPortfolios()
+        RunProcedureNoParam("usp_accounts_get_balanced_portfolios")
+    End Sub
+
 End Class
