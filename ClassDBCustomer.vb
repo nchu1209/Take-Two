@@ -268,6 +268,24 @@ Public Class ClassDBCustomer
 
     End Sub
 
+    Public Function CheckUsername(strUsername As String) As Boolean
+        'Purpose: To check if the entered username is valid
+        'Arguments: username, as string
+        'Returns: Boolean value. True if username is valid, false otherwise
+        'Author: Amy Enrione (ae7882)
+
+        mstrQuery = "select * from tblCustomers where EmailAddr ='" & strUsername & "'"
+        SelectQuery(mstrQuery)
+
+        'check to see how many records were in dataset. 
+        'if one, return true
+        'if 0 return false
+        If mDatasetCustomer.Tables("tblCustomers").Rows.Count = 0 Then
+            Return False
+        End If
+        Return True
+    End Function
+
     Public Sub GetNumberFNameLNameAllCustomers()
         RunProcedureNoParam("usp_customers_get_number_fname_lname_for_all_customers")
     End Sub
