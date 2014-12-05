@@ -23,15 +23,6 @@ Partial Public Class EmployeeTransactionSearch2
     Protected WithEvents TransactionSearch As Global.System.Web.UI.WebControls.Panel
 
     '''<summary>
-    '''lblTest control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblTest As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
     '''lblAccountNumber control.
     '''</summary>
     '''<remarks>
@@ -113,22 +104,22 @@ Partial Public Class EmployeeTransactionSearch2
     Protected WithEvents rblDate As Global.System.Web.UI.WebControls.RadioButtonList
 
     '''<summary>
-    '''txtCustomDateMin control.
+    '''calFirstDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCustomDateMin As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents calFirstDate As Global.System.Web.UI.WebControls.Calendar
 
     '''<summary>
-    '''txtCustomDateMax control.
+    '''calSecondDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents txtCustomDateMax As Global.System.Web.UI.WebControls.TextBox
+    Protected WithEvents calSecondDate As Global.System.Web.UI.WebControls.Calendar
 
     '''<summary>
     '''cblParameters control.

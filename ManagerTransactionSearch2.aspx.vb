@@ -49,7 +49,6 @@
         txtSearchByOtherPriceMin.Text = ""
         txtSearchByTransactionNumber.Text = ""
         rblDate.SelectedValue = Nothing
-        txtCustomDateMin.Text = ""
         For i As Integer = 0 To cblParameters.Items.Count - 1
             cblParameters.Items(i).Selected = Nothing
         Next
@@ -97,6 +96,8 @@
         Dim strDateCode30 As String
         Dim strDateCode60 As String
         Dim strDateCodeAll As String
+        Dim datFirst As Date = calFirstDate.SelectedDate
+        Dim datSecond As Date = calSecondDate.SelectedDate
         Dim datBlank As New Date(1500, 1, 1, 1, 1, 1)
         strDateCode15 = "Date >= #" & datSystemDate.AddDays(-2) & "#"
         strDateCode30 = "Date >= #" & datSystemDate.AddDays(-30) & "#"
@@ -207,56 +208,47 @@
 
         'systemdate vs date in row
         If cblParameters.Items(4).Selected = True Then
-            If rblDate.SelectedIndex = -1 Then
-                lblError.Text = "If you want to search by date, please select a date range to search by"
-                Exit Sub
-            End If
-            If rblDate.SelectedValue = "Custom Date Range" Then
-                If txtCustomDateMax.Text = "" Or txtCustomDateMin.Text = "" Then
-                    lblError.Text = "Please enter a minimum and a maximum date amount"
+                If rblDate.SelectedIndex = -1 Then
+                    lblError.Text = "If you want to search by date, please select a date range to search by"
                     Exit Sub
                 End If
-                If Val.CheckDigits(txtCustomDateMax.Text) = -1 Then
-                    lblError.Text = "Please enter a positive numeric amount as your maximum date"
-                    Exit Sub
-                End If
-                If Val.CheckDecimal(txtCustomDateMin.Text) = -1 Then
-                    lblError.Text = "Please enter a positive numeric amount as your minimum date"
-                    Exit Sub
-                End If
-                If CDec(txtCustomDateMin.Text) >= CDec(txtCustomDateMax.Text) Then
-                    lblError.Text = "Please enter a minimum value that is less than your maximum value"
-                    Exit Sub
+                If rblDate.SelectedValue = "Custom Date Range" Then
+                    If calFirstDate.SelectedDate = Nothing Or calSecondDate.SelectedDate = Nothing Then
+                        lblError.Text = "Please enter a date range to search between"
+                        Exit Sub
+                    End If
+                    If calFirstDate.SelectedDate >= calSecondDate.SelectedDate Then
+                        lblError.Text = "Please enter a minimum value that is less than your maximum value"
+                        Exit Sub
+                    End If
                 End If
             End If
-        End If
 
-        If cblParameters.Items(4).Selected = True Then
-            If rblDate.SelectedIndex = 0 Then
-                strIn5 = strDateCode15
+            If cblParameters.Items(4).Selected = True Then
+                If rblDate.SelectedIndex = 0 Then
+                    strIn5 = strDateCode15
+                End If
+                If rblDate.SelectedIndex = 1 Then
+                    strIn5 = strDateCode30
+                End If
+                If rblDate.SelectedIndex = 2 Then
+                    strIn5 = strDateCode60
+                End If
+                If rblDate.SelectedIndex = 3 Then
+                    strIn5 = strDateCodeAll
+                End If
+                If rblDate.SelectedIndex = 4 Then
+                strIn5 = "Date >= #" & datFirst & "# and Date <= #" & datSecond & "#"
+                End If
             End If
-            If rblDate.SelectedIndex = 1 Then
-                strIn5 = strDateCode30
-            End If
-            If rblDate.SelectedIndex = 2 Then
-                strIn5 = strDateCode60
-            End If
-            If rblDate.SelectedIndex = 3 Then
+
+            If cblParameters.Items(4).Selected = False Then
                 strIn5 = strDateCodeAll
             End If
-            If rblDate.SelectedIndex = 4 Then
-                strIn5 = "Date >= #" & datSystemDate.AddDays(-CInt(txtCustomDateMax.Text)) & "# and Date <= #" & datSystemDate.AddDays(-CInt(txtCustomDateMin.Text)) & "#"
 
-            End If
-        End If
-
-        If cblParameters.Items(4).Selected = False Then
-            strIn5 = strDateCodeAll
-        End If
-
-        DBTransactions.Go(strIn1, strIn2, strIn3, strIn4, strIn5)
-        Search()
-        Clear()
+            DBTransactions.Go(strIn1, strIn2, strIn3, strIn4, strIn5)
+            Search()
+            Clear()
     End Sub
 
     Protected Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click

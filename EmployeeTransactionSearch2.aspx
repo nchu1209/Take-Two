@@ -8,8 +8,6 @@
         
 
 <asp:Panel ID="TransactionSearch" runat="server" Visible ="true">
-         ALL THE CUSTOMER TRANSACTION SHIT HERE
-         <asp:Label ID="lblTest" runat="server"></asp:Label>
 
                  <div id="title">
             Transaction Search<br />
@@ -104,9 +102,9 @@
             <br />
             <br />
             Between&nbsp; 
-            <asp:TextBox ID="txtCustomDateMin" runat="server" Width="58px"></asp:TextBox>
+            <asp:Calendar ID="calFirstDate" runat="server"></asp:Calendar>
             &nbsp;And
-            <asp:TextBox ID="txtCustomDateMax" runat="server" Width="56px"></asp:TextBox>
+            <asp:Calendar ID="calSecondDate" runat="server"></asp:Calendar>
             Days
             <br />
             <br />
