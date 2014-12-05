@@ -1,5 +1,8 @@
 ﻿Option Strict On
 
+Imports System.Net.Mail
+
+
 Public Class ManagerDisputeResolution
     Inherits System.Web.UI.Page
     Dim DBDisputes As New ClassDBDisputeManager
@@ -12,9 +15,19 @@ Public Class ManagerDisputeResolution
     Dim mstrAccountNumber As String
     Dim mstrAccountNumber1 As String
     Dim mstrAccountNumber2 As String
+    Dim DBCustomer As New ClassDBCustomer
+    Dim mstrEmail As String
+    Dim mstrFirst As String
+    Dim mstrLast As String
+    Dim mManagerMessageforDispute As String
+    Dim mCustomerIDforDispute As String
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        mstrDisputeID = Session("DisputeID").ToString
+        'check to see if session emptype exists page 60
+        If Session("DisputeID") Is Nothing Then
+            Response.Redirect("ManagerHome.aspx")
+        End If
+
 
         If IsPostBack = False Then
             FillTextboxes()
@@ -28,20 +41,26 @@ Public Class ManagerDisputeResolution
 
         End If
 
+        mstrDisputeID = Session("DisputeID").ToString
+
+
         lblError.Text = ""
     End Sub
 
     Public Sub FillTextboxes()
         'put info from selected customer into text boxes on form
 
-        DBDisputes.GetByDisputeID(mstrDisputeID)
+        DBDisputes.GetByDisputeID(Session("DisputeID").ToString)
 
 
         txtDisputeNumber.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("DisputeID").ToString
         txtComments.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CustomerComment").ToString
         txtActual.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionAmount").ToString
         txtClaim.Text = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CorrectAmount").ToString
-
+        mCustomerIDforDispute = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("CustomerID").ToString
+        Session("CustomerIDforDispute") = mCustomerIDforDispute
+        mManagerMessageforDispute = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("ManagerComment").ToString
+        Session("ManagerMessageforDispute") = mManagerMessageforDispute
     End Sub
 
     Protected Sub ddlAction_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlAction.SelectedIndexChanged
@@ -207,6 +226,8 @@ Public Class ManagerDisputeResolution
                 DBDisputes.ModifyStatusResolved("Rejected", txtDisputeNumber.Text)
                 Session("UpdatedStatus") = "Rejected"
                 lblError.Text = "The request has been rejected."
+
+                DBCustomer.GetAllCustomers()
                 UpdateEmpID()
                 Response.AddHeader("Refresh", "2; URL=ManagerResolveDisputes.aspx")
             End If
@@ -236,5 +257,31 @@ Public Class ManagerDisputeResolution
         mstrDescription = DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("Description").ToString()
         mstrUpdatedDescription = "Dispute " & Session("UpdatedStatus").ToString & ": " + mstrDescription
         DBDisputes.ModifyTransactionDescription(mstrUpdatedDescription, DBDisputes.DisputeDataset.Tables("tblDispute").Rows(0).Item("TransactionNumber").ToString())
+
+
+        ''''''''''''''''''''''''''EMAIL'''''''''''''''''''''''''''''''''
+
+
+        DBCustomer.GetByCustomerNumber(Session("CustomerIDForDispute").ToString)
+        mstrEmail = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("EmailAddr").ToString
+        mstrFirst = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("FirstName").ToString
+        mstrLast = DBCustomer.CustDataset.Tables("tblCustomers").Rows(0).Item("LastName").ToString
+        Dim strName As String
+        strName = mstrFirst + mstrLast
+        Dim Msg As MailMessage = New MailMessage()
+        Dim MailObj As New SmtpClient("smtp.mccombs.utexas.edu")
+        Msg.From = New MailAddress("longhornbankingteam3@gmail.com", "Team 3")
+        'Msg.To.Add(New MailAddress(mstrEmail, strName))
+        Msg.To.Add(New MailAddress("leah.carroll@live.com", strName))
+        Msg.IsBodyHtml = CBool("False")
+        Msg.Body = "Hello" + strName + "! <br/> Your dispute has been " + Session("UpdatedStatus").ToString + ".  The manager that handled your account said: " + Session("ManagerMessageforDispute").ToString + ". <br/> Best regards, <br/> Longhorn Bank Team 3"
+        Msg.Subject = "Team 3:  Transaction Dispute Resolution"
+        MailObj.Send(Msg)
+        Msg.To.Clear()
+
+        '''''''''''''''''''''''''''EMAIL''''''''''''''''''''''''''''''''''''
+
+
+
     End Sub
 End Class
